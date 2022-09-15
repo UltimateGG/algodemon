@@ -22,7 +22,7 @@ const ButtonStyle = styled.button.attrs((props: ButtonProps) => props)`
     display: ${props => props.block ? 'block' : 'inline-block'};
     margin: 0.6rem 0;
     width: ${props => props.block ? '100%' : 'auto'};
-    padding: ${props => props.large ? '1rem 2.6rem' : '0.6rem 1.2em'};
+    padding: ${props => props.large ? '1rem 2.6rem' : '0.6rem 1.2rem'};
     border: ${props => props.variant === 'outlined' ? `2px solid ${props.color === 'secondary' ? props.theme.colors.background[3] : props.theme.colors[props.color || 'primary'][0]}` : '2px solid transparent'};
     border-radius: ${props => props.rounded ? props.theme.roundedFull : props.theme.rounded};
     cursor: pointer;
