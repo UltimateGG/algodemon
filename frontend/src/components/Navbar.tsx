@@ -1,26 +1,22 @@
 import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { Box, Drawer, Icon, IconEnum, Navbar as JNavbar, ThemeContext } from '../Jet';
+import { Box, Drawer, Icon, IconEnum, Navbar as JNavbar, ThemeContext, Button } from '../Jet';
 
 
 const links = [
   {
-    label: 'Home',
-    href: '/',
+    label: 'Pricing',
+    href: '/buy',
   },
   {
-    label: 'About Me',
-    href: '/about',
-  },
-  {
-    label: 'My Work',
-    href: '/work',
+    label: 'Tutorial',
+    href: '/tutorial',
   },
   {
     label: 'Contact',
     href: '/contact',
-  },
+  }
 ];
 
 const NavbarLinkStyle = styled.a.attrs((props: any) => props)`
@@ -29,10 +25,9 @@ const NavbarLinkStyle = styled.a.attrs((props: any) => props)`
   transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
   padding: 0.8rem;
   cursor: pointer;
-  ${props => props.active && `border-bottom: solid 4px ${props.theme.colors.primary[5]};`}
+  ${props => props.active && `border-bottom: solid 4px ${props.theme.colors.primary[0]};`}
 
   &:hover {
-    background-color: ${props => props.theme.colors.primary[2]};
     text-decoration: none;
   }
 
@@ -45,15 +40,21 @@ const NavbarLinkStyle = styled.a.attrs((props: any) => props)`
 const MenuButtonStyle = styled(Icon).attrs((props: any) => props)`
   display: none;
   position: absolute;
-  top: 0.4rem;
-  left: 0.4rem;
+  top: 1.4rem;
+  left: 1rem;
   cursor: pointer;
+
+  @media (max-width: 390px) {
+    top: 0.8rem;
+    left: 0.8rem;
+  }
 `;
 
 const NavbarStyle = styled(JNavbar)`
-  background-color: ${props => props.theme.colors.primary[0]};
+  background-color: ${props => props.theme.colors.background[1]};
   padding: 0;
   min-height: 2.8rem;
+  padding: 0 1rem;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     justify-content: center;
@@ -63,8 +64,18 @@ const NavbarStyle = styled(JNavbar)`
       display: none;
     }
 
+    .access-btn {
+      display: none;
+    }
+
     .menu-button {
       display: block;
+    }
+  }
+
+  @media (max-width: 390px) {
+    .logo {
+      max-width: 200px;
     }
   }
 `;
@@ -91,13 +102,18 @@ const Navbar = () => {
     <>
       <NavbarStyle theme={theme}>
         <MenuButtonStyle className="menu-button" theme={theme} icon={IconEnum.menu} onClick={() => setDrawerOpen(true)} />
-        <Box className="nav-links">
-          {links.map(link => (
-            <NavbarLinkStyle key={link.href} href={link.href} active={location.pathname === link.href} theme={theme}>
-              {link.label}
-            </NavbarLinkStyle>
-          ))}
+        <Box alignItems="center" justifyContent="center" spacing="2rem">
+          <a className="logo" href="/"><img src="/img/logo.png" alt="AlgoDemon" style={{ maxHeight: '70px' }} /></a>
+          <Box className="nav-links">
+            {links.map(link => (
+              <NavbarLinkStyle key={link.href} href={link.href} active={location.pathname === link.href} theme={theme}>
+                {link.label}
+              </NavbarLinkStyle>
+            ))}
+          </Box>
         </Box>
+
+        <Button className="access-btn" onClick={() => window.location.href = '/buy'}>Get Access</Button>
       </NavbarStyle>
 
       <DrawerStyle open={drawerOpen} onClose={() => setDrawerOpen(false)} theme={theme}>

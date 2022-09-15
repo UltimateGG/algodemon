@@ -7,7 +7,8 @@ import Navbar from './components/Navbar';
 import Page404 from './pages/Page404';
 import Footer from './components/Footer';
 import ContactPage from './pages/ContactPage';
-import AboutPage from './pages/AboutPage';
+import BuyPage from './pages/BuyPage';
+import TutorialPage from './pages/TutorialPage';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -20,7 +21,8 @@ root.render(
 
           <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
+          <Route path="/buy" element={<BuyPage />} />
+          <Route path="/tutorial" element={<TutorialPage />} />
           <Route path="/contact" element={<ContactPage />} />
           
           <Route path="*" element={<Page404 />} />

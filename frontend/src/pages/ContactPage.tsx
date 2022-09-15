@@ -104,16 +104,16 @@ const ContactPage = () => {
       </Box>
       ) : (
         <Box flexDirection="column" justifyContent="center" alignItems="center">
-          <h1>Thank you for contacting me!</h1>
-          <p>I will get back to you as soon as possible. In the meantime, feel free to browse my projects!</p>
-          <Button onClick={() => window.location.href = '/work'}>View Projects</Button>
+          <h1>Thank you for contacting us!</h1>
+          <p>We will get back to you as soon as possible.</p>
+          <Button onClick={() => window.location.href = '/tutorial'}>Tutorial</Button>
         </Box>
       ) : isSubmitting ? <Box flexDirection="column" justifyContent="center" alignItems="center">
         Submitting...
         <Progress indeterminate circular />
       </Box> : (
         <form id="contact-form" onSubmit={onSubmit}>
-          <h1 style={{ fontSize: '3.4rem' }}>Contact Me</h1>
+          <h1 style={{ fontSize: '3.4rem' }}>Contact Us</h1>
 
           <Box spacing="1rem">
             <TextField placeholder="Name" fullWidth value={name} onChanged={setName} onBlur={validateName} error={nameError} />

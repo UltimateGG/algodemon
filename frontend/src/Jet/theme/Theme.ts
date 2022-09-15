@@ -71,9 +71,9 @@ export const themeDefault: Theme = {
   roundedFull: '3rem',
   fontSize: '1rem',
   colors: {
-    primary: generateColorsArray('#0676d8', 9, Shade.DARKER),
+    primary: generateColorsArray('#6200EE', 9, Shade.DARKER),
     text: generateColorsArray('#FAFAFA', 9, Shade.DARKER, 0.04),
-    background: generateColorsArray('#0a0c0f', 9, Shade.LIGHTER, 0.04),
+    background: generateColorsArray('#0E1320', 9, Shade.LIGHTER, 0.04),
     danger: generateColorsArray('#d12929', 9, Shade.DARKER),
     success: generateColorsArray('#1dad35', 9, Shade.DARKER),
     warning: generateColorsArray('#efcb00', 9, Shade.DARKER),
