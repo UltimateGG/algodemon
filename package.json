@@ -1,0 +1,19 @@
+{
+  "name": "algodemon",
+  "version": "1.0.0",
+  "description": "AlgoDemon indicator site backend and api",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UltimateGG/algodemon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1"
+  }
+}
