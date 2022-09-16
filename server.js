@@ -131,6 +131,6 @@ app.listen(PORT, () => {
 });
 
 module.exports = {
-  app
+  server: app
 };
 
