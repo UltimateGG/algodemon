@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
+import CheckoutForm from '../components/CheckoutForm';
 import { IS_SALE, ORIG_PRICE, PRICE } from '../globals';
-import { Box, Button, ThemeContext } from '../Jet';
+import { Box, Button, Modal, ThemeContext } from '../Jet';
 
 
 const PageStyle = styled.div.attrs((props: any) => props)`
@@ -58,6 +59,7 @@ const PageStyle = styled.div.attrs((props: any) => props)`
 
 export const BuyPage = () => {
   const { theme } = useContext(ThemeContext);
+  const [showModal, setShowModal] = React.useState(false);
 
   return (
     <PageStyle theme={theme}>
@@ -71,7 +73,7 @@ export const BuyPage = () => {
         <Box className="purchase-box" style={{ borderRadius: theme.rounded, padding: '2rem 6rem', backgroundColor: '#fff', maxWidth: '60rem', margin: '0 4rem', marginBottom: '8rem' }} flexDirection="column" justifyContent="center" alignItems="center" spacing="1.4rem">
           {IS_SALE && <h5 className="limit" style={{ color: theme.colors.success[0], fontWeight: 500, padding: '0.2rem 0.8rem', borderRadius: theme.roundedFull, backgroundColor: '#c4ffcf' }}>LIMITED TIME OFFER</h5>}
           <h1 style={{ fontWeight: 500 }}>${PRICE}
-            {IS_SALE && <h4 style={{ display: 'inline', marginLeft: '1rem' }}><s style={{ color: theme.colors.text[8] }}>${ORIG_PRICE}</s></h4>}
+            {IS_SALE && <span style={{ display: 'inline', marginLeft: '1rem', fontSize: '1.4rem' }}><s style={{ color: theme.colors.text[8] }}>${ORIG_PRICE}</s></span>}
           </h1>
           <p style={{ fontWeight: 100, fontSize: '1.2rem', textAlign: 'center' }}>One Time Payment</p>
 
@@ -81,7 +83,7 @@ export const BuyPage = () => {
             <h4>🟣 24/7 Support</h4>
           </div>
 
-          <Button block large glowing style={{ fontSize: '1.4rem', marginTop: '2rem' }}>Get Access</Button>
+          <Button block large glowing style={{ fontSize: '1.4rem', marginTop: '2rem' }} onClick={() => setShowModal(true)}>Get Access</Button>
         </Box>
       </Box>
 
@@ -165,6 +167,14 @@ export const BuyPage = () => {
           </Box>
         </Box>
       </Box>
+
+
+      <Modal open={showModal} onClose={() => setShowModal(false)} title="Purchase AlgoDemon">
+        <CheckoutForm
+          price={PRICE}
+          onSuccessfulCheckout={() => window.location.href = '/success'}
+        />
+      </Modal>
     </PageStyle>
   );
 }

@@ -10,28 +10,36 @@ import ContactPage from './pages/ContactPage';
 import BuyPage from './pages/BuyPage';
 import TutorialPage from './pages/TutorialPage';
 import TOSPage from './pages/TOSPage';
+import { loadStripe } from '@stripe/stripe-js';
+import { STRIPE_PUBLIC_KEY } from './globals';
+import { Elements } from '@stripe/react-stripe-js';
+import SuccessPage from './pages/SuccessPage';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 
 root.render(
   <React.StrictMode>
     <JetDesign>
-      <BrowserRouter>
-        <Navbar />
+      <Elements stripe={stripePromise}>
+        <BrowserRouter>
+          <Navbar />
 
-          <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/buy" element={<BuyPage />} />
-          <Route path="/tutorial" element={<TutorialPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/tos" element={<TOSPage />} />
-          
-          <Route path="*" element={<Page404 />} />
-        </Routes>
+            <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/buy" element={<BuyPage />} />
+            <Route path="/tutorial" element={<TutorialPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/tos" element={<TOSPage />} />
+            <Route path="/success" element={<SuccessPage />} />
+            
+            <Route path="*" element={<Page404 />} />
+          </Routes>
 
-        <Footer />
-      </BrowserRouter>
+          <Footer />
+        </BrowserRouter>
+      </Elements>
     </JetDesign>
   </React.StrictMode>
 );
