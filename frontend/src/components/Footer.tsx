@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { PRICE } from '../globals';
 import { Box, Button, Divider, ThemeContext } from '../Jet';
 
 
@@ -50,7 +51,7 @@ const Footer = () => {
       <AdvertStyle className="more-container" justifyContent="space-around" alignItems="center" style={{ backgroundColor: theme.colors.primary[0], padding: '4rem', marginBottom: '2rem' }}>
         <div>
           <h1 style={{ fontWeight: 500 }}>Get Access Today</h1>
-          <p>Get life time access for a one time payment of $29.95</p>
+          <p>Get life time access for a one time payment of ${PRICE}</p>
         </div>
         
         <Button onClick={() => window.location.href = '/buy'} block style={{ marginTop: '2rem', maxWidth: '18rem', backgroundColor: theme.colors.text[0] }}><div style={{ color: theme.colors.primary[0] }}>Click Here To Get Access</div></Button>

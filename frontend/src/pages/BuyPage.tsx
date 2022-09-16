@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { IS_SALE, ORIG_PRICE, PRICE } from '../globals';
 import { Box, Button, ThemeContext } from '../Jet';
 
 
@@ -68,9 +69,9 @@ export const BuyPage = () => {
 
       <Box justifyContent="center">
         <Box className="purchase-box" style={{ borderRadius: theme.rounded, padding: '2rem 6rem', backgroundColor: '#fff', maxWidth: '60rem', margin: '0 4rem', marginBottom: '8rem' }} flexDirection="column" justifyContent="center" alignItems="center" spacing="1.4rem">
-          <h5 className="limit" style={{ color: theme.colors.success[0], fontWeight: 500, padding: '0.2rem 0.8rem', borderRadius: theme.roundedFull, backgroundColor: '#c4ffcf' }}>LIMITED TIME OFFER</h5>
-          <h1 style={{ fontWeight: 500 }}>$29.99
-            <h4 style={{ display: 'inline', marginLeft: '1rem' }}><s style={{ color: theme.colors.text[8] }}>$149.99</s></h4>
+          {IS_SALE && <h5 className="limit" style={{ color: theme.colors.success[0], fontWeight: 500, padding: '0.2rem 0.8rem', borderRadius: theme.roundedFull, backgroundColor: '#c4ffcf' }}>LIMITED TIME OFFER</h5>}
+          <h1 style={{ fontWeight: 500 }}>${PRICE}
+            {IS_SALE && <h4 style={{ display: 'inline', marginLeft: '1rem' }}><s style={{ color: theme.colors.text[8] }}>${ORIG_PRICE}</s></h4>}
           </h1>
           <p style={{ fontWeight: 100, fontSize: '1.2rem', textAlign: 'center' }}>One Time Payment</p>
 
