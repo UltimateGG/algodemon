@@ -2,11 +2,11 @@ import { useContext, useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 
-import BillingDetailsFields from './checkout/BillingDetailsFields';
+import BillingDetailsFields, { countryToCode } from './checkout/BillingDetailsFields';
 import CheckoutError from './checkout/CheckoutError';
 import styled from 'styled-components';
 import { Button, Progress, TextField, ThemeContext } from '../Jet';
-import { countryToCode } from '../globals';
+
 
 const CardElementContainer = styled.div.attrs((props: any) => props)`
   height: 40px;
@@ -141,7 +141,7 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
       />
 
       {checkoutError !== '' && <CheckoutError>{checkoutError}</CheckoutError>}
-      <Button large block disabled={isProcessing || !stripe} style={{ fontWeight: 500, fontSize: '1.2rem', marginTop: '2rem' }}>
+      <Button large block disabled={isProcessing || !stripe} style={{ fontSize: '1.2rem', marginTop: '2rem' }}>
         {isProcessing ? 'Processing...' : `Pay $${price}`}
       </Button>
       {isProcessing && <Progress indeterminate />}

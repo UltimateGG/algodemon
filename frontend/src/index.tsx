@@ -7,7 +7,7 @@ import Navbar from './components/Navbar';
 import Page404 from './pages/Page404';
 import Footer from './components/Footer';
 import ContactPage from './pages/ContactPage';
-import BuyPage from './pages/BuyPage';
+import PricingPage from './pages/PricingPage';
 import TutorialPage from './pages/TutorialPage';
 import TOSPage from './pages/TOSPage';
 import { loadStripe } from '@stripe/stripe-js';
@@ -28,7 +28,7 @@ root.render(
 
             <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/buy" element={<BuyPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
             <Route path="/tutorial" element={<TutorialPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/tos" element={<TOSPage />} />

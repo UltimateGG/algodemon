@@ -7,7 +7,7 @@ import { Box, Drawer, Icon, IconEnum, Navbar as JNavbar, ThemeContext, Button } 
 const links = [
   {
     label: 'Pricing',
-    href: '/buy',
+    href: '/pricing',
   },
   {
     label: 'Tutorial',
@@ -113,7 +113,7 @@ const Navbar = () => {
           </Box>
         </Box>
 
-        <Button className="access-btn" onClick={() => window.location.href = '/buy'}>Get Access</Button>
+        <Button className="access-btn" onClick={() => window.location.href = '/pricing'}>Get Access</Button>
       </NavbarStyle>
 
       <DrawerStyle open={drawerOpen} onClose={() => setDrawerOpen(false)} theme={theme}>

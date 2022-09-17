@@ -45,7 +45,7 @@ const getGlobalStyles = (props: any) => `
 
   h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0.5rem;
-    font-weight: 300;
+    font-weight: 500;
   }
 
   a {
@@ -61,6 +61,27 @@ const getGlobalStyles = (props: any) => `
 
   p, i, strong, em, span, b {
     line-height: 1.4;
+    font-weight: 100;
+  }
+
+  p {
+    color: ${props.theme.colors.text[5]};
+    font-size: 1.2rem;
+  }
+
+  .pretitle {
+    font-size: 1.25rem;
+    color: ${props.theme.colors.text[6]};
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .text-primary {
+    color: ${props.theme.colors.primary[0]};
+  }
+
+  .background-primary {
+    background-color: ${props.theme.colors.primary[0]};
   }
 
   small {

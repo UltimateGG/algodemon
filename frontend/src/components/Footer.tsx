@@ -4,32 +4,29 @@ import { PRICE } from '../globals';
 import { Box, Button, Divider, ThemeContext } from '../Jet';
 
 
-const AdvertStyle = styled(Box)`
-  @media (max-width: 1050px) {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  @media (max-width: 500px) {
-    align-items: flex-start;
-    text-align: left;
-    padding: 2rem !important;
-  }
-`;
-
-const FooterStyle = styled(Box)`
-  min-height: 2.8rem;
-  padding: 1rem 2rem;
-  margin: 0 auto;
-  border: none;
-  z-index: 2;
-`;
-
 const WrapperStyle = styled.div.attrs((props: any) => props)`
-  a {
-    color: ${props => props.theme.colors.text[0]};
-    font-size: 1.2rem;
+  .access-btn {
+    margin-top: 2rem;
+    max-width: 18rem;
+    background-color: ${props => props.theme.colors.text[0]};
+
+    &:hover {
+      background-color: ${props => props.theme.colors.text[0]};
+    }
+  }
+
+  .footer-links {
+    padding-bottom: 2.8rem;
+
+    img {
+      max-height: 60px;
+      max-width: 250px;
+    }
+
+    a {
+      color: ${props => props.theme.colors.text[0]};
+      font-size: 1.2rem;
+    }
   }
 
   @media (max-width: 580px) {
@@ -43,27 +40,52 @@ const WrapperStyle = styled.div.attrs((props: any) => props)`
   }
 `;
 
+const BannerStyle = styled(Box).attrs((props: any) => props)`
+  background-color: ${props => props.theme.colors.primary[0]};
+  padding: 4rem;
+  margin-bottom: 2rem;
+
+  @media (max-width: 1050px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  @media (max-width: 500px) {
+    align-items: flex-start;
+    text-align: left;
+    padding: 2rem !important;
+  }
+`;
+
+const CopyrightStyle = styled(Box)`
+  min-height: 2.8rem;
+  padding: 1rem 2rem;
+`;
+
 const Footer = () => {
   const { theme } = useContext(ThemeContext);
 
   return (
     <WrapperStyle theme={theme}>
-      <AdvertStyle className="more-container" justifyContent="space-around" alignItems="center" style={{ backgroundColor: theme.colors.primary[0], padding: '4rem', marginBottom: '2rem' }}>
+      <BannerStyle justifyContent="space-around" alignItems="center" theme={theme}>
         <div>
-          <h1 style={{ fontWeight: 500 }}>Get Access Today</h1>
+          <h1>Get Access Today</h1>
           <p>Get life time access for a one time payment of ${PRICE}</p>
         </div>
         
-        <Button onClick={() => window.location.href = '/buy'} block style={{ marginTop: '2rem', maxWidth: '18rem', backgroundColor: theme.colors.text[0] }}><div style={{ color: theme.colors.primary[0] }}>Click Here To Get Access</div></Button>
-      </AdvertStyle>
+        <Button className="access-btn" onClick={() => window.location.href = '/pricing'} block>
+          <div className="text-primary">Click Here To Get Access</div>
+        </Button>
+      </BannerStyle>
 
-      <Box justifyContent="space-around" style={{ paddingBottom: '2.8rem' }} className="footer-links">
-        <img src="/img/logo.png" alt="AlgoDemon" style={{ maxHeight: '60px', maxWidth: '250px' }} />
+      <Box className="footer-links" justifyContent="space-around">
+        <img className="footer-img" src="/img/logo.png" alt="AlgoDemon" />
 
         <Box spacing="1rem">
           <Box flexDirection="column" spacing="0.6rem">
             <a href="/">Home</a>
-            <a href="/buy">Pricing</a>
+            <a href="/pricing">Pricing</a>
             <a href="/contact">Contact</a>
           </Box>
 
@@ -72,9 +94,10 @@ const Footer = () => {
       </Box>
 
       <Divider />
-      <FooterStyle flexDirection="column" justifyContent="space-around" alignItems="center" spacing="2.4rem" theme={theme}>
+
+      <CopyrightStyle flexDirection="column" justifyContent="space-around" alignItems="center" spacing="2.4rem" theme={theme}>
         <small>Copyright &copy; AlgoDemon 2022. All Rights Reserved. AlgoDemon and its affiliates are not registered financial advisors. AlgoDemon and its site is for educational purposes only and should not be construed as financial advise.</small>
-      </FooterStyle>
+      </CopyrightStyle>
     </WrapperStyle>
   );
 }
