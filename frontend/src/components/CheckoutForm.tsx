@@ -141,7 +141,7 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
       />
 
       {checkoutError !== '' && <CheckoutError>{checkoutError}</CheckoutError>}
-      <Button large block disabled={isProcessing || !stripe} style={{ fontSize: '1.2rem', marginTop: '2rem' }}>
+      <Button large block disabled={isProcessing || !stripe} style={{ fontSize: '1.2rem', marginTop: '2rem', marginBottom: 0 }}>
         {isProcessing ? 'Processing...' : `Pay $${price}`}
       </Button>
       {isProcessing && <Progress indeterminate />}

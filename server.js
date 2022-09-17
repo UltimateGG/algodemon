@@ -8,7 +8,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const PORT = 80;
 const WEBHOOK_URL = 'https://discord.com/api/webhooks/1020133358031880223/4hNJY-YghVMm99fr6rncYvtd8As32CUw39caWhxS-6HDNtlASeEiiyL2t_yiXptLfLkz';
 const DEVELOPMENT = process.env.NODE_ENV === 'DEVELOPMENT';
-const URL = `${DEVELOPMENT ? 'http://localhost:3000/' : 'https://algodemon.com/'}`;
 const PRICE = 29.99;
 
 
