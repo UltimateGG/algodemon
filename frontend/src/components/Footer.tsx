@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { PRICE } from '../globals';
+import { NAME, PRICE } from '../globals';
 import { Box, Button, Divider, ThemeContext } from '../Jet';
 
 
@@ -80,7 +80,7 @@ const Footer = () => {
       </BannerStyle>
 
       <Box className="footer-links" justifyContent="space-around">
-        <img className="footer-img" src="/img/logo.png" alt="AlgoDemon" />
+        <img className="footer-img" src="/img/logo.png" alt={NAME} />
 
         <Box spacing="1rem">
           <Box flexDirection="column" spacing="0.6rem">
@@ -96,7 +96,7 @@ const Footer = () => {
       <Divider />
 
       <CopyrightStyle flexDirection="column" justifyContent="space-around" alignItems="center" spacing="2.4rem" theme={theme}>
-        <small>Copyright &copy; AlgoDemon 2022. All Rights Reserved. AlgoDemon and its affiliates are not registered financial advisors. AlgoDemon and its site is for educational purposes only and should not be construed as financial advise.</small>
+        <small>Copyright &copy; {NAME} 2022. All Rights Reserved. {NAME} and its affiliates are not registered financial advisors. {NAME} and its site is for educational purposes only and should not be construed as financial advise.</small>
       </CopyrightStyle>
     </WrapperStyle>
   );

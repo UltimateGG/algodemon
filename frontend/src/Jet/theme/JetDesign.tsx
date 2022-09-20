@@ -59,12 +59,12 @@ const getGlobalStyles = (props: any) => `
     text-decoration: underline;
   }
 
-  p, i, strong, em, span, b {
+  p, i, strong, em, span, b, li {
     line-height: 1.4;
     font-weight: 100;
   }
 
-  p {
+  p, li {
     color: ${props.theme.colors.text[5]};
     font-size: 1.2rem;
   }

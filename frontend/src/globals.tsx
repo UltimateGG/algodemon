@@ -1,3 +1,5 @@
+export const NAME = 'AlgoDemon';
+export const THEME_COLOR = '#6200EE';
 export const PRICE = 29.99;
 export const IS_SALE = true;
 export const ORIG_PRICE = 149.99;

@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import ReasonBlock from '../components/ReasonBlock';
-import { Box, Button, IconEnum, ThemeContext } from '../Jet';
+import { NAME } from '../globals';
+import { Box, Button, Icon, IconEnum, ThemeContext } from '../Jet';
 
 
 const PageStyle = styled.div.attrs((props: any) => props)`
@@ -104,7 +105,7 @@ export const HomePage = () => {
         <Box flexDirection="column" spacing="1.8rem">
           <div>
             <h1 className="welcome-text">Welcome to</h1>
-            <h1 className="welcome-text text-primary">Algo Demon</h1>
+            <h1 className="welcome-text text-primary">{NAME}</h1>
           </div>
 
           <p>The ultimate trading tool to help you gain an edge in the markets.</p>
@@ -114,10 +115,10 @@ export const HomePage = () => {
             <Button onClick={() => window.location.href = '/contact'} large style={{ backgroundColor: theme.colors.text[0] }}><div style={{ color: theme.colors.primary[0] }}>Contact</div></Button>
           </Box>
 
-          <p>Take the complication out of trading &amp; simplify your charts with AlgoDemon 🚀</p>
+          <p>Take the complication out of trading &amp; simplify your charts with {NAME} 🚀</p>
         </Box>
 
-        <img className="header-img" src="/img/home.png" alt="AlgoDemon Indicator" />
+        <img className="header-img" src="/img/home.png" alt={NAME + " Indicator"} />
       </Box>
 
       <Box className="container" flexDirection="column" style={{ padding: '4rem 6rem', marginTop: '4rem', backgroundColor: theme.colors.background[1] }} justifyContent="space-around" alignItems="center" spacing="1.6rem">
@@ -130,7 +131,7 @@ export const HomePage = () => {
       </Box>
 
       <Box className="container" flexDirection="column" style={{ padding: '2rem 6rem', marginTop: '4rem', paddingBottom: '6rem' }} spacing="1.6rem">
-        <h1 className="reasons-text"><span className="text-primary">Reasons</span> to choose <br />AlgoDemon</h1>
+        <h1 className="reasons-text"><span className="text-primary">Reasons</span> to choose <br />{NAME}</h1>
 
         <Box display="grid" className="reasons" spacing="1.2rem">
           <ReasonBlock
@@ -141,7 +142,7 @@ export const HomePage = () => {
 
           <ReasonBlock
             title="All Markets"
-            description="AlgoDemon works in any market and any timeframe. Perfect for day traders, swing traders and scalpers!"
+            description={NAME + " works in any market and any timeframe. Perfect for day traders, swing traders and scalpers!"}
             icon={IconEnum.accessibility}
           />
 
@@ -153,14 +154,14 @@ export const HomePage = () => {
 
           <ReasonBlock
             title="Lifetime Access"
-            description="Say good-bye to annoying monthly payments, AlgoDemon is a life time membership unlike our competitors who offer less value!"
+            description={`Say good-bye to annoying monthly payments, ${NAME} is a life time membership unlike our competitors who offer less value!`}
             icon={IconEnum.calendar}
           />
         </Box>
       </Box>
 
-      <Box className="container background-primary" flexDirection="column" justifyContent="center" alignItems="center" style={{ padding: '4rem 6rem' }} spacing="1em">
-        <h2 className="quote" style={{ maxWidth: '50%', textAlign: 'center' }}>“AlgoDemon has changed the way I trade, I am able to utilize the features in the indicator to make consistent profits every day.”</h2>
+      <Box className="container background-primary" flexDirection="column" justifyContent="center" alignItems="center" style={{ padding: '4rem 6rem' }} spacing="1rem">
+        <h2 className="quote" style={{ maxWidth: '50%', textAlign: 'center' }}>“{NAME} has changed the way I trade, I am able to utilize the features in the indicator to make consistent profits every day.”</h2>
 
         <div>
           <p>@Excluded</p>
@@ -168,13 +169,32 @@ export const HomePage = () => {
         </div>
       </Box>
 
-      <Box className="container" style={{ padding: '6rem' }} spacing="2.6rem" justifyContent="center">
-        <img className="profits-img" src="/img/profit.png" alt="AlgoDemon Profits" style={{ maxWidth: '500px', borderRadius: theme.rounded }} />
+      <Box className="container" style={{ padding: '6rem' }} spacing="1rem" justifyContent="center">
+        <Box flexDirection="column" spacing="1rem">
+          <h5 className="pretitle" style={{ textAlign: 'left' }}>Features</h5>
+          <h1>More Helpful Features 😉</h1>
+          <p style={{ marginBottom: '1rem' }}>Take advantage of the many features {NAME} has to offer (all included in the one time payment!)</p>
+
+          <Box alignItems="center" spacing="1rem">
+            <Icon className="background-primary" icon={IconEnum.checkmark_circle} style={{ borderRadius: theme.rounded, padding: '0.4rem' }} size={36} />
+            <p>Automatic Support/Resistance</p>
+          </Box>
+
+          <Box alignItems="center" spacing="1rem">
+            <Icon className="background-primary" icon={IconEnum.info} style={{ borderRadius: theme.rounded, padding: '0.4rem' }} size={36} />
+            <p>Energy Cloud</p>
+          </Box>
+        </Box>
+        <img className="header-img" src="https://i.imgur.com/irQgl4P.png" alt={NAME + "features"} />
+      </Box>
+
+      <Box className="container" style={{ padding: '6rem', backgroundColor: theme.colors.background[1] }} spacing="2.6rem" justifyContent="center">
+        <img className="profits-img" src="/img/profit.png" alt={NAME + " Profits"} style={{ maxWidth: '500px', borderRadius: theme.rounded }} />
 
         <Box flexDirection="column" spacing="1.4rem" justifyContent="center">
           <h5 className="pretitle" style={{ textAlign: 'left' }}>Get Started</h5>
           <h1>Become A Profitable Trader</h1>
-          <p style={{ maxWidth: '25rem' }}>Stop missing out on potential gains in the markets. AlgoDemon catches significant moves to the upside and downside for any market/timeframe.</p>
+          <p style={{ maxWidth: '25rem' }}>Stop missing out on potential gains in the markets. {NAME} catches significant moves to the upside and downside for any market/timeframe.</p>
         </Box>
       </Box>
     </PageStyle>

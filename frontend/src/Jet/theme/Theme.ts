@@ -1,3 +1,5 @@
+import { THEME_COLOR } from "../../globals";
+
 export interface Theme {
   fontFamily: string;
   font: string;
@@ -71,7 +73,7 @@ export const themeDefault: Theme = {
   roundedFull: '3rem',
   fontSize: '1rem',
   colors: {
-    primary: generateColorsArray('#6200EE', 9, Shade.DARKER),
+    primary: generateColorsArray(THEME_COLOR, 9, Shade.DARKER),
     text: generateColorsArray('#FAFAFA', 9, Shade.DARKER, 0.04),
     background: generateColorsArray('#0E1320', 9, Shade.LIGHTER, 0.04),
     danger: generateColorsArray('#d12929', 9, Shade.DARKER),

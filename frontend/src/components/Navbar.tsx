@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { NAME } from '../globals';
 import { Box, Drawer, Icon, IconEnum, Navbar as JNavbar, ThemeContext, Button } from '../Jet';
 
 
@@ -103,7 +104,7 @@ const Navbar = () => {
       <NavbarStyle theme={theme}>
         <MenuButtonStyle className="menu-button" theme={theme} icon={IconEnum.menu} onClick={() => setDrawerOpen(true)} />
         <Box alignItems="center" justifyContent="center" spacing="2rem">
-          <a className="logo" href="/"><img src="/img/logo.png" alt="AlgoDemon" style={{ maxHeight: '70px' }} /></a>
+          <a className="logo" href="/"><img src="/img/logo.png" alt={NAME} style={{ maxHeight: '70px' }} /></a>
           <Box className="nav-links">
             {links.map(link => (
               <NavbarLinkStyle key={link.href} href={link.href} active={location.pathname === link.href} theme={theme}>
