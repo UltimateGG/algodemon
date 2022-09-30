@@ -92,6 +92,7 @@ const PageStyle = styled.div.attrs((props: any) => props)`
 
     .profits-img {
       max-width: 300px !important;
+      padding: 2rem 0 !important;
     }
   }
 `;
@@ -118,7 +119,7 @@ export const HomePage = () => {
           <p>Take the complication out of trading &amp; simplify your charts with {NAME} 🚀</p>
         </Box>
 
-        <img className="header-img" src="/img/home.png" alt={NAME + " Indicator"} />
+        <img className="profits-img" src="/img/profit.png" alt={NAME + " Profits"} style={{ maxWidth: '500px', borderRadius: theme.rounded, padding: '6rem 0' }} />
       </Box>
 
       <Box className="container" flexDirection="column" style={{ padding: '4rem 6rem', marginTop: '4rem', backgroundColor: theme.colors.background[1] }} justifyContent="space-around" alignItems="center" spacing="1.6rem">
@@ -188,8 +189,8 @@ export const HomePage = () => {
         <img className="header-img" src="https://i.imgur.com/irQgl4P.png" alt={NAME + "features"} />
       </Box>
 
-      <Box className="container" style={{ padding: '6rem', backgroundColor: theme.colors.background[1] }} spacing="2.6rem" justifyContent="center">
-        <img className="profits-img" src="/img/profit.png" alt={NAME + " Profits"} style={{ maxWidth: '500px', borderRadius: theme.rounded }} />
+      <Box className="container" style={{ padding: '6rem', backgroundColor: theme.colors.background[1] }} spacing="4.6rem" justifyContent="center">
+        <img className="header-img" src="/img/home.png" alt={NAME + " Indicator"} />
 
         <Box flexDirection="column" spacing="1.4rem" justifyContent="center">
           <h5 className="pretitle" style={{ textAlign: 'left' }}>Get Started</h5>
