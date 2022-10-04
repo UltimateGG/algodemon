@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import axios from 'axios';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import ReasonBlock from '../components/ReasonBlock';
 import { NAME } from '../globals';
@@ -99,6 +100,21 @@ const PageStyle = styled.div.attrs((props: any) => props)`
 
 export const HomePage = () => {
   const { theme } = useContext(ThemeContext);
+
+  useEffect(() => {
+    document.title = `${NAME} - The Ultimate Trading Indicator`;
+
+    // Affiliates query
+    const urlParams = new URLSearchParams(window.location.search);
+    const affiliate = urlParams.get('r');
+
+    if (affiliate) {
+      axios.get('/api/affiliates').then(valid => {
+        if (valid.data.includes(affiliate))
+          localStorage.setItem('ref', affiliate);
+      }).catch(console.error);
+    }
+  });
 
   return (
     <PageStyle theme={theme}>

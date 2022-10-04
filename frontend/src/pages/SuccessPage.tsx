@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
+import { NAME } from '../globals';
 import { Box, Button, ThemeContext } from '../Jet';
 
 const HeaderStyle = styled(Box)`
@@ -9,6 +10,10 @@ const HeaderStyle = styled(Box)`
 
 export const SuccessPage = () => {
   const { theme } = useContext(ThemeContext);
+
+  useEffect(() => {
+    document.title = NAME + ' - Thank You!';
+  });
 
   return (
     <div>

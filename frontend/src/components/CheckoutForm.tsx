@@ -62,7 +62,7 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
       if (!cardElement)
         throw new Error('Card element not found');
 
-      const { data } = await axios.get("api/payment");
+      const { data } = await axios.get(`api/payment?ref=${localStorage.getItem('ref')}`);
       const { secret, id } = data;
 
       const paymentMethodReq = await stripe.createPaymentMethod({
@@ -87,7 +87,7 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
         return;
       }
 
-      await axios.post('/api/payment', { paymentIntentId: id, username: ev.target.username.value });
+      await axios.post('/api/payment', { paymentIntentId: id, username: ev.target.username.value, ref: localStorage.getItem('ref') });
       onSuccessfulCheckout();
     } catch (err) {
       setCheckoutError((err as any).message);
@@ -142,7 +142,7 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
 
       {checkoutError !== '' && <CheckoutError>{checkoutError}</CheckoutError>}
       <Button large block disabled={isProcessing || !stripe} style={{ fontSize: '1.2rem', marginTop: '2rem', marginBottom: 0 }}>
-        {isProcessing ? 'Processing...' : `Pay $${price}`}
+        {isProcessing ? 'Processing...' : `Pay $${price.toFixed(2)}`}
       </Button>
       {isProcessing && <Progress indeterminate />}
     </form>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { NAME } from '../globals';
 import { Box } from '../Jet';
@@ -36,6 +36,10 @@ const PageStyle = styled.div.attrs((props: any) => props)`
 `;
 
 export const TOSPage = () => {
+  useEffect(() => {
+    document.title = `${NAME} - Terms of Service`;
+  });
+
   return (
     <PageStyle>
       <Box className="container" flexDirection="column" justifyContent="center" alignItems="center" spacing="1.6rem">

@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { Box, Button, Icon, IconEnum, Progress, TextArea, TextField, ThemeContext } from '../Jet';
+import { NAME } from '../globals';
 
 
 const ContactPageStyle = styled(Box).attrs((props: any) => props)`
@@ -17,7 +18,7 @@ const ContactPageStyle = styled(Box).attrs((props: any) => props)`
 `;
 
 const ContactPage = () => {
-  const { theme} = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
   const [name, setName] = React.useState('');
   const [nameError, setNameError] = React.useState('');
   const [email, setEmail] = React.useState('');
@@ -27,6 +28,10 @@ const ContactPage = () => {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isSubmitted, setIsSubmitted] = React.useState(false);
   const [error, setError] = React.useState('');
+
+  useEffect(() => {
+    document.title = NAME + ' - Contact';
+  });
 
   const requiredValidator = (errorSetter: (error: string) => void, value: string) => {
     const condition = value.trim().length === 0;

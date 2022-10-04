@@ -5,11 +5,18 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const request = require('request');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const PORT = 80;
+const PORT = 81;
 const WEBHOOK_URL = 'https://discord.com/api/webhooks/1020133358031880223/4hNJY-YghVMm99fr6rncYvtd8As32CUw39caWhxS-6HDNtlASeEiiyL2t_yiXptLfLkz';
 const DEVELOPMENT = process.env.NODE_ENV === 'DEVELOPMENT';
-const PRICE = 29.99;
+const PRICE = 149.99;
 
+
+const AFFILIATES = [
+  {
+    name: 'Affiliate 1',
+    code: 'test',
+  }
+];
 
 app.set('trust proxy', true);
 
@@ -29,7 +36,6 @@ app.use(express.static(path.join(__dirname, 'frontend/build/')));
 app.post('/api/contact', (req, res) => {
   try {
     const { name, email, message } = req.body;
-
 
     if (name.length > 200 || email.length > 200 || message.length > 2040) 
       return res.status(400).json({ error: 'Invalid data' });
@@ -62,10 +68,22 @@ app.post('/api/contact', (req, res) => {
   }
 });
 
+app.get('/api/affiliates', (req, res) => {
+  res.json(AFFILIATES.map(a => a.code));
+});
+
 app.get('/api/payment', async (req, res) => {
   try {
+    let price = PRICE;
+    const ref = req.query.ref;
+
+    if (ref) {
+      const affiliate = AFFILIATES.find(a => a.code === ref);
+      if (affiliate) price = +((price * 0.2).toFixed(2)); // 80% off
+    }
+
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: PRICE * 100,
+      amount: price * 100,
       currency: "usd",
       payment_method_types: ["card"]
     });
@@ -78,7 +96,8 @@ app.get('/api/payment', async (req, res) => {
 
 app.post('/api/payment', async (req, res) => {
   try {
-    const { paymentIntentId, username } = req.body;
+    const { paymentIntentId, username, ref } = req.body;
+    const affiliate = AFFILIATES.find(a => a.code === ref);
 
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
@@ -105,6 +124,10 @@ app.post('/api/payment', async (req, res) => {
               {
                 name: 'TradingView Username',
                 value: username,
+              },
+              {
+                name: 'Affiliate',
+                value: affiliate ? JSON.stringify(affiliate) : 'None',
               }
             ],
           }],

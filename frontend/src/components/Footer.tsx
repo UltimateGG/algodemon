@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { NAME, PRICE } from '../globals';
+import { NAME } from '../globals';
 import { Box, Button, Divider, ThemeContext } from '../Jet';
 
 
@@ -71,7 +71,8 @@ const Footer = () => {
       <BannerStyle justifyContent="space-around" alignItems="center" theme={theme}>
         <div>
           <h1>Get Access Today</h1>
-          <p>Get life time access for a one time payment of ${PRICE}</p>
+          <p>Get life time access for a one time payment</p>
+          <p>and up to 80% off using a referral code</p>
         </div>
         
         <Button className="access-btn" onClick={() => window.location.href = '/pricing'} block>

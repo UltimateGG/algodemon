@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { NAME } from '../globals';
 import { Box, ThemeContext } from '../Jet';
@@ -36,6 +36,10 @@ const PageStyle = styled.div.attrs((props: any) => props)`
 
 export const TutorialPage = () => {
   const { theme } = useContext(ThemeContext);
+
+  useEffect(() => {
+    document.title = `${NAME} - Tutorial`;
+  });
 
   return (
     <PageStyle theme={theme}>

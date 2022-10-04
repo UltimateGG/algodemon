@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import axios from 'axios';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import CheckoutForm from '../components/CheckoutForm';
 import FAQ from '../components/FAQ';
 import Review from '../components/Review';
-import { IS_SALE, NAME, ORIG_PRICE, PRICE } from '../globals';
-import { Box, Button, Divider, Modal, ThemeContext } from '../Jet';
+import { NAME, PRICE } from '../globals';
+import { Box, Button, Divider, Icon, IconEnum, Modal, TextField, ThemeContext } from '../Jet';
 
 
 const PageStyle = styled.div.attrs((props: any) => props)`
@@ -23,16 +24,17 @@ const PageStyle = styled.div.attrs((props: any) => props)`
     }
   }
 
-  .package-section {
-    padding: 2rem 4rem;
+  .code-p {
+    display: flex;
+    align-items: center;
+    background-color: ${props => props.theme.colors.text[2]};
+    padding: 0.2rem 0.4rem;
+    border-radius: ${props => props.theme.rounded};
+    margin-top: 1rem;
   }
 
-  .limit {
-    color: ${props => props.theme.colors.success[0]} !important;
-    padding: 0.2rem 0.8rem;
-    text-align: center;
-    border-radius: ${props => props.theme.roundedFull};
-    background-color: #c4ffcf;
+  .package-section {
+    padding: 2rem 4rem;
   }
 
   .reviews {
@@ -57,15 +59,11 @@ const PageStyle = styled.div.attrs((props: any) => props)`
     }
 
     .package-section {
-      padding: 2rem;
+      padding: 1.4rem;
     }
 
     .info-section {
       padding: 4rem 2rem !important;
-    }
-
-    .limit {
-      font-size: 1.2rem;
     }
 
     .reviews {
@@ -86,6 +84,34 @@ const PageStyle = styled.div.attrs((props: any) => props)`
 export const PricingPage = () => {
   const { theme } = useContext(ThemeContext);
   const [showModal, setShowModal] = React.useState(false);
+  const [textField, setTextField] = React.useState('');
+  const [affiliateCode, setAffiliateCode] = React.useState<string | null>(null);
+  const [currentPrice, setCurrentPrice] = React.useState(PRICE + '');
+
+  useEffect(() => {
+    document.title = `${NAME} - Purchase`;
+
+    const ref = localStorage.getItem('ref');
+    setAffiliateCode(ref);
+
+    if (ref) // 80% off
+      setCurrentPrice((PRICE * 0.2).toFixed(2));
+    else
+      setCurrentPrice(PRICE + '');
+  }, [setAffiliateCode]);
+
+  const handleSetCode = async (code: string) => {
+    const valid = await axios.get('/api/affiliates');
+
+    if (!valid.data.includes(code)) {
+      alert('Invalid affiliate code');
+      return;
+    }
+
+    localStorage.setItem('ref', code);
+    setAffiliateCode(code);
+    setTextField('');
+  }
 
   return (
     <PageStyle theme={theme}>
@@ -98,18 +124,39 @@ export const PricingPage = () => {
       <Box justifyContent="center">
         <Box className="purchase-box" flexDirection="column" justifyContent="center" alignItems="center">
           <div className="package-section">
-            {IS_SALE && <h5 className="limit pretitle">Limited Time Offer</h5>}
-            <h1>${PRICE}
-              {IS_SALE && <span style={{ display: 'inline', marginLeft: '1rem', fontSize: '1.4rem' }}><s style={{ color: theme.colors.text[8] }}>${ORIG_PRICE}</s></span>}
+            <h1>${currentPrice}
+              {affiliateCode && <span style={{ display: 'inline', marginLeft: '1rem', fontSize: '1.4rem' }}><s style={{ color: theme.colors.text[8] }}>${PRICE}</s></span>}
             </h1>
             <p style={{ textAlign: 'center' }}>One Time Payment</p>
           </div>
 
-          <Divider style={{ borderColor: theme.colors.text[3] }} fullWidth />
+          <Box style={{ width: '100%' }} justifyContent="center" alignItems="center">
+            <Divider style={{ borderColor: theme.colors.text[3] }} fullWidth />
+            <h5 style={{ margin: '0 1rem', color: '#000', textAlign: 'center', whiteSpace: 'nowrap' }}>{affiliateCode ? '80% OFF!' : `OR $${(PRICE * 0.2).toFixed(2)}`}</h5>
+            <Divider style={{ borderColor: theme.colors.text[3] }} fullWidth />
+          </Box>
 
+          {affiliateCode ? (
+            <p className="code-p">
+              Code "{affiliateCode}"
+              <Icon style={{ cursor: 'pointer', marginLeft: '0.2rem' }} icon={IconEnum.x} size={20} color={theme.colors.text[6]} onClick={() => {
+                localStorage.removeItem('ref');
+                setAffiliateCode(null);
+              }} />
+            </p>
+          ) : (
+            <Box className="package-section" spacing="0.2rem" style={{ maxHeight: '2.8rem', marginTop: '1rem' }} justifyContent="center" alignItems="center">
+              <TextField placeholder="Enter referral code" value={textField} onChanged={setTextField} />
+              <Button style={{ minHeight: '100%', padding: '0.2rem', margin: 0 }} onClick={() => handleSetCode(textField)}>
+                <Icon icon={IconEnum.checkmark} size={24} />
+              </Button>
+            </Box>
+          )}
+          
           <div className="package-section">
             <div>
               <p>🟣 Buy &amp; Sell Signals</p>
+              <p>🟣 Auto S/R Levels</p>
               <p>🟣 Free Updates</p>
               <p>🟣 24/7 Support</p>
             </div>
@@ -183,7 +230,7 @@ export const PricingPage = () => {
 
       <Modal open={showModal} onClose={() => setShowModal(false)} title={"Purchase " + NAME}>
         <CheckoutForm
-          price={PRICE}
+          price={Number(currentPrice)}
           onSuccessfulCheckout={() => window.location.href = '/success'}
         />
       </Modal>
