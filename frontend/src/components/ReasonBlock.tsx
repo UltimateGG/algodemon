@@ -4,7 +4,7 @@ import { Box, Icon, IconEnum, ThemeContext } from '../Jet';
 
 export interface ReasonBlockProps {
   title: string;
-  description: string;
+  description: string | JSX.Element;
   icon: IconEnum;
 }
 

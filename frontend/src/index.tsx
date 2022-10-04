@@ -14,6 +14,9 @@ import { loadStripe } from '@stripe/stripe-js';
 import { STRIPE_PUBLIC_KEY } from './globals';
 import { Elements } from '@stripe/react-stripe-js';
 import SuccessPage from './pages/SuccessPage';
+import AffiliatePage from './pages/affiliate/AffiliatePage';
+import LoginPage from './pages/affiliate/Login';
+import DashboardPage from './pages/affiliate/Dashboard';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -31,8 +34,13 @@ root.render(
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/tutorial" element={<TutorialPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/affiliates" element={<AffiliatePage />} />
             <Route path="/tos" element={<TOSPage />} />
             <Route path="/success" element={<SuccessPage />} />
+
+            <Route path="/login" element={<LoginPage />} />
+
+            <Route path="/dashboard" element={<DashboardPage />} />
             
             <Route path="*" element={<Page404 />} />
           </Routes>

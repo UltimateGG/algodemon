@@ -17,6 +17,10 @@ const links = [
   {
     label: 'Contact',
     href: '/contact',
+  },
+  {
+    label: 'Affiliates',
+    href: '/affiliates',
   }
 ];
 
@@ -114,7 +118,17 @@ const Navbar = () => {
           </Box>
         </Box>
 
+        {sessionStorage.getItem('token') ? (
+          <Box spacing="1rem">
+            <Button className="access-btn" onClick={() => window.location.href = '/dashboard'}>Dashboard</Button>
+            <Button className="access-btn" variant="outlined" onClick={() => {
+              sessionStorage.removeItem('token');
+              window.location.href = '/';
+            }}>Logout</Button>
+          </Box>
+        ) : (
         <Button className="access-btn" onClick={() => window.location.href = '/pricing'}>Get Access</Button>
+        )}
       </NavbarStyle>
 
       <DrawerStyle open={drawerOpen} onClose={() => setDrawerOpen(false)} theme={theme}>
@@ -123,6 +137,9 @@ const Navbar = () => {
             {link.label}
           </NavbarLinkStyle>
         ))}
+        {sessionStorage.getItem('token') && (
+          <NavbarLinkStyle href="/dashboard" active={location.pathname === '/dashboard'} theme={theme}>Dashboard</NavbarLinkStyle>
+        )}
       </DrawerStyle>
     </>
   );
