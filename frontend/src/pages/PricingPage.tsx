@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import CheckoutForm from '../components/CheckoutForm';
+import CheckoutForm from '../components/checkout/CheckoutForm';
 import FAQ from '../components/FAQ';
 import Review from '../components/Review';
 import { NAME, PRICE } from '../globals';
@@ -39,10 +39,6 @@ const PageStyle = styled.div.attrs((props: any) => props)`
 
   .reviews {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  a {
-    color: ${props => props.theme.colors.success[0]};
   }
 
   h4 {
@@ -228,7 +224,7 @@ export const PricingPage = () => {
       </Box>
 
 
-      <Modal open={showModal} onClose={() => setShowModal(false)} title={"Purchase " + NAME}>
+      <Modal open={showModal} onClose={() => setShowModal(false)} title={'Purchase ' + NAME}>
         <CheckoutForm
           price={Number(currentPrice)}
           onSuccessfulCheckout={() => window.location.href = '/success'}

@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useEffect } from 'react';
-import { Theme, themeDefault } from './Theme';
+import { shiftColor, Theme, themeDefault } from './Theme';
 
 
 export const ThemeContext = createContext({
@@ -50,7 +50,7 @@ const getGlobalStyles = (props: any) => `
 
   a {
     cursor: pointer;
-    color: ${props.theme.colors.primary[0]};
+    color: ${shiftColor(props.theme.colors.primary[0], -0.3)};
     text-decoration: none;
     transition: color 0.3s ease-in-out;
   }

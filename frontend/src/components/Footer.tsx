@@ -72,7 +72,7 @@ const Footer = () => {
       {location && location.pathname !== '/affiliates' && location.pathname !== '/dashboard' && (
         <BannerStyle justifyContent="center" alignItems="center" style={{ backgroundColor: theme.colors.background[1], marginBottom: 0 }} theme={theme}>
           <div>
-            <h1>Become an affiliate</h1>
+            <h1>Become an Affiliate</h1>
             <p>Earn ${((PRICE * 0.2) * (AFFILIATE_PERCENT / 100.0)).toFixed(2)} everytime someone clicks your link</p>
             <Button color="secondary" onClick={() => window.location.href = '/affiliates'} block>Learn More</Button>
           </div>

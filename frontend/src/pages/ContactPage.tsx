@@ -86,16 +86,13 @@ const ContactPage = () => {
       },
       body: JSON.stringify(json)
     }).then(res => {
-      setIsSubmitted(true);
-      setIsSubmitting(false);
-
       if (res.status !== 200)
         res.json().then(json => setError(json.message || 'Something went wrong'));
     }).catch(err => {
+      setError(err.response.data.message);
+    }).finally(() => {
       setIsSubmitted(true);
       setIsSubmitting(false);
-
-      setError(err.response.data.message);
     });
   }
 

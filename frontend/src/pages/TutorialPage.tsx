@@ -38,7 +38,7 @@ export const TutorialPage = () => {
   const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
-    document.title = `${NAME} - Tutorial`;
+    document.title = NAME + ' - Tutorial';
   });
 
   return (

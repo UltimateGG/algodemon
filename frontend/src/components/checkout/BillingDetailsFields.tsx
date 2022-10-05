@@ -272,7 +272,6 @@ export interface BillingDetailsFieldsProps {
   country: string;
   onSetCountry: (country: string) => any;
 }
-
 const BillingDetailsFields = ({ country, onSetCountry }: BillingDetailsFieldsProps) => {
   return (
     <BillingDetailsStyle>

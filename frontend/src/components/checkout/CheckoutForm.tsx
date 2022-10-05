@@ -2,10 +2,10 @@ import { useContext, useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 
-import BillingDetailsFields, { countryToCode } from './checkout/BillingDetailsFields';
-import CheckoutError from './checkout/CheckoutError';
+import BillingDetailsFields, { countryToCode } from './BillingDetailsFields';
+import CheckoutError from './CheckoutError';
 import styled from 'styled-components';
-import { Button, Progress, TextField, ThemeContext } from '../Jet';
+import { Button, Progress, TextField, ThemeContext } from '../../Jet';
 
 
 const CardElementContainer = styled.div.attrs((props: any) => props)`
@@ -25,7 +25,7 @@ export interface CheckoutFormProps {
 }
 const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
   const { theme } = useContext(ThemeContext);
-  const [isProcessing, setProcessingTo] = useState<boolean>(false);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [checkoutError, setCheckoutError] = useState<string>('');
   const [country, setCountry] = useState<string>('United States of America');
 
@@ -54,7 +54,7 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
       }
     };
 
-    setProcessingTo(true);
+    setIsProcessing(true);
 
     const cardElement = elements.getElement('card');
 
@@ -62,18 +62,18 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
       if (!cardElement)
         throw new Error('Card element not found');
 
-      const { data } = await axios.get(`api/payment?ref=${localStorage.getItem('ref')}`);
+      const { data } = await axios.get(`api/payment/paymentIntent?ref=${localStorage.getItem('ref')}`);
       const { secret, id } = data;
 
       const paymentMethodReq = await stripe.createPaymentMethod({
-        type: "card",
+        type: 'card',
         card: cardElement,
         billing_details: billingDetails
       });
 
       if (paymentMethodReq.error) {
         setCheckoutError(paymentMethodReq.error.message || 'Unknown error');
-        setProcessingTo(false);
+        setIsProcessing(false);
         return;
       }
 
@@ -83,33 +83,33 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
 
       if (error) {
         setCheckoutError(error.message || 'Unknown error');
-        setProcessingTo(false);
+        setIsProcessing(false);
         return;
       }
 
-      await axios.post('/api/payment', { paymentIntentId: id, username: ev.target.username.value, ref: localStorage.getItem('ref') });
+      await axios.post('/api/payment/verify', { paymentIntentId: id, username: ev.target.username.value, ref: localStorage.getItem('ref') });
       onSuccessfulCheckout();
     } catch (err) {
       setCheckoutError((err as any).message);
-      setProcessingTo(false);
+      setIsProcessing(false);
     }
-  };
+  }
 
   const iframeStyles = {
     base: {
       color: theme.colors.text[0],
-      fontSize: "16px",
+      fontSize: '16px',
       iconColor: theme.colors.text[0],
-      "::placeholder": {
+      '::placeholder': {
         color: theme.colors.background[6]
       }
     },
     invalid: {
-      iconColor: "#FFC7EE",
-      color: "#FFC7EE"
+      iconColor: '#FFC7EE',
+      color: '#FFC7EE'
     },
     complete: {
-      iconColor: "#cbf4c9"
+      iconColor: '#cbf4c9'
     }
   };
 
@@ -120,7 +120,7 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
 
   return (
     <form onSubmit={handleFormSubmit}>
-      <h2>Customer Info</h2>
+      <h2>Billing Address</h2>
       <BillingDetailsFields country={country} onSetCountry={setCountry} />
 
       <h2 style={{ marginTop: '2rem' }}>Payment Info</h2>
@@ -147,6 +147,6 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
       {isProcessing && <Progress indeterminate />}
     </form>
   );
-};
+}
 
 export default CheckoutForm;

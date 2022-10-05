@@ -1,8 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { NAME } from '../../globals';
-import { Box, Button, TextField, ThemeContext } from '../../Jet';
-import CreateUserForm from './CreateUserForm';
+import { Box, TextField, ThemeContext } from '../../Jet';
 import EditUserForm from './EditUserForm';
 
 
@@ -15,7 +14,6 @@ export const AdminPage = ({ user }: any) => {
   const { theme } = useContext(ThemeContext);
   const [searchFilter, setSearchFilter] = React.useState('');
   const [users, setUsers] = React.useState<any>(undefined);
-  const [showUserForm, setShowUserForm] = React.useState(false);
   const [viewingUser, setViewingUser] = React.useState<any>(undefined);
 
   useEffect(() => {
@@ -90,15 +88,11 @@ export const AdminPage = ({ user }: any) => {
   <PageStyle theme={theme}>
     <div style={{ padding: '0 2rem' }}>
       <h1 style={{ textAlign: 'center' }}>Admin</h1>
-      {!showUserForm && !viewingUser && <Button onClick={() => {
-        setShowUserForm(true);
-        setViewingUser(undefined);
-      }}>Create User</Button>}
     </div>
 
     <Box style={{ padding: '2rem', paddingTop: 0 }} flexDirection="column">
       {viewingUser ? (<EditUserForm onClose={() => setViewingUser(undefined)} user={viewingUser} />)
-      : showUserForm ? (<CreateUserForm onClose={() => setShowUserForm(false)} />): (<>
+      : (<>
         <TextField placeholder="Search by id, email, or code" fullWidth value={searchFilter} onChanged={setSearchFilter} />
 
         <div className="table-container">

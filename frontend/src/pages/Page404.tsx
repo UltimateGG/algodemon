@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Box, Button, ThemeContext } from '../Jet';
 
+
 const HeaderStyle = styled(Box)`
   height: 100vh;
   text-align: center;

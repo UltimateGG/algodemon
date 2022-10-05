@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { NAME } from '../globals';
 import { Box, Button, ThemeContext } from '../Jet';
 
+
 const HeaderStyle = styled(Box)`
   height: 100vh;
   text-align: center;
