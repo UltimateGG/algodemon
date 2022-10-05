@@ -112,7 +112,36 @@ const getGlobalStyles = (props: any) => `
   }
 
   ::-webkit-scrollbar-thumb:active {
-    background-color: ${props.theme.colors.background[5]};a
+    background-color: ${props.theme.colors.background[5]};
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+
+  th, td {
+    padding: 0.5rem;
+    border: 1px solid ${props.theme.colors.background[2]};
+    text-align: center;
+  }
+
+  th {
+    background-color: ${props.theme.colors.background[2]};
+    font-weight: 500;
+  }
+
+  tr:nth-child(2n) {
+    background-color: ${props.theme.colors.background[1]};
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .table-container table {
+    width: 100%;
   }
 `;
 

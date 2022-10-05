@@ -72,6 +72,8 @@ export const AffiliatePage = () => {
         setSubmitted(true);
       else
         setError(res.data.message);
+    }).catch(e => {
+      setError(e.response.data.message);
     }).finally(() => setLoading(false));
   }
 

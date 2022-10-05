@@ -1,7 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import { AFFILIATE_PERCENT } from '../../globals';
-import { Box, Icon, IconEnum, ThemeContext } from '../../Jet';
+import ReferralList from '../../components/ReferralList';
+import { AFFILIATE_PERCENT, NAME } from '../../globals';
+import { Box, ThemeContext } from '../../Jet';
+import { AdminPage } from '../admin/AdminPanel';
 
 
 const PageStyle = styled.div.attrs((props: any) => props)`
@@ -30,35 +32,6 @@ const PageStyle = styled.div.attrs((props: any) => props)`
       margin-left: 1rem;
     }
   }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-
-    th, td {
-      padding: 0.5rem;
-      border: 1px solid ${props => props.theme.colors.background[2]};
-      text-align: center;
-    }
-
-    th {
-      background-color: ${props => props.theme.colors.background[2]};
-      font-weight: 500;
-    }
-
-    tr:nth-child(2n) {
-      background-color: ${props => props.theme.colors.background[1]};
-    }
-  }
-
-  .table-container {
-    overflow-x: auto;
-    
-    table {
-      width: 100%;
-    }
-  }
 `;
 
 export const DashboardPage = () => {
@@ -81,14 +54,17 @@ export const DashboardPage = () => {
   }
 
   useEffect(() => {
+    document.title = NAME + ' - Dashboard';
+
     if (!sessionStorage.getItem('token')) window.location.href = '/login';
-    else getUser();
-  }, []);
+    else if (!user) getUser();
+  });
 
   if (!user) return null;
 
   return (
     <PageStyle theme={theme}>
+      {user.admin && <AdminPage user={user} />}
       <h1 style={{ textAlign: 'center' }}>Affiliate Dashboard</h1>
 
       <Box style={{ padding: '2rem' }} flexDirection="column" spacing="1.2rem">
@@ -101,33 +77,8 @@ export const DashboardPage = () => {
           <p>Total Referrals: <strong>{user.referrals.length}</strong></p>
           <p>Total Earned: <strong>${user.referrals.reduce((acc: number, referral: any) => acc + referral.amount, 0).toFixed(2)}</strong></p>
         </Box>
-
-        <div className="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Paid Out</th>
-                <th>Username</th>
-                <th>Earned</th>
-              </tr>
-            </thead>
-            <tbody>
-              {user.referrals.map((referral: any) => (
-                <tr>
-                  <td>{new Date(referral.date).toLocaleDateString()}</td>
-                  <td>{referral.paidOut ? (
-                    <Icon icon={IconEnum.checkmark} color={theme.colors.success[0]} />
-                  ) : (
-                    <Icon icon={IconEnum.x} color={theme.colors.danger[0]} />
-                  )}</td>
-                  <td>{referral.username}</td>
-                  <td>${referral.amount.toFixed(2)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        
+        <ReferralList user={user} />
       </Box>
 
       <Box style={{ padding: '2rem' }} flexDirection="column" spacing="1.2rem">
@@ -151,7 +102,7 @@ export const DashboardPage = () => {
       </Box>
 
 
-      <Box flexDirection="column" className="background-primary" style={{ padding: '2rem' }}>
+      <Box flexDirection="column" style={{ padding: '2rem', backgroundColor: theme.colors.background[1] }}>
         <h1>Referral Link</h1>
         <p>Share this link to earn money!</p>
         <code>{window.location.origin}/?r={user.affiliateCode}</code>

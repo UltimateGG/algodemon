@@ -8,8 +8,9 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const User = require('./User');
+const { auth, adminAuth } = require('./auth');
 
-const PORT = 81;
+const PORT = 80;
 const WEBHOOK_URL = 'https://discord.com/api/webhooks/1020133358031880223/4hNJY-YghVMm99fr6rncYvtd8As32CUw39caWhxS-6HDNtlASeEiiyL2t_yiXptLfLkz';
 const DEVELOPMENT = process.env.NODE_ENV === 'DEVELOPMENT';
 const PRICE = 149.99;
@@ -189,19 +190,8 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-app.get('/api/user', async (req, res) => {
-  try {
-    const token = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
-
-    if (!user) return res.status(400).json({ message: 'Invalid token' });
-
-    user.password = undefined;
-    res.status(200).json(user);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+app.get('/api/user', auth, async (req, res) => {
+  res.status(200).json(req.user);
 });
 
 app.post('/api/affiliate', async (req, res) => {
@@ -216,7 +206,7 @@ app.post('/api/affiliate', async (req, res) => {
     request.post(WEBHOOK_URL, {
       json: {
         embeds: [{
-          title: 'Affiliate',
+          title: 'Affiliate Sign Up',
           color: 0x13d32f,
           fields: [
             {
@@ -239,6 +229,7 @@ app.post('/api/affiliate', async (req, res) => {
   }
 });
 
+app.use('/api/admin', auth, adminAuth, require('./admin'));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend/build/index.html'));
