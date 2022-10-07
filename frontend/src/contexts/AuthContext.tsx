@@ -5,6 +5,7 @@ import { User } from '../api/types';
 
 export interface AuthContextProps {
   user?: User;
+  login: () => Promise<void>;
   users: User[];
   loadUsers: () => void;
   loading: boolean;
@@ -12,6 +13,7 @@ export interface AuthContextProps {
 }
 export const AuthContext = React.createContext<AuthContextProps>({
   user: undefined,
+  login: () => Promise.resolve(),
   users: [],
   loadUsers: () => {},
   loading: false,
@@ -24,12 +26,22 @@ export const AuthProvider = ({ children }: any) => {
   const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
-    if (user) return;
-    apiGet('affiliates/user', true).then(res => {
-      if (res.error || res.status === 401) return setUser(undefined);
-      setUser(res.data);
-    });
+    if (!user) login();
   });
+
+  const login = () => {
+    return new Promise<void>(async (resolve, reject) => {
+      const res = await apiGet('affiliates/user', true);
+      if (res.error || res.status === 401) {
+        setUser(undefined);
+        resolve();
+        return;
+      }
+
+      setUser(res.data);
+      resolve();
+    });
+  }
 
   const loadUsers = () => {
     if (!user || !user.admin) return;
@@ -46,7 +58,7 @@ export const AuthProvider = ({ children }: any) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, users, loadUsers, loading, logout }}>
+    <AuthContext.Provider value={{ user, login, users, loadUsers, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );

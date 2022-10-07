@@ -34,7 +34,7 @@ const PageStyle = styled.div.attrs((props: any) => props)`
 
 export const AffiliatePage = () => {
   const { theme } = useContext(ThemeContext);
-  const { user } = useAuth();
+  const { user, login } = useAuth();
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const EARN = ((PRICE * 0.2) * (AFFILIATE_PERCENT / 100.0)).toFixed(2);
@@ -69,9 +69,10 @@ export const AffiliatePage = () => {
     }
 
     setLoading(true);
-    apiPost('affiliates/register', { email, password }).then(res => {
+    apiPost('affiliates/register', { email, password }).then(async res => {
       if (res.error) return setError(res.error);
       sessionStorage.setItem('token', res.data.token);
+      await login();
       window.location.href = '#/dashboard';
     }).finally(() => setLoading(false));
   }

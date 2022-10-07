@@ -4,6 +4,7 @@ import { User } from '../../api/types';
 import { useNotifications } from '../../contexts/NotificationContext';
 import ReferralList from '../../components/ReferralList';
 import { Box, Button, Checkbox, Icon, IconEnum, Modal, TextField, Theme } from '../../Jet';
+import { useAuth } from '../../contexts/AuthContext';
 
 
 export interface EditUserFormProps {
@@ -18,6 +19,7 @@ export const EditUserForm = ({ onClose, user, theme }: EditUserFormProps) => {
   const [isAdmin, setIsAdmin] = React.useState(user.admin);
   const [showConfirm, setShowConfirm] = React.useState(false);
   const { addNotification } = useNotifications();
+  const { loadUsers } = useAuth();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,6 +51,7 @@ export const EditUserForm = ({ onClose, user, theme }: EditUserFormProps) => {
     apiPost('admin/delete', { id: user._id }, true).then(res => {
       if (res.error) return addNotification(res.error);
       addNotification({ text: 'User deleted', variant: 'success' });
+      loadUsers();
       onClose();
     });
   }

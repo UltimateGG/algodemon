@@ -43,12 +43,16 @@ router.post('/register', asyncHandler(async (req, res) => {
   allAffiliateCodes = allAffiliateCodes.map(user => user.affiliateCode).filter(code => code);
 
   // Generate affiliate code
-  let affiliateCode = email.substring(0, 3);
-  if (allAffiliateCodes.includes(affiliateCode)) {
-    for (let i = 0; i < 10; i++) {
-      affiliateCode = email.substring(0, 3) + i;
-      if (!allAffiliateCodes.includes(affiliateCode)) break;
+  let affiliateCode = '';
+  for (let i = 0; i < 20; i++) {
+    affiliateCode = '';
+
+    for (let j = 0; j < 3; j++) {
+      const random = Math.floor(Math.random() * 36);
+      affiliateCode += random.toString(36);
     }
+
+    if (!allAffiliateCodes.includes(affiliateCode)) break;
   }
 
   if (allAffiliateCodes.includes(affiliateCode)) throw new Error('Could not generate affiliate code');
