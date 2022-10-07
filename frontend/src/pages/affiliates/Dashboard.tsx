@@ -56,7 +56,7 @@ export const DashboardPage = () => {
   useEffect(() => {
     document.title = NAME + ' - Dashboard';
 
-    if (!sessionStorage.getItem('token')) window.location.href = '/login';
+    if (!sessionStorage.getItem('token')) window.location.href = '#/login';
     else if (!user) getUser();
   });
 
@@ -91,13 +91,13 @@ export const DashboardPage = () => {
         
           <p><a onClick={() => { // eslint-disable-line
             sessionStorage.removeItem('token');
-            window.location.href = '/';
+            window.location.href = '#/';
           }}>Logout</a></p>
         </Box>
 
         <Box flexDirection="column" >
           <h2>Payment Info</h2>
-          <p>You will be paid {AFFILIATE_PERCENT}% from every purchase made using your referral code. Payments are sent to your PayPal account using the email listed on this page. You should receive payments within a week of referral. If you have any issues, please feel free to <a href="/contact">contact us</a>.</p>
+          <p>You will be paid {AFFILIATE_PERCENT}% from every purchase made using your referral code. Payments are sent to your PayPal account using the email listed on this page. You should receive payments within a week of referral. If you have any issues, please feel free to <a href="#/contact">contact us</a>.</p>
         </Box>
       </Box>
 

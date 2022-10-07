@@ -7,8 +7,13 @@ const { sendDiscordMessage } = require('../utils');
 
 
 router.get('/', asyncHandler(async (req, res) => {
-  const affiliates = await User.find({ affiliateCode: { $exists: true } });
-  res.status(200).json(affiliates.map(a => a.affiliateCode));
+  const code = req.query.code;
+  if (!code) throw new Error('Invalid code');
+
+  const user = await User.findOne({ affiliateCode: code });
+  if (!user) throw new Error('Invalid code');
+
+  res.status(200).json({ message: 'Valid code' });
 }));
 
 router.post('/login', asyncHandler(async (req, res) => {

@@ -41,6 +41,11 @@ const PageStyle = styled.div.attrs((props: any) => props)`
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .info-section {
+    padding: 4rem 6rem;
+    text-align: center;
+  }
+
   h4 {
     text-align: left;
   }
@@ -79,7 +84,7 @@ const PageStyle = styled.div.attrs((props: any) => props)`
 
 export const PricingPage = () => {
   const { theme } = useContext(ThemeContext);
-  const [showModal, setShowModal] = React.useState(false);
+  const [showCheckoutModal, setShowCheckoutModal] = React.useState(false);
   const [textField, setTextField] = React.useState('');
   const [affiliateCode, setAffiliateCode] = React.useState<string | null>(null);
   const [currentPrice, setCurrentPrice] = React.useState(PRICE + '');
@@ -97,7 +102,7 @@ export const PricingPage = () => {
   }, [setAffiliateCode]);
 
   const handleSetCode = async (code: string) => {
-    const valid = await axios.get('/api/affiliates');
+    const valid = await axios.get(`/api/affiliates/?code=${code}`);
 
     if (!valid.data.includes(code)) {
       alert('Invalid affiliate code');
@@ -111,7 +116,7 @@ export const PricingPage = () => {
 
   return (
     <PageStyle theme={theme}>
-      <Box className="info-section background-primary" flexDirection="column" alignItems="center" style={{ padding: '4rem 6rem', paddingBottom: '12rem', textAlign: 'center' }}>
+      <Box className="info-section background-primary" flexDirection="column" alignItems="center" style={{ paddingBottom: '12rem' }}>
         <h5 className="pretitle">Pricing</h5>
         <h1>Get Access</h1>
         <p style={{ maxWidth: '25rem', marginTop: '1.6rem' }}>Purchase life-time access to our value packed trading tool that will help you simplify your charts and gain an edge in the markets for just a one time payment.</p>
@@ -157,12 +162,12 @@ export const PricingPage = () => {
               <p>🟣 24/7 Support</p>
             </div>
 
-            <Button block large glowing style={{ fontSize: '1.4rem', marginTop: '2rem', marginBottom: 0 }} onClick={() => setShowModal(true)}>Get Access</Button>
+            <Button block large glowing style={{ fontSize: '1.4rem', marginTop: '2rem', marginBottom: 0 }} onClick={() => setShowCheckoutModal(true)}>Get Access</Button>
           </div>
         </Box>
       </Box>
 
-      <Box className="info-section" flexDirection="column" alignItems="center" style={{ backgroundColor: theme.colors.background[1], padding: '4rem 6rem', paddingBottom: '6rem', textAlign: 'center' }}>
+      <Box className="info-section" flexDirection="column" alignItems="center" style={{ backgroundColor: theme.colors.background[1], paddingBottom: '6rem' }}>
         <h5 className="pretitle">Top Reviews</h5>
         <h1 className="section-header" style={{ marginBottom: '4rem' }}>See what our customers say</h1>
 
@@ -201,7 +206,7 @@ export const PricingPage = () => {
         </Box>
       </Box>
 
-      <Box className="info-section faq" alignItems="center" justifyContent='space-around' style={{ padding: '4rem 6rem', paddingBottom: '6rem', textAlign: 'center' }}>
+      <Box className="info-section faq" alignItems="center" justifyContent='space-around' style={{ paddingBottom: '6rem' }}>
         <h1 className="section-header" style={{ textAlign: 'left' }}>Frequently Asked Questions</h1>
 
         <Box flexDirection="column" spacing="2rem">
@@ -210,7 +215,7 @@ export const PricingPage = () => {
           </FAQ>
 
           <FAQ title="How do I setup the algorithm?">
-            Its very simple to setup/use! Follow the tutorial <a href="/tutorial">here</a>.
+            Its very simple to setup/use! Follow the tutorial <a href="#/tutorial">here</a>.
           </FAQ>
 
           <FAQ title="Does it work for the free version of Tradingview?">
@@ -218,16 +223,16 @@ export const PricingPage = () => {
           </FAQ>
 
           <FAQ title={`How can I contact the ${NAME} team?`}>
-            We offer 24/7 support, just <a href="contact">send us a message</a>!
+            We offer 24/7 support, just <a href="#/contact">send us a message</a>!
           </FAQ>
         </Box>
       </Box>
 
 
-      <Modal open={showModal} onClose={() => setShowModal(false)} title={'Purchase ' + NAME}>
+      <Modal open={showCheckoutModal} onClose={() => setShowCheckoutModal(false)} title={'Purchase ' + NAME}>
         <CheckoutForm
           price={Number(currentPrice)}
-          onSuccessfulCheckout={() => window.location.href = '/success'}
+          onSuccessfulCheckout={() => window.location.href = '#/success'}
         />
       </Modal>
     </PageStyle>

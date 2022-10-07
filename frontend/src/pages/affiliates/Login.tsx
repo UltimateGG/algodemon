@@ -41,7 +41,7 @@ export const LoginPage = () => {
       else {
         res.json().then(json => {
           sessionStorage.setItem('token', json.token);
-          window.location.href = '/dashboard';
+          window.location.href = '#/dashboard';
         });
       }
     }).finally(() => {
@@ -50,7 +50,7 @@ export const LoginPage = () => {
   }
 
   useEffect(() => {
-    if (sessionStorage.getItem('token')) window.location.href = '/dashboard';
+    if (sessionStorage.getItem('token')) window.location.href = '#/dashboard';
   }, []);
 
   return (
@@ -76,7 +76,7 @@ export const LoginPage = () => {
             {loading && <Progress indeterminate />}
           </form>
 
-          <small style={{ float: 'right', width: '100%', marginTop: '1rem' }}>Want to become an affiliate? <a href="/affiliates">Register</a></small>
+          <small style={{ float: 'right', width: '100%', marginTop: '1rem' }}>Want to become an affiliate? <a href="#/affiliates">Register</a></small>
         </Box>
       </Paper>
     </PageStyle>

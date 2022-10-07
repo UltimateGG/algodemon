@@ -108,10 +108,10 @@ const Navbar = () => {
       <NavbarStyle theme={theme}>
         <MenuButtonStyle className="menu-button" theme={theme} icon={IconEnum.menu} onClick={() => setDrawerOpen(true)} />
         <Box alignItems="center" justifyContent="center" spacing="2rem">
-          <a className="logo" href="/"><img src="/img/logo.png" alt={NAME} style={{ maxHeight: '70px' }} /></a>
+          <a className="logo" href="#/"><img src="/img/logo.png" alt={NAME} style={{ maxHeight: '70px' }} /></a>
           <Box className="nav-links">
             {links.map(link => (
-              <NavbarLinkStyle key={link.href} href={link.href} active={location.pathname === link.href} theme={theme}>
+              <NavbarLinkStyle key={link.href} href={'#' + link.href} active={location.pathname === link.href} theme={theme}>
                 {link.label}
               </NavbarLinkStyle>
             ))}
@@ -120,25 +120,25 @@ const Navbar = () => {
 
         {sessionStorage.getItem('token') ? (
           <Box spacing="1rem">
-            <Button className="access-btn" onClick={() => window.location.href = '/dashboard'}>Dashboard</Button>
+            <Button className="access-btn" onClick={() => window.location.href = '#/dashboard'}>Dashboard</Button>
             <Button className="access-btn" variant="outlined" onClick={() => {
               sessionStorage.removeItem('token');
-              window.location.href = '/';
+              window.location.href = '#/';
             }}>Logout</Button>
           </Box>
         ) : (
-        <Button className="access-btn" onClick={() => window.location.href = '/pricing'}>Get Access</Button>
+        <Button className="access-btn" onClick={() => window.location.href = '#/pricing'}>Get Access</Button>
         )}
       </NavbarStyle>
 
       <DrawerStyle open={drawerOpen} onClose={() => setDrawerOpen(false)} theme={theme}>
         {links.map(link => (
-          <NavbarLinkStyle key={link.href} href={link.href} active={location.pathname === link.href} theme={theme}>
+          <NavbarLinkStyle key={link.href} href={'#' + link.href} active={location.pathname === link.href} theme={theme}>
             {link.label}
           </NavbarLinkStyle>
         ))}
         {sessionStorage.getItem('token') && (
-          <NavbarLinkStyle href="/dashboard" active={location.pathname === '/dashboard'} theme={theme}>Dashboard</NavbarLinkStyle>
+          <NavbarLinkStyle href="#/dashboard" active={location.pathname === '/dashboard'} theme={theme}>Dashboard</NavbarLinkStyle>
         )}
       </DrawerStyle>
     </>

@@ -20,7 +20,7 @@ export const AdminPage = ({ user }: any) => {
     document.title = NAME + ' - Admin Panel';
 
     if (!user) {
-      window.location.href = '/login';
+      window.location.href = '#/login';
       return;
     }
 
@@ -43,7 +43,7 @@ export const AdminPage = ({ user }: any) => {
     if (!users) return [];
 
     return users.filter((user: any) => {
-      return user.affiliateCode.toLowerCase().includes(searchFilter.toLowerCase()) || user.email.toLowerCase().includes(searchFilter.toLowerCase()) || user._id.toLowerCase().includes(searchFilter.toLowerCase());
+      return user.affiliateCode?.toLowerCase().includes(searchFilter.toLowerCase()) || user.email.toLowerCase().includes(searchFilter.toLowerCase()) || user._id.toLowerCase().includes(searchFilter.toLowerCase());
     });
   }
 
@@ -99,7 +99,6 @@ export const AdminPage = ({ user }: any) => {
           <table>
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Email</th>
                 <th>Affiliate Code</th>
                 <th>Referrals</th>
@@ -109,13 +108,10 @@ export const AdminPage = ({ user }: any) => {
             <tbody>
               {getFilteredUsers().map((muser: any) => (
                 <tr key={muser._id}>
-                  {muser._id === user._id ? (
-                    <td><u>{muser._id}</u></td>
-                  ) : (<td>{muser._id}</td>)}
                   <td>{muser.email}</td>
                   <td>{muser.affiliateCode}</td>
                   <td>{muser.referrals.length}</td>
-                  <td><a onClick={() => setViewingUser(muser)}>View</a></td> {/* eslint-disable-line */}
+                  <td><a onClick={() => setViewingUser(muser)}>View</a></td>{/* eslint-disable-line */}
                 </tr>
               ))}
             </tbody>
@@ -144,7 +140,7 @@ export const AdminPage = ({ user }: any) => {
                 <td>{up.user.email}</td>
                 <td>{up.user.affiliateCode}</td>
                 <td>${(up.referral.amount).toFixed(2)}</td>
-                <td><a onClick={() => handlePay(up.user._id, up.referral.username)}>Pay</a></td> {/* eslint-disable-line */}
+                <td><a onClick={() => handlePay(up.user._id, up.referral.username)}>Pay</a></td>{/* eslint-disable-line */}
               </tr>
             ))}
           </tbody>

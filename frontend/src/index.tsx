@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import JetDesign from './Jet/theme/JetDesign';
 import Navbar from './components/Navbar';
@@ -17,6 +17,7 @@ import SuccessPage from './pages/SuccessPage';
 import AffiliatePage from './pages/affiliates/AffiliatePage';
 import LoginPage from './pages/affiliates/Login';
 import DashboardPage from './pages/affiliates/Dashboard';
+import ScrollToTop from './components/ScrollToTop';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -26,26 +27,28 @@ root.render(
   <React.StrictMode>
     <JetDesign>
       <Elements stripe={stripePromise}>
-        <BrowserRouter>
+        <HashRouter>
+        <ScrollToTop>
           <Navbar />
 
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/pricing" element={<PricingPage />} />
-            <Route path="/success" element={<SuccessPage />} />
-            <Route path="/tutorial" element={<TutorialPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/affiliates" element={<AffiliatePage />} />
-            <Route path="/tos" element={<TOSPage />} />
+            <Route path="pricing" element={<PricingPage />} />
+            <Route path="success" element={<SuccessPage />} />
+            <Route path="tutorial" element={<TutorialPage />} />
+            <Route path="contact" element={<ContactPage />} />
+            <Route path="affiliates" element={<AffiliatePage />} />
+            <Route path="tos" element={<TOSPage />} />
 
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            
+            <Route path="login" element={<LoginPage />} />
+            <Route path="dashboard" element={<DashboardPage />} />
+
             <Route path="*" element={<Page404 />} />
           </Routes>
 
           <Footer />
-        </BrowserRouter>
+        </ScrollToTop>
+        </HashRouter>
       </Elements>
     </JetDesign>
   </React.StrictMode>

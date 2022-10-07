@@ -102,13 +102,13 @@ const ContactPage = () => {
         <Box flexDirection="column" justifyContent="center" alignItems="center">
           <h1 style={{ color: theme.colors.danger[0], fontSize: '3rem' }}><Icon icon={IconEnum.error} size={36} color={theme.colors.danger[0]} /> Error</h1>
           <p>{error}</p>
-          <Button onClick={() => window.location.href = '/'}>Home</Button>
+          <Button onClick={() => window.location.href = '#/'}>Home</Button>
       </Box>
       ) : (
         <Box flexDirection="column" justifyContent="center" alignItems="center">
           <h1>Thank you for contacting us!</h1>
           <p>We will get back to you as soon as possible.</p>
-          <Button onClick={() => window.location.href = '/tutorial'}>Tutorial</Button>
+          <Button onClick={() => window.location.href = '#/tutorial'}>Tutorial</Button>
         </Box>
       ) : isSubmitting ? <Box flexDirection="column" justifyContent="center" alignItems="center">
         Submitting...

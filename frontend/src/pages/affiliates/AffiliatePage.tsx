@@ -68,7 +68,7 @@ export const AffiliatePage = () => {
     setLoading(true);
     axios.post('/api/affiliates/register', { email, password }).then(res => {
       if (res.status === 200)
-        window.location.href = '/login';
+        window.location.href = '#/login';
       else
         setError(res.data.message);
     }).catch(e => {
@@ -83,8 +83,11 @@ export const AffiliatePage = () => {
           <h1 style={{ fontSize: '6rem' }}>Earn ${EARN}</h1>
           <h4>Everytime someone clicks your link.</h4>
 
-          <Button style={{ maxWidth: '50%' }} block onClick={() => window.location.href = '#start'}>Get Started</Button>
-          <Button style={{ maxWidth: '50%' }} block variant="outlined" onClick={() => window.location.href = '/login'}>Affiliate Dashboard</Button>
+          <Button style={{ maxWidth: '50%' }} block onClick={() => {
+            const start = document.querySelector('#start');
+            if (start) start.scrollIntoView({ behavior: 'smooth' });
+          }}>Get Started</Button>
+          <Button style={{ maxWidth: '50%' }} block variant="outlined" onClick={() => window.location.href = '#/login'}>Affiliate Dashboard</Button>
         </Box>
       </HeaderStyle>
     

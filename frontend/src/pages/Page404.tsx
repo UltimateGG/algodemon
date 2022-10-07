@@ -17,7 +17,7 @@ export const Page404 = () => {
         <Box className="header-box" flexDirection="column" justifyContent="center" alignItems="center">
           <h1 style={{ fontSize: '6rem' }}>404</h1>
           <h4>Sorry, this page could not be found.</h4>
-          <Button style={{ maxWidth: '50%' }} block variant='outlined' onClick={() => window.location.href = '/'}>Home</Button>
+          <Button style={{ maxWidth: '50%' }} block variant='outlined' onClick={() => window.location.href = '#/'}>Home</Button>
         </Box>
       </HeaderStyle>
     </div>

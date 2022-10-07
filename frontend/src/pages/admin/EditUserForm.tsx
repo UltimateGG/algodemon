@@ -45,7 +45,7 @@ export const EditUserForm = ({ onClose, user }: EditUserFormProps) => {
         alert(data.message);
       } else {
         alert('User edited!');
-        window.location.href = '/dashboard';
+        window.location.href = '#/dashboard';
       }
     });
   }
@@ -65,7 +65,7 @@ export const EditUserForm = ({ onClose, user }: EditUserFormProps) => {
         alert(data.message);
       } else {
         alert('User deleted!');
-        window.location.href = '/dashboard';
+        window.location.href = '#/dashboard';
       }
     });
   }

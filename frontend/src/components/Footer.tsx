@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { AFFILIATE_PERCENT, NAME, PRICE } from '../globals';
 import { Box, Button, Divider, ThemeContext } from '../Jet';
@@ -65,21 +66,21 @@ const CopyrightStyle = styled(Box)`
 
 const Footer = () => {
   const { theme } = useContext(ThemeContext);
-  const location = typeof window !== 'undefined' ? window.location : null;
+  const location = useLocation();
 
   return (
     <WrapperStyle theme={theme}>
-      {location && location.pathname !== '/affiliates' && location.pathname !== '/dashboard' && (
+      {location.pathname !== '/affiliates' && location.pathname !== '/dashboard' && (
         <BannerStyle justifyContent="center" alignItems="center" style={{ backgroundColor: theme.colors.background[1], marginBottom: 0 }} theme={theme}>
           <div>
             <h1>Become an Affiliate</h1>
             <p>Earn ${((PRICE * 0.2) * (AFFILIATE_PERCENT / 100.0)).toFixed(2)} everytime someone clicks your link</p>
-            <Button color="secondary" onClick={() => window.location.href = '/affiliates'} block>Learn More</Button>
+            <Button color="secondary" onClick={() => window.location.href = '#/affiliates'} block>Learn More</Button>
           </div>
         </BannerStyle>
       )}
 
-      {location && location.pathname !== '/dashboard' && (
+      {location.pathname !== '/dashboard' && (
         <BannerStyle justifyContent="space-around" alignItems="center" theme={theme}>
           <div>
             <h1>Get Access Today</h1>
@@ -87,7 +88,7 @@ const Footer = () => {
             <p>and up to 80% off using a referral code</p>
           </div>
           
-          <Button className="access-btn" onClick={() => window.location.href = '/pricing'} block>
+          <Button className="access-btn" onClick={() => window.location.href = '#/pricing'} block>
             <div className="text-primary">Click Here To Get Access</div>
           </Button>
         </BannerStyle>
@@ -98,14 +99,14 @@ const Footer = () => {
 
         <Box spacing="1rem">
           <Box flexDirection="column" spacing="0.6rem">
-            <a href="/">Home</a>
-            <a href="/pricing">Pricing</a>
-            <a href="/contact">Contact</a>
+            <a href="#/">Home</a>
+            <a href="#/pricing">Pricing</a>
+            <a href="#/contact">Contact</a>
           </Box>
 
           <Box flexDirection="column" spacing="0.6rem">
-            <a href="/affiliates">Affiliates</a>
-            <a href="/tos">Disclaimer / Terms</a>
+            <a href="#/affiliates">Affiliates</a>
+            <a href="#/tos">Disclaimer / Terms</a>
           </Box>
         </Box>
       </Box>

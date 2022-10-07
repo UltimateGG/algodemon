@@ -37,7 +37,8 @@ const UserSchema = new Schema({
   },
   affiliateCode: {
     type: String,
-    required: false
+    required: false,
+    unique: true,
   },
   referrals: {
     type: [ReferralSchema],

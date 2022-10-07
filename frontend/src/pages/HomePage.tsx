@@ -128,8 +128,8 @@ export const HomePage = () => {
           <p>The ultimate trading tool to help you gain an edge in the markets.</p>
 
           <Box spacing="1rem" className="action-buttons">
-            <Button className="background-primary" onClick={() => window.location.href = '/pricing'} large glowing><div style={{ color: theme.colors.text[0] }}>Get Access</div></Button>
-            <Button onClick={() => window.location.href = '/contact'} large style={{ backgroundColor: theme.colors.text[0] }}><div style={{ color: theme.colors.primary[0] }}>Contact</div></Button>
+            <Button className="background-primary" onClick={() => window.location.href = '#/pricing'} large glowing><div style={{ color: theme.colors.text[0] }}>Get Access</div></Button>
+            <Button onClick={() => window.location.href = '#/contact'} large style={{ backgroundColor: theme.colors.text[0] }}><div style={{ color: theme.colors.primary[0] }}>Contact</div></Button>
           </Box>
 
           <p>Take the complication out of trading &amp; simplify your charts with {NAME} 🚀</p>
