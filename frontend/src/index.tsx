@@ -30,30 +30,29 @@ root.render(
     <JetDesign>
       <Elements stripe={stripePromise}>
         <HashRouter>
-          <ScrollToTop>
-            <AuthProvider>
-              <NotificationProvider>
-                <Navbar />
+          <ScrollToTop />
+          <AuthProvider>
+            <NotificationProvider>
+              <Navbar />
 
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="pricing" element={<PricingPage />} />
-                  <Route path="success" element={<SuccessPage />} />
-                  <Route path="tutorial" element={<TutorialPage />} />
-                  <Route path="contact" element={<ContactPage />} />
-                  <Route path="affiliates" element={<AffiliatePage />} />
-                  <Route path="tos" element={<TOSPage />} />
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="pricing" element={<PricingPage />} />
+                <Route path="success" element={<SuccessPage />} />
+                <Route path="tutorial" element={<TutorialPage />} />
+                <Route path="contact" element={<ContactPage />} />
+                <Route path="affiliates" element={<AffiliatePage />} />
+                <Route path="tos" element={<TOSPage />} />
 
-                  <Route path="login" element={<LoginPage />} />
-                  <Route path="dashboard" element={<DashboardPage />} />
+                <Route path="login" element={<LoginPage />} />
+                <Route path="dashboard" element={<DashboardPage />} />
 
-                  <Route path="*" element={<Page404 />} />
-                </Routes>
+                <Route path="*" element={<Page404 />} />
+              </Routes>
 
-                <Footer />
-              </NotificationProvider>
-            </AuthProvider>
-          </ScrollToTop>
+              <Footer />
+            </NotificationProvider>
+          </AuthProvider>
         </HashRouter>
       </Elements>
     </JetDesign>

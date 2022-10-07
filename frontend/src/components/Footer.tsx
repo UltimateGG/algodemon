@@ -75,7 +75,10 @@ const Footer = () => {
           <div>
             <h1>Become an Affiliate</h1>
             <p>Earn ${((PRICE * 0.2) * (AFFILIATE_PERCENT / 100.0)).toFixed(2)} everytime someone clicks your link</p>
-            <Button color="secondary" onClick={() => window.location.href = '#/affiliates'} block>Learn More</Button>
+            <Button color="secondary" onClick={() => {
+              window.scrollTo(0, 0);
+              window.location.href = '#/affiliates';
+            }} block>Learn More</Button>
           </div>
         </BannerStyle>
       )}

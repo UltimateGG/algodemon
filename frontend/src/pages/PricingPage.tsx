@@ -96,7 +96,7 @@ export const PricingPage = () => {
       if (res.error) {
         setCurrentPrice(PRICE + '');
         localStorage.removeItem('ref');
-        return addNotification({ text: 'Invalid referral code', variant: 'danger', position: 'bottom' });
+        return addNotification({ text: 'Invalid referral code', variant: 'danger', position: 'top' });
       }
 
       localStorage.setItem('ref', code);
@@ -141,6 +141,7 @@ export const PricingPage = () => {
               <Icon style={{ cursor: 'pointer', marginLeft: '0.2rem' }} icon={IconEnum.x} size={20} color={theme.colors.text[6]} onClick={() => {
                 localStorage.removeItem('ref');
                 setAffiliateCode(null);
+                setCurrentPrice(PRICE + '');
               }} />
             </p>
           ) : (
