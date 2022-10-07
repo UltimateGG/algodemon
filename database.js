@@ -21,7 +21,6 @@ db.on('error', (e) => {
   process.exit(1);
 });
 
-
 module.exports = {
   connectToDatabase
 }
