@@ -13,7 +13,8 @@ router.post('/edit', asyncHandler(async (req, res) => {
   const { id, email, password, affiliateCode, admin } = req.body;
   const user = await User.findById(id);
 
-  if (!user) throw new Error('User not found');
+ if (!user) throw new Error('User not found');
+ if (!email || email.length > 150 || (password && password.length > 30)) throw new Error('Invalid data');
 
   user.email = email;
   if (password) user.password = password; // Only update if password is provided
@@ -35,15 +36,13 @@ router.post('/delete', asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'User deleted' });
 }));
 
-// TODO
 router.post('/pay', asyncHandler(async (req, res) => {
   const { id, username } = req.body;
-  const user = await User.findById(id);
 
+  const user = await User.findById(id);
   if (!user) throw new Error('User not found');
 
   const referral = user.referrals.find(r => r.username === username);
-
   if (!referral) throw new Error('Referral not found');
 
   referral.paidOut = true;

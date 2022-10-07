@@ -1,11 +1,10 @@
 import { useContext, useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import axios from 'axios';
-
 import BillingDetailsFields, { countryToCode } from './BillingDetailsFields';
 import CheckoutError from './CheckoutError';
 import styled from 'styled-components';
 import { Button, Progress, TextField, ThemeContext } from '../../Jet';
+import { apiGet, apiPost } from '../../api/apiExecutor';
 
 
 const CardElementContainer = styled.div.attrs((props: any) => props)`
@@ -41,6 +40,7 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
 
   const handleFormSubmit = async (ev: any) => {
     ev.preventDefault();
+    if (isProcessing) return;
 
     const billingDetails = {
       name: ev.target.name.value,
@@ -62,8 +62,9 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
       if (!cardElement)
         throw new Error('Card element not found');
 
-      const { data } = await axios.get(`api/payment/paymentIntent?ref=${localStorage.getItem('ref')}`);
-      const { secret, id } = data;
+      const res = await apiGet(`payment/paymentIntent?ref=${localStorage.getItem('ref')}`);
+      if (res.error) throw new Error(res.error);
+      const { secret, id } = res.data;
 
       const paymentMethodReq = await stripe.createPaymentMethod({
         type: 'card',
@@ -81,13 +82,15 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
         payment_method: paymentMethodReq.paymentMethod.id
       });
 
-      if (error) {
-        setCheckoutError(error.message || 'Unknown error');
-        setIsProcessing(false);
-        return;
-      }
+      if (error) throw new Error(error.message || 'Unknown error');
 
-      await axios.post('/api/payment/verify', { paymentIntentId: id, username: ev.target.username.value, ref: localStorage.getItem('ref') });
+      const res2 = await apiPost('payment/verify', {
+        paymentIntentId: id,
+        username: ev.target.username.value,
+        ref: localStorage.getItem('ref')
+      });
+
+      if (res2.error) throw new Error(res2.error);
       onSuccessfulCheckout();
     } catch (err) {
       setCheckoutError((err as any).message);

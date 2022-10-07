@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { Box, Button, Icon, IconEnum, Progress, TextArea, TextField, ThemeContext } from '../Jet';
 import { NAME } from '../globals';
+import { apiPost } from '../api/apiExecutor';
 
 
 const ContactPageStyle = styled(Box).attrs((props: any) => props)`
@@ -73,23 +74,12 @@ const ContactPage = () => {
     setMessage('');
     setError('');
 
-    const json = {
+    apiPost('contact', {
       name,
       email,
       message
-    };
-
-    fetch('/api/contact', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(json)
     }).then(res => {
-      if (res.status !== 200)
-        res.json().then(json => setError(json.message || 'Something went wrong'));
-    }).catch(err => {
-      setError(err.response.data.message);
+      if (res.error) return setError(res.error);
     }).finally(() => {
       setIsSubmitted(true);
       setIsSubmitting(false);

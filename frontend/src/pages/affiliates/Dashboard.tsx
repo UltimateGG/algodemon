@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import ReferralList from '../../components/ReferralList';
+import { useAuth } from '../../contexts/AuthContext';
 import { AFFILIATE_PERCENT, NAME } from '../../globals';
 import { Box, ThemeContext } from '../../Jet';
 import { AdminPage } from '../admin/AdminPanel';
@@ -36,35 +37,19 @@ const PageStyle = styled.div.attrs((props: any) => props)`
 
 export const DashboardPage = () => {
   const { theme } = useContext(ThemeContext);
-  const [user, setUser] = React.useState<any>(null);
-
-  const getUser = () => {
-    fetch('/api/user', {
-      headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-      }
-    }).then(res => {
-      if (res.status !== 200) {
-        sessionStorage.removeItem('token');
-        window.location.href = '/login';
-      } else {
-        res.json().then(json => setUser(json));
-      }
-    });
-  }
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     document.title = NAME + ' - Dashboard';
 
-    if (!sessionStorage.getItem('token')) window.location.href = '#/login';
-    else if (!user) getUser();
-  });
+    if (!user) window.location.href = '#/login';
+  }, [user]);
 
   if (!user) return null;
 
   return (
     <PageStyle theme={theme}>
-      {user.admin && <AdminPage user={user} />}
+      {user.admin && <AdminPage />}
       <h1 style={{ textAlign: 'center' }}>Affiliate Dashboard</h1>
 
       <Box style={{ padding: '2rem' }} flexDirection="column" spacing="1.2rem">
@@ -89,10 +74,7 @@ export const DashboardPage = () => {
           <p>Referral Code: <strong>{user.affiliateCode}</strong></p>
           <p>Referrals: <strong>{user.referrals.length}</strong></p>
         
-          <p><a onClick={() => { // eslint-disable-line
-            sessionStorage.removeItem('token');
-            window.location.href = '#/';
-          }}>Logout</a></p>
+          <p><a onClick={logout}>Logout</a></p>{/* eslint-disable-line */}
         </Box>
 
         <Box flexDirection="column" >

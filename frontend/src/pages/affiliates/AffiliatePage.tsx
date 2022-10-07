@@ -1,9 +1,11 @@
-import axios from 'axios';
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
+import { apiPost } from '../../api/apiExecutor';
 import ReasonBlock from '../../components/ReasonBlock';
+import { useAuth } from '../../contexts/AuthContext';
 import { AFFILIATE_PERCENT, NAME, PRICE } from '../../globals';
 import { Box, Button, Icon, IconEnum, Progress, TextField, ThemeContext } from '../../Jet';
+
 
 const HeaderStyle = styled(Box)`
   height: 75vh;
@@ -32,6 +34,7 @@ const PageStyle = styled.div.attrs((props: any) => props)`
 
 export const AffiliatePage = () => {
   const { theme } = useContext(ThemeContext);
+  const { user } = useAuth();
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const EARN = ((PRICE * 0.2) * (AFFILIATE_PERCENT / 100.0)).toFixed(2);
@@ -66,13 +69,10 @@ export const AffiliatePage = () => {
     }
 
     setLoading(true);
-    axios.post('/api/affiliates/register', { email, password }).then(res => {
-      if (res.status === 200)
-        window.location.href = '#/login';
-      else
-        setError(res.data.message);
-    }).catch(e => {
-      setError(e.response.data.message);
+    apiPost('affiliates/register', { email, password }).then(res => {
+      if (res.error) return setError(res.error);
+      sessionStorage.setItem('token', res.data.token);
+      window.location.href = '#/dashboard';
     }).finally(() => setLoading(false));
   }
 
@@ -83,11 +83,11 @@ export const AffiliatePage = () => {
           <h1 style={{ fontSize: '6rem' }}>Earn ${EARN}</h1>
           <h4>Everytime someone clicks your link.</h4>
 
-          <Button style={{ maxWidth: '50%' }} block onClick={() => {
+          <Button style={{ maxWidth: '50%', display: user ? 'none' : 'inline-block' }} block onClick={() => {
             const start = document.querySelector('#start');
             if (start) start.scrollIntoView({ behavior: 'smooth' });
           }}>Get Started</Button>
-          <Button style={{ maxWidth: '50%' }} block variant="outlined" onClick={() => window.location.href = '#/login'}>Affiliate Dashboard</Button>
+          <Button style={{ maxWidth: '50%' }} block variant={user ? 'filled' : 'outlined'} onClick={() => window.location.href = '#/login'}>Affiliate Dashboard</Button>
         </Box>
       </HeaderStyle>
     
@@ -117,18 +117,18 @@ export const AffiliatePage = () => {
         />
       </Box>
 
-      <Box id="start" flexDirection="column" className="container" style={{ padding: '2rem 6rem', marginTop: '4rem', paddingBottom: '2rem', backgroundColor: theme.colors.background[1] }} spacing="1rem">
+      <Box id="start" flexDirection="column" className="container" style={{ display: user ? 'none' : '', padding: '2rem 6rem', marginTop: '4rem', paddingBottom: '2rem', backgroundColor: theme.colors.background[1] }} spacing="1rem">
         <h1 style={{ textAlign: 'center' }}>Get started for <div style={{ display: 'inline' }} className="text-primary">FREE</div></h1>
 
         {error !== '' && (
-          <Box justifyContent="center" alignItems="center" style={{ color: 'red', margin: '1rem 0' }} spacing="0.2rem">
+          <Box justifyContent="center" alignItems="center" spacing="0.2rem">
             <Icon icon={IconEnum.error} size={24} color={theme.colors.danger[0]} />
             <p style={{ color: theme.colors.danger[0] }}>{error}</p>
           </Box>
         )}
 
         {loading ? (
-          <Progress circular indeterminate />
+          <Progress circular indeterminate style={{ margin: '0 auto' }} />
         ) : (
           <form style={{ margin: 'auto' }} onSubmit={handleSubmit}>
             <Box flexDirection="column" spacing="0.8rem">

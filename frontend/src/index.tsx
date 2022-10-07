@@ -18,6 +18,8 @@ import AffiliatePage from './pages/affiliates/AffiliatePage';
 import LoginPage from './pages/affiliates/Login';
 import DashboardPage from './pages/affiliates/Dashboard';
 import ScrollToTop from './components/ScrollToTop';
+import { NotificationProvider } from './contexts/NotificationContext';
+import { AuthProvider } from './contexts/AuthContext';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -28,26 +30,30 @@ root.render(
     <JetDesign>
       <Elements stripe={stripePromise}>
         <HashRouter>
-        <ScrollToTop>
-          <Navbar />
+          <ScrollToTop>
+            <AuthProvider>
+              <NotificationProvider>
+                <Navbar />
 
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="pricing" element={<PricingPage />} />
-            <Route path="success" element={<SuccessPage />} />
-            <Route path="tutorial" element={<TutorialPage />} />
-            <Route path="contact" element={<ContactPage />} />
-            <Route path="affiliates" element={<AffiliatePage />} />
-            <Route path="tos" element={<TOSPage />} />
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="pricing" element={<PricingPage />} />
+                  <Route path="success" element={<SuccessPage />} />
+                  <Route path="tutorial" element={<TutorialPage />} />
+                  <Route path="contact" element={<ContactPage />} />
+                  <Route path="affiliates" element={<AffiliatePage />} />
+                  <Route path="tos" element={<TOSPage />} />
 
-            <Route path="login" element={<LoginPage />} />
-            <Route path="dashboard" element={<DashboardPage />} />
+                  <Route path="login" element={<LoginPage />} />
+                  <Route path="dashboard" element={<DashboardPage />} />
 
-            <Route path="*" element={<Page404 />} />
-          </Routes>
+                  <Route path="*" element={<Page404 />} />
+                </Routes>
 
-          <Footer />
-        </ScrollToTop>
+                <Footer />
+              </NotificationProvider>
+            </AuthProvider>
+          </ScrollToTop>
         </HashRouter>
       </Elements>
     </JetDesign>

@@ -1,11 +1,12 @@
-import axios from 'axios';
-import React, { useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import CheckoutForm from '../components/checkout/CheckoutForm';
 import FAQ from '../components/FAQ';
+import { useNotifications } from '../contexts/NotificationContext';
 import Review from '../components/Review';
 import { NAME, PRICE } from '../globals';
 import { Box, Button, Divider, Icon, IconEnum, Modal, TextField, ThemeContext } from '../Jet';
+import { apiGet } from '../api/apiExecutor';
 
 
 const PageStyle = styled.div.attrs((props: any) => props)`
@@ -88,31 +89,28 @@ export const PricingPage = () => {
   const [textField, setTextField] = React.useState('');
   const [affiliateCode, setAffiliateCode] = React.useState<string | null>(null);
   const [currentPrice, setCurrentPrice] = React.useState(PRICE + '');
+  const { addNotification } = useNotifications();
+
+  const handleSetCode = useCallback((code: string) => {
+    apiGet('affiliates?code=' + code).then(res => {
+      if (res.error) {
+        setCurrentPrice(PRICE + '');
+        localStorage.removeItem('ref');
+        return addNotification({ text: 'Invalid referral code', variant: 'danger', position: 'bottom' });
+      }
+
+      localStorage.setItem('ref', code);
+      setAffiliateCode(code);
+      setCurrentPrice((PRICE * 0.2).toFixed(2));
+    });
+  }, [addNotification]);
 
   useEffect(() => {
     document.title = `${NAME} - Purchase`;
 
     const ref = localStorage.getItem('ref');
-    setAffiliateCode(ref);
-
-    if (ref) // 80% off
-      setCurrentPrice((PRICE * 0.2).toFixed(2));
-    else
-      setCurrentPrice(PRICE + '');
-  }, [setAffiliateCode]);
-
-  const handleSetCode = async (code: string) => {
-    const valid = await axios.get(`/api/affiliates/?code=${code}`);
-
-    if (!valid.data.includes(code)) {
-      alert('Invalid affiliate code');
-      return;
-    }
-
-    localStorage.setItem('ref', code);
-    setAffiliateCode(code);
-    setTextField('');
-  }
+    if (ref) handleSetCode(ref);
+  }, [handleSetCode]);
 
   return (
     <PageStyle theme={theme}>

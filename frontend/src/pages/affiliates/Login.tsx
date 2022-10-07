@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { apiPost } from '../../api/apiExecutor';
+import { useAuth } from '../../contexts/AuthContext';
 import { Box, Button, Icon, IconEnum, Paper, Progress, TextField, themeDefault } from '../../Jet';
 
 
@@ -18,6 +20,11 @@ const PageStyle = styled(Box).attrs((props: any) => props)`
 export const LoginPage = () => {
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
+  const { user } = useAuth();
+  
+  useEffect(() => {
+    if (user) window.location.href = '#/dashboard';
+  }, [user]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,29 +36,12 @@ export const LoginPage = () => {
     const email = (e.target as any).email.value;
     const password = (e.target as any).password.value;
 
-    fetch('/api/affiliates/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email, password })
-    }).then(res => {
-      if (res.status !== 200)
-        res.json().then(json => setError(json.message || 'Something went wrong'));
-      else {
-        res.json().then(json => {
-          sessionStorage.setItem('token', json.token);
-          window.location.href = '#/dashboard';
-        });
-      }
-    }).finally(() => {
-      setLoading(false);
-    });
+    apiPost('affiliates/login', { email, password }).then(res => {
+      if (res.error) return setError(res.error);
+      sessionStorage.setItem('token', res.data.token);
+      window.location.reload();
+    }).finally(() => setLoading(false));
   }
-
-  useEffect(() => {
-    if (sessionStorage.getItem('token')) window.location.href = '#/dashboard';
-  }, []);
 
   return (
     <PageStyle flexDirection="column" justifyContent="center" alignItems="center" spacing="1rem" style={{ margin: '8rem 0', padding: '0 1rem' }}>

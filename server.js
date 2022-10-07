@@ -45,11 +45,6 @@ app.post('/api/contact', asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'Sent' });
 }));
 
-// TODO
-app.get('/api/user', auth, async (req, res) => {
-  res.status(200).json(req.user);
-});
-
 // Routes
 app.use('/api/payment', require('./routes/payment'));
 app.use('/api/affiliates', require('./routes/affiliates'));

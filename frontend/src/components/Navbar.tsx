@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAuth } from '../contexts/AuthContext';
 import { NAME } from '../globals';
 import { Box, Drawer, Icon, IconEnum, Navbar as JNavbar, ThemeContext, Button } from '../Jet';
 
@@ -102,6 +103,7 @@ const Navbar = () => {
   const { theme } = useContext(ThemeContext);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const location = useLocation();
+  const { logout } = useAuth();
 
   return (
     <>
@@ -121,10 +123,7 @@ const Navbar = () => {
         {sessionStorage.getItem('token') ? (
           <Box spacing="1rem">
             <Button className="access-btn" onClick={() => window.location.href = '#/dashboard'}>Dashboard</Button>
-            <Button className="access-btn" variant="outlined" onClick={() => {
-              sessionStorage.removeItem('token');
-              window.location.href = '#/';
-            }}>Logout</Button>
+            <Button className="access-btn" variant="outlined" onClick={logout}>Logout</Button>
           </Box>
         ) : (
         <Button className="access-btn" onClick={() => window.location.href = '#/pricing'}>Get Access</Button>

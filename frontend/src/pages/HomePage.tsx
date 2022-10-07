@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import ReasonBlock from '../components/ReasonBlock';
@@ -108,12 +107,7 @@ export const HomePage = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const affiliate = urlParams.get('r');
 
-    if (affiliate) {
-      axios.get('/api/affiliates').then(valid => {
-        if (valid.data.includes(affiliate))
-          localStorage.setItem('ref', affiliate);
-      }).catch(console.error);
-    }
+    if (affiliate) localStorage.setItem('ref', affiliate);
   });
 
   return (

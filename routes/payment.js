@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const asyncHandler = require('express-async-handler');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const { sendDiscordMessage } = require('../utils');
 
 const PRICE = 149.99;
 const AFFILIATE_PERCENTAGE = 10.0; // Affiliates earn 10%

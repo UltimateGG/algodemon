@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
+import { Referral, User } from '../api/types';
 import { Icon, IconEnum, ThemeContext } from '../Jet';
 
 
-export const ReferralList = ({ user }: any) => {
+export const ReferralList = ({ user }: { user: User }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -17,7 +18,7 @@ export const ReferralList = ({ user }: any) => {
           </tr>
         </thead>
         <tbody>
-          {user.referrals.map((referral: any, index: number) => (
+          {user.referrals.map((referral: Referral, index: number) => (
             <tr key={index}>
               <td>{new Date(referral.date).toLocaleDateString()}</td>
               <td>{referral.paidOut ? (
