@@ -23,6 +23,7 @@ const Icon = (props: IconProps) => {
       width={`${size}px`}
       height={`${size}px`}
       onClick={onClick}
+      data-icon={icon}
     >
       <path d={IconMap[icon]} fill={color} />
     </svg>

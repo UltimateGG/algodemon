@@ -1,0 +1,83 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+
+const EventSchema = new Schema({
+  type: {
+    type: String,
+    enum: ['pageview', 'click', 'scroll', 'login', 'logout', 'signup', 'purchase'],
+    required: true,
+  },
+  timestamp: {
+    type: Number,
+    required: true,
+  },
+  data: {
+    type: Object,
+    required: true,
+    validate: [(val) => JSON.stringify(val).length <= 5048, 'Event data too long'],
+  },
+});
+  
+const SessionSchema = new Schema({
+  start: {
+    type: Number,
+    required: true,
+  },
+  ipAddress: {
+    type: String,
+    required: true,
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    required: false,
+    ref: 'User',
+  },
+  device: {
+    userAgent: {
+      type: String,
+      required: true,
+    },
+    screenWidth: {
+      type: Number,
+      required: true,
+    },
+    screenHeight: {
+      type: Number,
+      required: true,
+    },
+    platform: {
+      type: String,
+      required: true,
+    },
+    vendor: {
+      type: String,
+      required: true,
+    },
+    language: {
+      type: String,
+      required: true,
+    },
+    isBrave: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+  },
+  events: {
+    type: [EventSchema],
+    required: true,
+    default: [],
+    validate: [(val) => val.length <= 500, 'Maximum events reached'],
+  }
+}, { timestamps: true });
+
+SessionSchema.post('save', (error, doc, next) => {
+  if (error.name === 'ValidationError') {
+    console.error('Error saving Session schema:', error.message);
+  } else {
+    next(error);
+  }
+});
+
+module.exports = Session = mongoose.model('sessions', SessionSchema);

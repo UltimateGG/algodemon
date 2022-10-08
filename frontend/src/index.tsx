@@ -20,6 +20,7 @@ import DashboardPage from './pages/affiliates/Dashboard';
 import ScrollToTop from './components/ScrollToTop';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { AuthProvider } from './contexts/AuthContext';
+import SessionTracker from './components/SessionTracker';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -30,6 +31,7 @@ root.render(
     <JetDesign>
       <Elements stripe={stripePromise}>
         <HashRouter>
+          <SessionTracker />
           <ScrollToTop />
           <AuthProvider>
             <NotificationProvider>

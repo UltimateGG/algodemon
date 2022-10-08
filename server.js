@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const asyncHandler = require('express-async-handler');
 const { connectToDatabase } = require('./database');
 const { sendDiscordMessage } = require('./utils');
-const { auth, adminAuth } = require('./middleware/authMiddleware');
+const { auth, adminAuth, authSoft } = require('./middleware/authMiddleware');
 const { errorHandler } = require('./middleware/errorMiddleware');
 
 const PORT = 80;
@@ -49,6 +49,7 @@ app.post('/api/contact', asyncHandler(async (req, res) => {
 app.use('/api/payment', require('./routes/payment'));
 app.use('/api/affiliates', require('./routes/affiliates'));
 app.use('/api/admin', auth, adminAuth, require('./routes/admin'));
+app.use('/api/al', authSoft, require('./routes/analytics'));
 
 // Serve static react app
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'frontend/build/index.html')));

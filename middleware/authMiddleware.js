@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../User');
+const User = require('../models/User');
 
 
 const auth = async (req, res, next) => {
@@ -18,6 +18,22 @@ const auth = async (req, res, next) => {
   }
 }
 
+const authSoft = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = await User.findOne({ _id: decoded.id });
+    if (!user) return next();
+
+    user.password = undefined;
+    req.user = user;
+    next();
+  } catch (err) {
+    next();
+  }
+}
+
 const adminAuth = (req, res, next) => {
   if (req.user.admin)
     next();
@@ -27,5 +43,6 @@ const adminAuth = (req, res, next) => {
 
 module.exports = {
   auth,
+  authSoft,
   adminAuth,
 }

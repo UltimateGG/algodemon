@@ -43,6 +43,7 @@ export const EditUserForm = ({ onClose, user, theme }: EditUserFormProps) => {
     }, true).then(res => {
       if (res.error) return addNotification(res.error);
       addNotification({ text: 'User updated', variant: 'success' });
+      loadUsers();
       onClose();
     });
   }

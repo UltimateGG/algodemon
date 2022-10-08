@@ -3,7 +3,7 @@ const router = express.Router();
 const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
 const { auth } = require('../middleware/authMiddleware');
-const User = require('../User');
+const User = require('../models/User');
 const { sendDiscordMessage } = require('../utils');
 
 
