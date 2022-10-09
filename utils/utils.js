@@ -1,5 +1,6 @@
 const request = require('request');
 const WEBHOOK_URL = process.env.WEBHOOK_URL;
+const logger = require('./logging');
 
 
 const sendDiscordMessage = async (content, embed) => {
@@ -16,7 +17,7 @@ const sendDiscordMessage = async (content, embed) => {
       }
     }, (err, res, body) => {
       if (err || res.statusCode !== 204) {
-        console.error('Error sending discord message', err);
+        logger.logError('Error sending discord message', err);
         return reject('Error fulfilling your request');
       }
 

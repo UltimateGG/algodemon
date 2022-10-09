@@ -5,11 +5,12 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const asyncHandler = require('express-async-handler');
-const { connectToDatabase } = require('./database');
-const { sendDiscordMessage } = require('./utils');
+const { connectToDatabase } = require('./utils/database');
+const { sendDiscordMessage } = require('./utils/utils');
 const { auth, adminAuth, authWs } = require('./middleware/authMiddleware');
 const { errorHandler } = require('./middleware/errorMiddleware');
 const wss = require('./routes/analytics');
+const logger = require('./utils/logging');
 
 const PORT = 80;
 const server = http.createServer(app);
@@ -71,5 +72,5 @@ app.use(errorHandler);
 
 
 connectToDatabase().then(() => {
-  server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  server.listen(PORT, () => logger.logInfo(`Server running on port ${PORT}`));
 });

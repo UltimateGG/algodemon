@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
 const { auth } = require('../middleware/authMiddleware');
 const User = require('../models/User');
-const { sendDiscordMessage } = require('../utils');
+const { sendDiscordMessage } = require('../utils/utils');
 
 
 router.get('/', asyncHandler(async (req, res) => {

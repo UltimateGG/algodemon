@@ -33,10 +33,8 @@ const authWs = async (req) => {
 }
 
 const adminAuth = (req, res, next) => {
-  if (req.user.admin)
-    next();
-  else
-    res.status(401).json({ message: 'Not authorized' });
+  if (req.user.admin) next();
+  else res.status(401).json({ message: 'Not authorized' });
 }
 
 module.exports = {

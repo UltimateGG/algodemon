@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const asyncHandler = require('express-async-handler');
 const User = require('../models/User');
+const logger = require('../utils/logging');
 
 
 router.get('/users', asyncHandler(async (req, res) => {
@@ -32,7 +33,7 @@ router.post('/delete', asyncHandler(async (req, res) => {
 
   await user.delete();
   
-  console.log('Admin Deleted:', user);
+  logger.logWarn(`User ${user.email} deleted by admin ${req.user.email}`, user);
   res.status(200).json({ message: 'User deleted' });
 }));
 

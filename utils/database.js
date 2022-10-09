@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const db = mongoose.connection;
+const logger = require('./logging');
 
 
 const connectToDatabase = () => {
@@ -14,13 +15,13 @@ const connectToDatabase = () => {
   });
 }
 
-db.on('open', () => console.log('Successfully connected to database'));
+db.on('open', () => logger.logInfo('Successfully connected to database'));
 
 db.on('error', (e) => {
-  console.error('MongoDB Error:', e);
+  logger.logError('MongoDB Error:', e);
   process.exit(1);
 });
 
 module.exports = {
   connectToDatabase
-}
+};

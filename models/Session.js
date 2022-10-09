@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const ClickEvent = require('./events/ClickEvent');
 const Schema = mongoose.Schema;
+const logger = require('../utils/logging');
+const ScrollEvent = require('./events/ScrollEvent');
 
 
 const EventSchema = new Schema({
@@ -37,6 +39,10 @@ const SessionSchema = new Schema({
     required: false,
     ref: 'User',
   },
+  startUrl: {
+    type: String,
+    required: true,
+  },
   device: {
     userAgent: {
       type: String,
@@ -59,6 +65,10 @@ const SessionSchema = new Schema({
       required: true,
     },
     language: {
+      type: String,
+      required: true,
+    },
+    timezone: {
       type: String,
       required: true,
     },
@@ -88,10 +98,11 @@ const getBaseSchema = (type) => {
 }
 
 SessionSchema.path('events').discriminator('click', getBaseSchema(ClickEvent));
+SessionSchema.path('events').discriminator('scroll', getBaseSchema(ScrollEvent));
 
 SessionSchema.post('save', (error, doc, next) => {
   if (error.name === 'ValidationError') {
-    console.error('Error saving Session schema:', error.message);
+    logger.logError('Error saving Session schema:', error.message);
   } else {
     next(error);
   }

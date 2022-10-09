@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { IconEnum } from '../Jet';
 
@@ -56,6 +56,7 @@ export const SessionTracker = () => {
   const [sendQueue, setSendQueue] = useState<SessionEvent[]>([]);
 
   const addToQueue = (type: EventType, data?: Object) => {
+    console.log(type ,data);
     const builtEvent: SessionEvent = {
       type,
       timestamp: Date.now(),
@@ -64,7 +65,7 @@ export const SessionTracker = () => {
     }
 
     setSendQueue((queue) => [...queue, builtEvent]);
-  };
+  }
 
   const processQueue = async () => {
     if (sendQueue.length === 0 || !ws || ws.readyState !== WebSocket.OPEN) return;
@@ -81,8 +82,7 @@ export const SessionTracker = () => {
     const keys = Object.keys(IconEnum);
     keys.splice(0, keys.length / 2);
 
-    console.log('CLICK')
-    addToQueue(EventType.CLICK, {
+    const event = {
       target: {
         isButton: target.closest('button') !== null,
         tagName: icon ? 'SVG' : target.tagName,
@@ -93,13 +93,39 @@ export const SessionTracker = () => {
       },
       x: e.clientX,
       y: e.clientY,
+    };
+
+    event.target.text = event.target.text === '' ? '[none]' : event.target.text;
+    addToQueue(EventType.CLICK, event);
+  }
+  
+  const scrollState = {
+    start: 0,
+    startY: 0,
+    end: 0,
+    endY: 0,
+    scrolling: false
+  };
+  const onScroll = () => {
+    if (scrollState.scrolling) return scrollState.end = Date.now();
+    scrollState.scrolling = true;
+    scrollState.startY = window.scrollY;
+    scrollState.start = Date.now();
+  }
+
+  const onScrollEnd = () => {
+    addToQueue(EventType.SCROLL, {
+      start: scrollState.start,
+      end: scrollState.end,
+      startY: scrollState.startY,
+      endY: scrollState.endY
     });
   }
 
 
   // Queue processing loop
   useEffect(() => {
-    const interval = setInterval(processQueue, 2_000);
+    const interval = setInterval(processQueue, 1_000);
     return () => clearInterval(interval);
   });
 
@@ -107,9 +133,10 @@ export const SessionTracker = () => {
   useEffect(() => {
     if (ws) return;
     setWs(new WebSocket(`${getWSUrl('/al/c')}?t=${sessionStorage.getItem('token')}`));
-    
+
     addToQueue(EventType.START, {
       start: Date.now(),
+      startUrl: window.location.href,
       device: {
         userAgent: navigator.userAgent,
         screenWidth: window.screen.width,
@@ -117,6 +144,7 @@ export const SessionTracker = () => {
         platform: navigator.platform,
         vendor: navigator.vendor,
         language: navigator.language,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         isBrave: (navigator as any).brave ? true : false,
       }
     });
@@ -124,25 +152,24 @@ export const SessionTracker = () => {
 
   // Hooks for tracking events
   useEffect(() => {
-    window.addEventListener('click', onClick);
-    // window.addEventListener('scroll', onScroll);
+    window.addEventListener('click', onClick, true);
+    window.addEventListener('scroll', onScroll);
 
-    // const interval = setInterval(() => {
-    //   if (scrollState.scrolling && Date.now() - scrollState.end > 1000) {
-    //     scrollState.scrolling = false;
-    //     scrollState.endY = window.scrollY;
+    const interval = setInterval(() => {
+      if (scrollState.scrolling && Date.now() - scrollState.end > 1000) {
+        scrollState.scrolling = false;
+        scrollState.endY = window.scrollY;
 
-    //     if (scrollState.endY !== scrollState.startY)
-    //       onScrollEnd();
-    //   }
-    // }, 100);
+        if (scrollState.endY !== scrollState.startY)
+          onScrollEnd();
+      }
+    }, 100);
 
-    console.log('PAGE VIEW')
     addToQueue(EventType.PAGE_VIEW);
     return () => {
-      window.removeEventListener('click', onClick);
-      // window.removeEventListener('scroll', onScroll);
-      // clearInterval(interval);
+      window.removeEventListener('click', onClick, true);
+      window.removeEventListener('scroll', onScroll);
+      clearInterval(interval);
     }
   }, [location]); // eslint-disable-line
 
