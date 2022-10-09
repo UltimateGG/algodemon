@@ -1,30 +1,27 @@
-const express = require('express');
-const router = express.Router();
+const WSServer = require('ws').Server;
 const Session = require('../models/Session');
-const SESSION_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes of inactivity before a session is considered inactive
+const SESSION_TIMEOUT_MS = 15 * 60 * 1000; // 15 minutes of inactivity before a session is considered inactive
 
 
 const getSession = async (req) => {
   const session = await Session.findOne({
-    ipAddress: req.ip,
+    ipAddress: req.socket.remoteAddress,
     updatedAt: { $gt: new Date(Date.now() - SESSION_TIMEOUT_MS) },
   });
   
   return session;
 }
 
-const onSessionStart = async (req, event) => {
-  if (await getSession(req)) return;
+const onSessionStart = async (session, req, event) => {
+  if (session) return;
 
   const { start } = event.data;
   const { userAgent, screenWidth, screenHeight, platform, vendor, language, isBrave } = event.data.device;
 
-  if (typeof userAgent !== 'string' || typeof screenWidth !== 'number' || typeof screenHeight !== 'number' || typeof platform !== 'string' || typeof vendor !== 'string' || typeof language !== 'string' || typeof isBrave !== 'boolean')
-    return;
-
   const newSession = new Session({
     start,
-    ipAddress: req.ip,
+    ipAddress: req.socket.remoteAddress,
+    user: req.user ? req.user._id : undefined,
     device: {
       userAgent,
       screenWidth,
@@ -33,75 +30,10 @@ const onSessionStart = async (req, event) => {
       vendor,
       language,
       isBrave,
-    },
-    user: req.user ? req.user._id : undefined,
+    }
   });
 
-  newSession.save();
-}
-
-const onPageView = async (session, event) => {
-  const newEvent = {
-    type: 'pageview',
-    timestamp: event.timestamp,
-    data: {
-      page: event.data.page,
-    }
-  }
-
-  console.log('on page view')
-  session.events.push(newEvent);
-  session.save();
-}
-
-const onClick = async (session, event) => {
-  const { x, y, target, page } = event.data;
-  let { isButton, tagName, text } = target;
-
-  if (typeof page !== 'string' || typeof x !== 'number' || typeof y !== 'number' || typeof isButton !== 'boolean' || typeof tagName !== 'string' || typeof text !== 'string')
-    return;
-  if (text.length > 300)
-    text = text.substring(0, 300);
-
-  const newEvent = {
-    type: 'click',
-    timestamp: event.timestamp,
-    data: {
-      page,
-      target: {
-        isButton,
-        tagName,
-        text
-      },
-      x: event.data.x,
-      y: event.data.y,
-    }
-  }
-
-  session.events.push(newEvent);
-  session.save();
-}
-
-const onScroll = async (session, event) => {
-  const { page, start, end, startY, endY } = event.data;
-
-  if (typeof page !== 'string' || typeof start !== 'number' || typeof end !== 'number' || typeof startY !== 'number' || typeof endY !== 'number')
-    return;
-
-  const newEvent = {
-    type: 'scroll',
-    timestamp: event.timestamp,
-    data: {
-      page,
-      start,
-      end,
-      startY,
-      endY,
-    }
-  }
-
-  session.events.push(newEvent);
-  session.save();
+  await newSession.save();
 }
 
 const xorConversion = (str, key) => {
@@ -114,23 +46,35 @@ const xorConversion = (str, key) => {
   return s;
 }
 
-router.post('/u', async (req, res) => {
-  res.status(200).end();
+const wss = new WSServer({ noServer: true });
 
-  try {
-    const key = (req.body.v ^ 0x26af ^ req.body.r) + req.body.ldap + String.fromCharCode(req.body.r);
-    const data = xorConversion(req.body.d, key);
-    const json = JSON.parse(data);
+wss.on('connection', (ws, req, user) => {
+  ws.on('message', async msg => {
+    try {
+      msg = JSON.parse(msg.toString());
 
-    if (json.type === 'start') return onSessionStart(req, json);
-      const session = await getSession(req);
-      if (!session) return;
-
-      if (json.type === 'pageview') return onPageView(session, json);
-      else if (json.type === 'click') return onClick(session, json);
-      else if (json.type === 'scroll') return onScroll(session, json);
-  } catch (e) {}
+      for (let i = 0; i < msg.length; i++)
+        await processEvent(msg[i], req);
+    } catch (e) {
+      console.error(e); // TODO
+    }
+  });
 });
 
 
-module.exports = router;
+const processEvent = async (event, req) => {
+  const data = xorConversion(event.d, (event.v ^ 0x26af ^ event.r) + event.ldap + String.fromCharCode(event.r));
+  const json = JSON.parse(data);
+
+  console.log('EVENT: ' + json.type);
+  const session = await getSession(req);
+
+  if (json.type === 'start') return await onSessionStart(session, req, json);
+  if (!session) return;
+
+  session.events.push(json);
+  await session.save();
+}
+
+
+module.exports = wss;

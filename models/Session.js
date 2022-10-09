@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const ClickEvent = require('./events/ClickEvent');
 const Schema = mongoose.Schema;
 
 
@@ -12,17 +13,20 @@ const EventSchema = new Schema({
     type: Number,
     required: true,
   },
-  data: {
-    type: Object,
+  page: {
+    type: String,
     required: true,
-    validate: [(val) => JSON.stringify(val).length <= 5048, 'Event data too long'],
   },
-});
-  
+}, { discriminatorKey: 'type' });
+
 const SessionSchema = new Schema({
   start: {
     type: Number,
     required: true,
+  },
+  end: {
+    type: Number,
+    required: false,
   },
   ipAddress: {
     type: String,
@@ -71,6 +75,19 @@ const SessionSchema = new Schema({
     validate: [(val) => val.length <= 500, 'Maximum events reached'],
   }
 }, { timestamps: true });
+
+const getBaseSchema = (type) => {
+  return new Schema({
+    data: {
+      type,
+      required: true,
+      validate: [(val) => JSON.stringify(val).length <= 5048, 'Event data too long'],
+      _id: false,
+    }
+  });
+}
+
+SessionSchema.path('events').discriminator('click', getBaseSchema(ClickEvent));
 
 SessionSchema.post('save', (error, doc, next) => {
   if (error.name === 'ValidationError') {

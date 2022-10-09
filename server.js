@@ -2,14 +2,17 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const path = require('path');
+const http = require('http');
 const bodyParser = require('body-parser');
 const asyncHandler = require('express-async-handler');
 const { connectToDatabase } = require('./database');
 const { sendDiscordMessage } = require('./utils');
-const { auth, adminAuth, authSoft } = require('./middleware/authMiddleware');
+const { auth, adminAuth, authWs } = require('./middleware/authMiddleware');
 const { errorHandler } = require('./middleware/errorMiddleware');
+const wss = require('./routes/analytics');
 
 const PORT = 80;
+const server = http.createServer(app);
 
 
 app.set('trust proxy', true);
@@ -49,7 +52,17 @@ app.post('/api/contact', asyncHandler(async (req, res) => {
 app.use('/api/payment', require('./routes/payment'));
 app.use('/api/affiliates', require('./routes/affiliates'));
 app.use('/api/admin', auth, adminAuth, require('./routes/admin'));
-app.use('/api/al', authSoft, require('./routes/analytics'));
+
+
+server.on('upgrade', async (req, socket, head) => {
+  if (!req.url.startsWith('/al/c')) return socket.destroy();
+  await authWs(req);
+
+  wss.handleUpgrade(req, socket, head, (ws) => {
+    ws.user = req.user;
+    wss.emit('connection', ws, req, req.user);
+  });
+});
 
 // Serve static react app
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'frontend/build/index.html')));
@@ -58,5 +71,5 @@ app.use(errorHandler);
 
 
 connectToDatabase().then(() => {
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });

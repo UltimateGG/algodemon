@@ -18,20 +18,18 @@ const auth = async (req, res, next) => {
   }
 }
 
-const authSoft = async (req, res, next) => {
+const authWs = async (req) => {
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.url.split('?t=')[1];
+    if (!token) return;
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const user = await User.findOne({ _id: decoded.id });
-    if (!user) return next();
+    if (!user) return;
 
     user.password = undefined;
     req.user = user;
-    next();
-  } catch (err) {
-    next();
-  }
+  } catch (err) {}
 }
 
 const adminAuth = (req, res, next) => {
@@ -43,6 +41,6 @@ const adminAuth = (req, res, next) => {
 
 module.exports = {
   auth,
-  authSoft,
+  authWs,
   adminAuth,
 }
