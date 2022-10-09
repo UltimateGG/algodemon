@@ -1,6 +1,5 @@
 const WSServer = require('ws').Server;
 const Session = require('../models/Session');
-const logger = require('../utils/logging');
 const SESSION_TIMEOUT_MS = 15 * 60 * 1000; // 15 minutes of inactivity before a session is considered inactive
 
 
@@ -43,7 +42,6 @@ const processEvent = async (event, req) => {
   const data = xorConversion(event.d, (event.v ^ 0x26af ^ event.r) + event.ldap + String.fromCharCode(event.r));
   const json = JSON.parse(data);
 
-  logger.logInfo('Received event: ' + json.type, json); // TODO
   const session = await getSession(req);
 
   if (json.type === 'start') return await onSessionStart(session, req, json);
@@ -62,9 +60,7 @@ wss.on('connection', (ws, req, user) => {
 
       for (let i = 0; i < msg.length; i++)
         await processEvent(msg[i], req);
-    } catch (ignored) {
-      console.error(ignored); // TODO
-    }
+    } catch (ignored) {}
   });
 });
 

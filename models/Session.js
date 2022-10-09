@@ -3,6 +3,9 @@ const ClickEvent = require('./events/ClickEvent');
 const Schema = mongoose.Schema;
 const logger = require('../utils/logging');
 const ScrollEvent = require('./events/ScrollEvent');
+const LoginEvent = require('./events/LoginEvent');
+const SignUpEvent = require('./events/SignUpEvent');
+const PurchaseEvent = require('./events/PurchaseEvent');
 
 
 const EventSchema = new Schema({
@@ -99,6 +102,9 @@ const getBaseSchema = (type) => {
 
 SessionSchema.path('events').discriminator('click', getBaseSchema(ClickEvent));
 SessionSchema.path('events').discriminator('scroll', getBaseSchema(ScrollEvent));
+SessionSchema.path('events').discriminator('login', getBaseSchema(LoginEvent));
+SessionSchema.path('events').discriminator('signup', getBaseSchema(SignUpEvent));
+SessionSchema.path('events').discriminator('purchase', getBaseSchema(PurchaseEvent));
 
 SessionSchema.post('save', (error, doc, next) => {
   if (error.name === 'ValidationError') {

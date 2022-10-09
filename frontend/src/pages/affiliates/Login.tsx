@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { apiPost } from '../../api/apiExecutor';
 import { useAuth } from '../../contexts/AuthContext';
+import { EventType, useSessionTracker } from '../../contexts/SessionTrackerContext';
 import { Box, Button, Icon, IconEnum, Paper, Progress, TextField, themeDefault } from '../../Jet';
 
 
@@ -20,7 +21,8 @@ const PageStyle = styled(Box).attrs((props: any) => props)`
 export const LoginPage = () => {
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
-  const { user } = useAuth();
+  const { user, login } = useAuth();
+  const { addToQueue } = useSessionTracker();
   
   useEffect(() => {
     if (user) window.location.href = '#/dashboard';
@@ -36,10 +38,12 @@ export const LoginPage = () => {
     const email = (e.target as any).email.value;
     const password = (e.target as any).password.value;
 
-    apiPost('affiliates/login', { email, password }).then(res => {
+    apiPost('affiliates/login', { email, password }).then(async res => {
       if (res.error) return setError(res.error);
       sessionStorage.setItem('token', res.data.token);
-      window.location.reload();
+      addToQueue(EventType.LOGIN, { user: res.data.user._id });
+      await login();
+      window.location.href = '#/dashboard';
     }).finally(() => setLoading(false));
   }
 

@@ -7,6 +7,8 @@ import Review from '../components/Review';
 import { NAME, PRICE } from '../globals';
 import { Box, Button, Divider, Icon, IconEnum, Modal, TextField, ThemeContext } from '../Jet';
 import { apiGet } from '../api/apiExecutor';
+import { EventType, useSessionTracker } from '../contexts/SessionTrackerContext';
+import { useAuth } from '../contexts/AuthContext';
 
 
 const PageStyle = styled.div.attrs((props: any) => props)`
@@ -90,6 +92,8 @@ export const PricingPage = () => {
   const [affiliateCode, setAffiliateCode] = React.useState<string | null>(null);
   const [currentPrice, setCurrentPrice] = React.useState(PRICE + '');
   const { addNotification } = useNotifications();
+  const { addToQueue } = useSessionTracker();
+  const { user } = useAuth();
 
   const handleSetCode = useCallback((code: string) => {
     apiGet('affiliates?code=' + code).then(res => {
@@ -231,7 +235,22 @@ export const PricingPage = () => {
       <Modal open={showCheckoutModal} onClose={() => setShowCheckoutModal(false)} title={'Purchase ' + NAME}>
         <CheckoutForm
           price={Number(currentPrice)}
-          onSuccessfulCheckout={() => window.location.href = '#/success'}
+          onSuccessfulCheckout={(data, username, ref, id) => {
+            addToQueue(EventType.PURCHASE, {
+              user: user?._id,
+              name: data.name,
+              email: data.email,
+              address: data.address.line1,
+              city: data.address.city,
+              state: data.address.state,
+              zip: data.address.postal_code,
+              country: data.address.country,
+              username,
+              affiliateCode: ref,
+              stripePaymentIntentId: id,
+            });
+            window.location.href = '#/success';
+          }}
         />
       </Modal>
     </PageStyle>

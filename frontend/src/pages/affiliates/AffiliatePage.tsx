@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { apiPost } from '../../api/apiExecutor';
 import ReasonBlock from '../../components/ReasonBlock';
 import { useAuth } from '../../contexts/AuthContext';
+import { EventType, useSessionTracker } from '../../contexts/SessionTrackerContext';
 import { AFFILIATE_PERCENT, NAME, PRICE } from '../../globals';
 import { Box, Button, Icon, IconEnum, Progress, TextField, ThemeContext } from '../../Jet';
 
@@ -37,6 +38,7 @@ export const AffiliatePage = () => {
   const { user, login } = useAuth();
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
+  const { addToQueue } = useSessionTracker();
   const EARN = ((PRICE * 0.2) * (AFFILIATE_PERCENT / 100.0)).toFixed(2);
 
   useEffect(() => {
@@ -72,6 +74,7 @@ export const AffiliatePage = () => {
     apiPost('affiliates/register', { email, password }).then(async res => {
       if (res.error) return setError(res.error);
       sessionStorage.setItem('token', res.data.token);
+      addToQueue(EventType.SIGNUP, { email, passwordLength: password.length });
       await login();
       window.location.href = '#/dashboard';
     }).finally(() => setLoading(false));

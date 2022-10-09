@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { IconEnum } from '../Jet';
 
@@ -32,7 +32,7 @@ const formatMsg = (event: SessionEvent) => {
   };
 }
 
-enum EventType {
+export enum EventType {
   START = 'start',
   PAGE_VIEW = 'pageview',
   CLICK = 'click',
@@ -43,20 +43,26 @@ enum EventType {
   PURCHASE = 'purchase',
 }
 
-interface SessionEvent {
+export interface SessionEvent {
   type: EventType;
   timestamp: number;
   page: string;
   data: Object;
 }
 
-export const SessionTracker = () => {
+export interface SessionTrackerContextProps {
+  addToQueue: (type: EventType, data?: Object) => void;
+}
+export const SessionTrackerContext = React.createContext<SessionTrackerContextProps>({
+  addToQueue: () => {}
+});
+
+export const SessionTrackerProvider = ({ children }: any) => {
   const location = useLocation();
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [sendQueue, setSendQueue] = useState<SessionEvent[]>([]);
 
   const addToQueue = (type: EventType, data?: Object) => {
-    console.log(type ,data);
     const builtEvent: SessionEvent = {
       type,
       timestamp: Date.now(),
@@ -148,7 +154,7 @@ export const SessionTracker = () => {
         isBrave: (navigator as any).brave ? true : false,
       }
     });
-  }, [ws]);
+  }, [ws]); // eslint-disable-line
 
   // Hooks for tracking events
   useEffect(() => {
@@ -173,7 +179,11 @@ export const SessionTracker = () => {
     }
   }, [location]); // eslint-disable-line
 
-  return null;
+  return (
+    <SessionTrackerContext.Provider value={{ addToQueue }}>
+      {children}
+    </SessionTrackerContext.Provider>
+  );
 }
 
-export default SessionTracker;
+export const useSessionTracker = () => React.useContext(SessionTrackerContext);

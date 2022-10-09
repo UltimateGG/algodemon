@@ -2,7 +2,6 @@
 {
   "server.js": "MAIN/SERVER",
   "utils\\database.js": "DATABASE",
-  "routes\\analytics.js": "ANALYTICS",
   "routes\\admin.js": "ADMIN ROUTE",
   "utils.js": "UTILS"
 }

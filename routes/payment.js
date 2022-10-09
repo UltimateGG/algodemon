@@ -60,7 +60,7 @@ router.post('/verify', asyncHandler(async (req, res) => {
     ]
   });
   
-  res.status(200).json({ message: 'Payment successful' });
+  res.status(200).json({ message: 'Payment successful', id: paymentIntentId });
 }));
 
 

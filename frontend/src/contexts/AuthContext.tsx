@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { apiGet } from '../api/apiExecutor';
 import { User } from '../api/types';
+import { EventType, useSessionTracker } from './SessionTrackerContext';
 
 
 export interface AuthContextProps {
@@ -24,10 +25,11 @@ export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = React.useState<User | undefined>(undefined);
   const [users, setUsers] = React.useState<User[]>([]);
   const [loading, setLoading] = React.useState(false);
+  const { addToQueue } = useSessionTracker();
 
   useEffect(() => {
     if (!user) login();
-  });
+  }, []); // eslint-disable-line
 
   const login = () => {
     return new Promise<void>(async (resolve, reject) => {
@@ -55,6 +57,7 @@ export const AuthProvider = ({ children }: any) => {
   const logout = () => {
     sessionStorage.removeItem('token');
     setUser(undefined);
+    addToQueue(EventType.LOGOUT);
   }
 
   return (

@@ -26,8 +26,9 @@ router.post('/login', asyncHandler(async (req, res) => {
   if (!user || password !== user.password)
     throw new Error('Invalid email or password');
 
+  user.password = undefined;
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-  res.status(200).json({ token });
+  res.status(200).json({ token, user });
 }));
 
 router.post('/register', asyncHandler(async (req, res) => {
