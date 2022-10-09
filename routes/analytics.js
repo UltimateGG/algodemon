@@ -5,7 +5,7 @@ const SESSION_TIMEOUT_MS = 15 * 60 * 1000; // 15 minutes of inactivity before a 
 
 const getSession = async (req) => {
   const session = await Session.findOne({
-    ipAddress: req.socket.remoteAddress,
+    ipAddress: req.ip,
     updatedAt: { $gt: new Date(Date.now() - SESSION_TIMEOUT_MS) },
   });
   
@@ -19,7 +19,7 @@ const onSessionStart = async (session, req, event) => {
 
   const newSession = new Session({
     start,
-    ipAddress: req.socket.remoteAddress,
+    ipAddress: req.ip,
     user: req.user ? req.user._id : undefined,
     startUrl,
     device: event.data.device,

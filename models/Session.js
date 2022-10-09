@@ -86,6 +86,7 @@ const SessionSchema = new Schema({
     required: true,
     default: [],
     validate: [(val) => val.length <= 1500, 'Maximum events reached'],
+    _id: false,
   }
 }, { timestamps: true });
 
