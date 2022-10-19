@@ -122,7 +122,7 @@ export const SessionTrackerProvider = ({ children }: any) => {
   const onScrollEnd = () => {
     addToQueue(EventType.SCROLL, {
       start: scrollState.start,
-      end: scrollState.end,
+      end: scrollState.end === 0 ? Date.now() : scrollState.end,
       startY: scrollState.startY,
       endY: scrollState.endY
     });
