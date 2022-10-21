@@ -78,7 +78,16 @@ export const SessionExplorer = () => {
   }, [user, sessions, page]);
 
   if (viewing)
-    return (<SessionView session={viewing} onDelete={() => fetchSessions(page)} onClose={() => setViewing(null)} />);
+    return (
+      <SessionView
+        session={viewing}
+        onDelete={() => {
+        setViewing(null);
+        fetchSessions(page);
+        }}
+        onClose={() => setViewing(null)}
+      />
+    );
 
   return (
     <PageStyle theme={theme}>

@@ -28,7 +28,6 @@ export const SessionView = ({ session, onDelete, onClose }: SessionViewProps) =>
     apiPost('admin/sessions/delete', { id: session._id }, true).then(res => {
       if (res.error) return alert(res.error);
       onDelete();
-      window.location.href = '/#/admin/sessions';
     });
   }
 
@@ -91,7 +90,7 @@ export const SessionView = ({ session, onDelete, onClose }: SessionViewProps) =>
 
       <Box style={{ marginTop: '2rem' }} flexDirection="column" spacing="1rem">
         {session.events.map((event, i) => (
-          <EventCard key={i} event={event} />
+          <EventCard key={i} session={session} event={event} prevTimestamp={i === 0 ? 0 : session.events[i - 1].timestamp} />
         ))}
       </Box>
     </PageStyle>

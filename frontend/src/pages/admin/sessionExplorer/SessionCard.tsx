@@ -12,6 +12,7 @@ const CardStyle = styled(Paper).attrs((props: any) => props)`
   cursor: pointer;
   transition: all 0.1s ease-in-out;
   position: relative;
+  height: 100%;
 
   &:hover {
     background-color: ${props => props.theme.colors.background[3]};
@@ -48,52 +49,55 @@ export const SessionCard = ({ session, onDelete, onClick }: SessionCardProps) =>
   }
 
   return (
-    <CardStyle elevation={1} theme={theme} onClick={onClick}>
-      <Box className="card-title" justifyContent="space-between">
-        <h4 className="text-wrapping" style={{ margin: 0 }}>{session.ipAddress}</h4>
-        <Box flexDirection="column" style={{ position: 'relative' }}>
-          <h4 className="text-wrapping" style={{ margin: 0 }}>{getTimestamp(session.start)}</h4>
-          <small style={{ position: 'absolute', right: 0, top: '85%' }}>{toDuration(Date.now() - new Date(session.updatedAt || 0).getTime())} ago</small>
+    <div style={{ position: 'relative' }}>
+      <Icon icon={IconEnum.x} size={26} color={theme.colors.text[8]} style={{ position: 'absolute', right: 0, top: 0, zIndex: 2, cursor: 'pointer' }} onClick={() => handleDelete()} />
+
+      <CardStyle elevation={1} theme={theme} onClick={onClick}>
+        <Box className="card-title" justifyContent="space-between">
+          <h4 className="text-wrapping" style={{ margin: 0 }}>{session.ipAddress}</h4>
+          <Box flexDirection="column" style={{ position: 'relative' }}>
+            <h4 className="text-wrapping" style={{ margin: 0 }}>{getTimestamp(session.start)}</h4>
+            <small style={{ position: 'absolute', right: 0, top: '85%' }}>{toDuration(Date.now() - new Date(session.updatedAt || 0).getTime())} ago</small>
+          </Box>
+
+        </Box>
+        <h6>{toDuration(duration)}</h6>
+        <Box alignItems="center">
+          {!session.startUrl.startsWith(URL) && <Icon icon={IconEnum.warning} size={18} color={theme.colors.warning[0]} />}
+          <small>{session.events.length} event{session.events.length === 1 ? '' : 's'} | {session.startUrl}</small>
         </Box>
 
-        <Icon icon={IconEnum.x} size={16} color={theme.colors.text[8]} style={{ position: 'absolute', right: 5, top: 5 }} onClick={() => handleDelete()} />
-      </Box>
-      <h6>{toDuration(duration)}</h6>
-      <Box alignItems="center">
-        {!session.startUrl.startsWith(URL) && <Icon icon={IconEnum.warning} size={18} color={theme.colors.warning[0]} />}
-        <small>{session.events.length} event{session.events.length === 1 ? '' : 's'} | {session.startUrl}</small>
-      </Box>
-
-      {session.user && (
-      <Box alignItems="center" spacing="0.2rem">
-        <Icon icon={IconEnum.account} size={18} color={theme.colors.text[5]} />
-        <small>{session.user.email}</small>
-      </Box>
-      )}
-
-      <Box alignItems="center" spacing="0.2rem">
-        <div>
-          {(session.device.platform === 'iPhone' || session.device.platform === 'Android') ? (
-            <Icon icon={IconEnum.phone} size={18} color={theme.colors.text[5]} />
-          ) : (session.device.platform.startsWith('Win') || session.device.platform.includes('Linux')) ? (
-            <>
-              {session.device.platform.includes('Linux') && <Icon icon={IconEnum.warning} size={18} color={theme.colors.warning[0]} />}
-              <Icon icon={IconEnum.computer} size={18} color={theme.colors.text[5]} />
-            </>
-          ) : (
-            <Icon icon={IconEnum.info} size={18} color={theme.colors.text[5]} />
-          )}
-        </div>
-        <small className="text-wrapping">{session.device.platform} {session.device.userAgent}</small>
-      </Box>
-
-      {session.device.isBrave && (
+        {session.user && (
         <Box alignItems="center" spacing="0.2rem">
-          <Icon icon={IconEnum.lock} size={18} color={theme.colors.text[5]} />
-          <small>Brave Browser</small>
+          <Icon icon={IconEnum.account} size={18} color={theme.colors.text[5]} />
+          <small>{session.user.email}</small>
         </Box>
-      )}
-    </CardStyle>
+        )}
+
+        <Box alignItems="center" spacing="0.2rem">
+          <div>
+            {(session.device.platform === 'iPhone' || session.device.platform === 'Android') ? (
+              <Icon icon={IconEnum.phone} size={18} color={theme.colors.text[5]} />
+            ) : (session.device.platform.startsWith('Win') || session.device.platform.includes('Linux')) ? (
+              <>
+                {session.device.platform.includes('Linux') && <Icon icon={IconEnum.warning} size={18} color={theme.colors.warning[0]} />}
+                <Icon icon={IconEnum.computer} size={18} color={theme.colors.text[5]} />
+              </>
+            ) : (
+              <Icon icon={IconEnum.info} size={18} color={theme.colors.text[5]} />
+            )}
+          </div>
+          <small className="text-wrapping">{session.device.platform} {session.device.userAgent}</small>
+        </Box>
+
+        {session.device.isBrave && (
+          <Box alignItems="center" spacing="0.2rem">
+            <Icon icon={IconEnum.lock} size={18} color={theme.colors.text[5]} />
+            <small>Brave Browser</small>
+          </Box>
+        )}
+      </CardStyle>
+    </div>
   );
 }
 

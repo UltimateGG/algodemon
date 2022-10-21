@@ -1,8 +1,8 @@
-export const getTimestamp = (ms: number) => {
+export const getTimestamp = (ms: number, showDate = true) => {
   const date = new Date(ms);
   const time = String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0') + ':' + String(date.getSeconds()).padStart(2, '0');
 
-  return `${getDate(ms)} at ${time}`;
+  return !showDate ? time : `${getDate(ms)} at ${time}`;
 }
 
 export const getDate = (ms: number) => {
@@ -28,4 +28,5 @@ export const toDuration = (ms: number) => {
   if (hoursLeft > 0) return hoursLeft + 'h ';
   if (minutesLeft > 0) return minutesLeft + 'm ';
   if (secondsLeft > 0) return secondsLeft + 's ';
+  return `${(ms / 1000).toFixed(2)}s`;
 }
