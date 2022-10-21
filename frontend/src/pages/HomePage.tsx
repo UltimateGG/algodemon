@@ -105,7 +105,7 @@ export const HomePage = () => {
 
     // Affiliates query
     const urlParams = new URLSearchParams(window.location.search);
-    const affiliate = urlParams.get('r');
+    const affiliate = urlParams.get('r') || 'dmn'; // TODO - temp. We give user 80% off till affiliate program is ready
 
     if (affiliate) localStorage.setItem('ref', affiliate);
   });

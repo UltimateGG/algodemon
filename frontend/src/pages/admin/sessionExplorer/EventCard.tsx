@@ -37,9 +37,9 @@ const getScrollEvent = (event: ScrollEvent, screenHeight: number) => {
       <p>Start: {getTimestamp(event.start, false)}</p>
       <p>End: {getTimestamp(event.end, false)}</p>
       <p>Duration: {toDuration(event.end - event.start)}</p>
-      <p>Start Y: {event.startY}</p>
-      <p>End Y: {event.endY}</p>
-      <p>Px Scrolled: {event.endY - event.startY} ({((event.endY - event.startY) / screenHeight).toFixed(2)}%)</p>
+      <p>Start Y: {event.startY.toFixed(0)}</p>
+      <p>End Y: {event.endY.toFixed(0)}</p>
+      <p>Px Scrolled: {(event.endY - event.startY).toFixed(0)} ({((event.endY - event.startY) / screenHeight).toFixed(2)}%)</p>
     </>
   );
 }
