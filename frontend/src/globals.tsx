@@ -1,4 +1,5 @@
 export const NAME = 'AlgoDemon';
+export const URL = 'https://algodemon.com';
 export const THEME_COLOR = '#6200EE';
 export const PRICE = 149.99;
 export const AFFILIATE_PERCENT = 10.0;

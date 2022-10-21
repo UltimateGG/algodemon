@@ -62,6 +62,8 @@ server.on('upgrade', async (req, socket, head) => {
   wss.handleUpgrade(req, socket, head, (ws) => {
     ws.user = req.user;
     req.ip = req.headers['x-forwarded-for'];
+    if (process.env.NODE_ENV === 'DEVELOPMENT') req.ip = '::1';
+
     wss.emit('connection', ws, req, req.user);
   });
 });

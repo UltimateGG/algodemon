@@ -6,7 +6,7 @@ const PurchaseEvent = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     required: false,
-    ref: 'User',
+    ref: 'users',
   },
   name: {
     type: String,

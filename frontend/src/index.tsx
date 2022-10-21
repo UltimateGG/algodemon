@@ -21,6 +21,7 @@ import ScrollToTop from './components/ScrollToTop';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { SessionTrackerProvider } from './contexts/SessionTrackerContext';
+import SessionExplorer from './pages/admin/sessionExplorer/SessionExplorer';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -48,6 +49,8 @@ root.render(
 
                   <Route path="login" element={<LoginPage />} />
                   <Route path="dashboard" element={<DashboardPage />} />
+                  
+                  <Route path="admin/sessions" element={<SessionExplorer />} />
 
                   <Route path="*" element={<Page404 />} />
                 </Routes>

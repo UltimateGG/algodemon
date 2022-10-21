@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const asyncHandler = require('express-async-handler');
 const User = require('../models/User');
+const Session = require('../models/Session');
 const logger = require('../utils/logging');
 
 
@@ -50,6 +51,29 @@ router.post('/pay', asyncHandler(async (req, res) => {
   await user.save();
 
   res.status(200).json({ message: 'Referral paid out' });
+}));
+
+router.get('/sessions', asyncHandler(async (req, res) => {
+  const maxItemsPerPage = 25;
+  const page = parseInt(req.query.page) || 1;
+  const skip = (page - 1) * maxItemsPerPage;
+  const count = await Session.countDocuments();
+
+  const sessions = await Session.find({}).sort({ createdAt: -1 }).skip(skip).limit(maxItemsPerPage).populate('user');
+  res.status(200).json({
+    maxItemsPerPage,
+    totalPages: Math.ceil(count / maxItemsPerPage),
+    totalSessions: count,
+    sessions,
+  });
+}));
+
+router.post('/sessions/delete', asyncHandler(async (req, res) => {
+  const session = await Session.findById(req.body.id);
+  if (!session) throw new Error('Session not found');
+
+  await session.delete();
+  res.status(200).json({ message: 'Session deleted' });
 }));
 
 

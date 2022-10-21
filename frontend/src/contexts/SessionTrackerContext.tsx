@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { User } from '../api/types';
 import { IconEnum } from '../Jet';
 
 
@@ -43,15 +44,85 @@ export enum EventType {
   PURCHASE = 'purchase',
 }
 
+export interface StartEvent {
+  start: number;
+  startUrl: string;
+  device: Device;
+}
+
+export interface ClickEvent {
+  target: {
+    isButton: boolean;
+    tagName: string;
+    text: string;
+  },
+  x: number;
+  y: number;
+}
+
+export interface ScrollEvent {
+  start: number;
+  end: number;
+  startY: number;
+  endY: number;
+}
+
+export interface LoginEvent {
+  user: string | User;
+}
+
+export interface SignUpEvent {
+  email: string;
+  passwordLength: number;
+}
+
+export interface PurchaseEvent {
+  user?: string | User;
+  name: string;
+  email: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  country: string;
+  username: string;
+  affiliateCode: string;
+  stripePaymentIntentId: string;
+}
+
+export type Event = StartEvent | ClickEvent | ScrollEvent | LoginEvent | SignUpEvent | PurchaseEvent;
+
 export interface SessionEvent {
   type: EventType;
   timestamp: number;
   page: string;
-  data: Object;
+  data: Event | {};
+}
+
+export interface Device {
+  userAgent: string;
+  screenWidth: number;
+  screenHeight: number;
+  platform: string;
+  vendor: string;
+  language: string;
+  timezone: string;
+  isBrave: boolean;
+}
+
+export interface Session {
+  _id?: string;
+  start: number;
+  ipAddress: string;
+  user: User;
+  startUrl: string;
+  device: Device;
+  events: SessionEvent[];
+  updatedAt?: string;
 }
 
 export interface SessionTrackerContextProps {
-  addToQueue: (type: EventType, data?: Object) => void;
+  addToQueue: (type: EventType, data?: Event) => void;
 }
 export const SessionTrackerContext = React.createContext<SessionTrackerContextProps>({
   addToQueue: () => {}
@@ -62,7 +133,7 @@ export const SessionTrackerProvider = ({ children }: any) => {
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [sendQueue, setSendQueue] = useState<SessionEvent[]>([]);
 
-  const addToQueue = (type: EventType, data?: Object) => {
+  const addToQueue = (type: EventType, data?: Event) => {
     const builtEvent: SessionEvent = {
       type,
       timestamp: Date.now(),

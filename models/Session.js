@@ -29,10 +29,6 @@ const SessionSchema = new Schema({
     type: Number,
     required: true,
   },
-  end: {
-    type: Number,
-    required: false,
-  },
   ipAddress: {
     type: String,
     required: true,
@@ -40,7 +36,7 @@ const SessionSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     required: false,
-    ref: 'User',
+    ref: 'users',
   },
   startUrl: {
     type: String,

@@ -5,7 +5,7 @@ import { Referral, User } from '../../api/types';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNotifications } from '../../contexts/NotificationContext';
 import { NAME } from '../../globals';
-import { Box, Modal, Progress, TextField, ThemeContext } from '../../Jet';
+import { Box, Button, Modal, Progress, TextField, ThemeContext } from '../../Jet';
 import EditUserForm from './EditUserForm';
 
 
@@ -73,9 +73,10 @@ export const AdminPage = () => {
 
   return (
     <PageStyle theme={theme}>
-      <div style={{ padding: '0 2rem' }}>
-        <h1 style={{ textAlign: 'center' }}>Admin</h1>
-      </div>
+      <Box justifyContent="space-between" style={{ padding: '0 2rem' }}>
+        <h1 style={{ textAlign: 'center' }}>Affiliate Accounts</h1>
+        <Button onClick={() => window.location.href = '/#/admin/sessions'}>Session Explorer</Button>
+      </Box>
 
       <Box style={{ padding: '2rem', paddingTop: 0 }} flexDirection="column">
         <TextField placeholder="Search by id, email, or code" fullWidth value={searchFilter} onChanged={setSearchFilter} />
