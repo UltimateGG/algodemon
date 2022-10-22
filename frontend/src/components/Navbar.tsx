@@ -120,7 +120,7 @@ const Navbar = () => {
           </Box>
         </Box>
 
-        {sessionStorage.getItem('token') ? (
+        {localStorage.getItem('token') ? (
           <Box spacing="1rem">
             <Button className="access-btn" onClick={() => window.location.href = '#/dashboard'}>Dashboard</Button>
             <Button className="access-btn" variant="outlined" onClick={logout}>Logout</Button>
@@ -136,7 +136,7 @@ const Navbar = () => {
             {link.label}
           </NavbarLinkStyle>
         ))}
-        {sessionStorage.getItem('token') && (
+        {localStorage.getItem('token') && (
           <NavbarLinkStyle href="#/dashboard" active={location.pathname === '/dashboard'} theme={theme}>Dashboard</NavbarLinkStyle>
         )}
       </DrawerStyle>

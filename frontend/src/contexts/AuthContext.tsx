@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }: any) => {
   }
 
   const logout = () => {
-    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
     setUser(undefined);
     addToQueue(EventType.LOGOUT);
   }

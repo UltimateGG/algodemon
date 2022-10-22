@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
 
-const getToken = () => sessionStorage.getItem('token');
+const getToken = () => localStorage.getItem('token');
 
 const getResponse = (res: AxiosResponse) => {
   return {

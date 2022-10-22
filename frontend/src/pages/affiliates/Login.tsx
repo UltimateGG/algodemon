@@ -40,7 +40,7 @@ export const LoginPage = () => {
 
     apiPost('affiliates/login', { email, password }).then(async res => {
       if (res.error) return setError(res.error);
-      sessionStorage.setItem('token', res.data.token);
+      localStorage.setItem('token', res.data.token);
       addToQueue(EventType.LOGIN, { user: res.data.user._id });
       await login();
       window.location.href = '#/dashboard';

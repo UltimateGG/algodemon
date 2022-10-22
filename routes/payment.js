@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { sendDiscordMessage } = require('../utils/utils');
 
-const PRICE = 149.99;
+const PRICE = 74.95;//149.99;
 const AFFILIATE_PERCENTAGE = 10.0; // Affiliates earn 10%
 
 

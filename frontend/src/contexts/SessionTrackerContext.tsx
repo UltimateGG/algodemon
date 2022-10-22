@@ -209,7 +209,7 @@ export const SessionTrackerProvider = ({ children }: any) => {
   // Init func, setup websocket once per page refresh
   useEffect(() => {
     if (ws) return;
-    setWs(new WebSocket(`${getWSUrl('/al/c')}?t=${sessionStorage.getItem('token')}`));
+    setWs(new WebSocket(`${getWSUrl('/al/c')}?t=${localStorage.getItem('token')}`));
 
     addToQueue(EventType.START, {
       start: Date.now(),

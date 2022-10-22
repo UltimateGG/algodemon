@@ -73,7 +73,7 @@ export const AffiliatePage = () => {
     setLoading(true);
     apiPost('affiliates/register', { email, password }).then(async res => {
       if (res.error) return setError(res.error);
-      sessionStorage.setItem('token', res.data.token);
+      localStorage.setItem('token', res.data.token);
       addToQueue(EventType.SIGNUP, { email, passwordLength: password.length });
       await login();
       window.location.href = '#/dashboard';
@@ -85,7 +85,7 @@ export const AffiliatePage = () => {
       <HeaderStyle flexDirection="column" justifyContent="center" alignItems="center" theme={theme}>
         <Box className="header-box" flexDirection="column" justifyContent="center" alignItems="center">
           <h1 style={{ fontSize: '6rem' }}>Earn ${EARN}</h1>
-          <h4>Everytime someone clicks your link.</h4>
+          <h4>Everytime someone uses your link</h4>
 
           <Button style={{ maxWidth: '50%', display: user ? 'none' : 'inline-block' }} block onClick={() => {
             const start = document.querySelector('#start');
