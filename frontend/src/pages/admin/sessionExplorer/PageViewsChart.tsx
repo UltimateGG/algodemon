@@ -37,40 +37,26 @@ export const options = {
   maintainAspectRatio: false,
 };
 
-interface PageView {
+export interface PageView {
   page: string;
   views: number;
 }
 
 export interface Props {
-  sessions: Session[];
+  pageViews: PageView[];
 }
 
-export const PageViewsChart = ({ sessions }: Props) => {
+export const PageViewsChart = ({ pageViews }: Props) => {
   const { theme } = useContext(ThemeContext);
 
-  const uniquePages: PageView[] = [];
-  if (sessions)
-    for (const session of sessions)
-      for (const event of session.events)
-        if (event.type === 'pageview') {
-          if (uniquePages.find(p => p.page === event.page)) {
-            uniquePages.find(p => p.page === event.page)!.views++;
-          } else {
-            uniquePages.push({ page: event.page, views: 1 });
-          }
-        }
-
-  uniquePages.sort((a, b) => b.views - a.views);
-
   const data = {
-    labels: uniquePages.map(p => p.page),
+    labels: pageViews.map(p => p.page),
     datasets: [
       {
         type: 'bar' as const,
         label: 'Page Views',
         backgroundColor: theme.colors.primary[0],
-        data: uniquePages.map(p => p.views),
+        data: pageViews.map(p => p.views),
       },
     ],
   };

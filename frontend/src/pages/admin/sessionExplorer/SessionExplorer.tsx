@@ -6,8 +6,8 @@ import { Session } from '../../../contexts/SessionTrackerContext';
 import { NAME } from '../../../globals';
 import { Box, Button, Dropdown, Icon, IconEnum, Progress, ThemeContext } from '../../../Jet';
 import { toDuration } from '../../../utils';
-import DevicesChart from './DevicesChart';
-import PageViewsChart from './PageViewsChart';
+import DevicesChart, { Device } from './DevicesChart';
+import PageViewsChart, { PageView } from './PageViewsChart';
 import SessionCard from './SessionCard';
 import SessionView from './SessionView';
 
@@ -46,13 +46,20 @@ enum SortType {
   TIME = 'Time',
 }
 
+interface SessionsResponse {
+  maxItemsPerPage: number;
+  totalPages: number;
+  totalSessions: number;
+  pageViews: PageView[];
+  devices: Device[];
+  sessions: Session[];
+}
+
 export const SessionExplorer = () => {
   const { theme } = useContext(ThemeContext);
   const { user } = useAuth();
-  const [sessions, setSessions] = React.useState<Session[] | null>(null);
+  const [response, setResponse] = React.useState<SessionsResponse | null>(null);
   const [page, setPage] = React.useState(1);
-  const [totalPages, setTotalPages] = React.useState(1);
-  const [totalSessions, setTotalSessions] = React.useState(0);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
   const [viewing, setViewing] = React.useState<Session | null>(null);
@@ -62,11 +69,9 @@ export const SessionExplorer = () => {
     setLoading(true);
     setError('');
     
-    apiGet('admin/sessions?page=' + page, true).then(res => {
+    apiGet(`admin/sessions?page=${page}&sort=${sort}`, true).then(res => {
       if (res.error) return setError(res.error);
-      setSessions(getSortedSessions(res.data.sessions));
-      setTotalPages(res.data.totalPages);
-      setTotalSessions(res.data.totalSessions);
+      setResponse(res.data);
     }).finally(() => {
       setLoading(false);
     });
@@ -74,29 +79,12 @@ export const SessionExplorer = () => {
 
   const changePage = (newPage: number) => {
     newPage = Math.max(1, newPage);
-    newPage = Math.min(totalPages, newPage);
+    newPage = Math.min(response?.totalPages || 1, newPage);
 
     if (newPage !== page) {
       setPage(newPage);
       fetchSessions(newPage);
     }
-  }
-
-  const getSortedSessions = (sessions: Session[]) => {
-    switch (sort) {
-      case SortType.DURATION:
-        sessions.sort((a, b) => (new Date(a.updatedAt || 0).getTime() - a.start) - (new Date(b.updatedAt || 0).getTime() - b.start));
-        break;
-      case SortType.EVENTS:
-        sessions.sort((a, b) => a.events.length - b.events.length);
-        break;
-      default:
-      case SortType.TIME:
-        sessions.sort((a, b) => a.start - b.start);
-        break;
-    }
-
-    return sessions.reverse();
   }
 
   useEffect(() => {
@@ -107,8 +95,8 @@ export const SessionExplorer = () => {
       return;
     }
 
-    if (!sessions) fetchSessions(page);
-  }, [user, sessions, page]); // eslint-disable-line
+    if (!response?.sessions) fetchSessions(page);
+  }, [user, response, page]); // eslint-disable-line
 
   if (viewing)
     return (
@@ -122,6 +110,9 @@ export const SessionExplorer = () => {
       />
     );
 
+  if (!response)
+    return <Progress circular indeterminate />;
+
   return (
     <PageStyle theme={theme}>
       <Box alignItems="center" spacing="1.2rem" style={{ padding: '0 2rem', marginBottom: '0.2rem' }}>
@@ -131,17 +122,17 @@ export const SessionExplorer = () => {
         <h1 className="heading" style={{ textAlign: 'center', margin: 0, wordBreak: 'break-word' }}>Session Explorer</h1>
       </Box>
       <Box style={{ padding: '0 2rem', marginBottom: '1.2rem' }}>
-        <small>{totalSessions} sessions | {
-          sessions && sessions.length > 0 && toDuration((sessions.reduce((a, b) => a + (new Date(b.updatedAt || 0).getTime() - b.start), 0) / sessions.length))
+        <small>{response.totalSessions} sessions | {
+          response.sessions && response.sessions.length > 0 && toDuration((response.sessions.reduce((a, b) => a + (new Date(b.updatedAt || 0).getTime() - b.start), 0) / response.sessions.length))
         } avg duration</small>
       </Box>
 
       <Box className="charts-container" style={{ padding: '0 2rem', marginBottom: '0.4rem' }} spacing="0.2rem">
         <div>
-          {sessions && <PageViewsChart sessions={sessions} />}
+          {response.sessions && <PageViewsChart pageViews={response.pageViews} />}
         </div>
         <div>
-          {sessions && <DevicesChart sessions={sessions} />}
+          {response.sessions && <DevicesChart devices={response.devices} />}
         </div>
       </Box>
 
@@ -151,7 +142,7 @@ export const SessionExplorer = () => {
           selected={{ label: sort }}
           onSelectOption={(v) => {
             setSort(v.label as SortType);
-            setSessions(null);
+            setResponse(null);
           }}
           style={{ maxWidth: '12rem' }}
         />
@@ -167,9 +158,9 @@ export const SessionExplorer = () => {
         <Box justifyContent="center" alignItems="center">
           <Progress circular indeterminate />
         </Box>
-      ) : sessions && (
+      ) : response.sessions && (
         <Box className="grid-list" display="grid" spacing="1.2rem">
-          {sessions.map((session) => (
+          {response.sessions.map((session) => (
           <SessionCard key={session._id} session={session} onDelete={() => fetchSessions(page)} onClick={() => setViewing(session)} />
         ))}
         </Box>
@@ -180,8 +171,8 @@ export const SessionExplorer = () => {
           <Button color="secondary" style={{ padding: '0.2rem 0.4rem' }} onClick={() => changePage(page - 1)} disabled={loading || page === 1}>
             <Icon icon={IconEnum.left} />
           </Button>
-          <h3 style={{ textAlign: 'center', margin: 0 }}>{page} / {totalPages}</h3>
-          <Button color="secondary" style={{ padding: '0.2rem 0.4rem' }} onClick={() => changePage(page + 1)} disabled={loading || page === totalPages}>
+          <h3 style={{ textAlign: 'center', margin: 0 }}>{page} / {response.totalPages}</h3>
+          <Button color="secondary" style={{ padding: '0.2rem 0.4rem' }} onClick={() => changePage(page + 1)} disabled={loading || page === response.totalPages}>
             <Icon icon={IconEnum.right} />
           </Button>
         </Box>

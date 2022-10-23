@@ -53,17 +53,60 @@ router.post('/pay', asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'Referral paid out' });
 }));
 
+const getDeviceType = (session) => {
+  if (session.device.screenWidth > 1000) return 'Desktop';
+  if (session.device.screenWidth > 600) return 'Tablet';
+  return 'Mobile';
+}
+
 router.get('/sessions', asyncHandler(async (req, res) => {
   const maxItemsPerPage = 25;
   const page = parseInt(req.query.page) || 1;
   const skip = (page - 1) * maxItemsPerPage;
   const count = await Session.countDocuments();
+  const sort = (req.query.sort || 'time').toLowerCase();
 
-  const sessions = await Session.find({}).sort({ createdAt: -1 }).skip(skip).limit(maxItemsPerPage).populate('user');
+  const sessions = await Session.find({}).sort({ createdAt: -1 }).populate('user');
+
+  if (sort === 'event count') {
+    sessions.sort((a, b) => b.events.length - a.events.length);
+  } else if (sort === 'duration') {
+    sessions.sort((a, b) => (new Date(a.updatedAt || 0).getTime() - a.start) - (new Date(b.updatedAt || 0).getTime() - b.start)).reverse();
+  }
+
+  const pageViews = [];
+  for (const session of sessions)
+      for (const event of session.events)
+        if (event.type === 'pageview') {
+          if (pageViews.find(p => p.page === event.page)) {
+            pageViews.find(p => p.page === event.page).views++;
+          } else {
+            pageViews.push({ page: event.page, views: 1 });
+          }
+        }
+  pageViews.sort((a, b) => b.views - a.views);
+  
+  const devices = [];
+  for (const session of sessions)
+    if (session.device) {
+      if (devices.find(d => d.name === getDeviceType(session))) {
+        devices.find(d => d.name === getDeviceType(session)).sessions++;
+      } else {
+        devices.push({ name: getDeviceType(session), sessions: 1 });
+      }
+    }
+  
+  devices.sort((a, b) => b.sessions - a.sessions);
+
+  sessions.splice(0, skip);
+  sessions.splice(maxItemsPerPage);
+
   res.status(200).json({
     maxItemsPerPage,
     totalPages: Math.ceil(count / maxItemsPerPage),
     totalSessions: count,
+    pageViews,
+    devices,
     sessions,
   });
 }));

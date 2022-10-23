@@ -30,45 +30,26 @@ export const options = {
   maintainAspectRatio: false,
 };
 
-interface Device {
+export interface Device {
   name: 'Desktop' | 'Mobile' | 'Tablet';
   sessions: number;
 }
 
-const getDeviceType = (session: Session) => {
-  if (session.device.screenWidth > 1000) return 'Desktop';
-  if (session.device.screenWidth > 600) return 'Tablet';
-  return 'Mobile';
-};
-
 export interface Props {
-  sessions: Session[];
+  devices: Device[];
 }
 
-export const DevicesChart = ({ sessions }: Props) => {
+export const DevicesChart = ({ devices }: Props) => {
   const { theme } = useContext(ThemeContext);
 
-  const deviceCount: Device[] = [];
-  if (sessions)
-    for (const session of sessions)
-      if (session.device) {
-        if (deviceCount.find(d => d.name === getDeviceType(session))) {
-          deviceCount.find(d => d.name === getDeviceType(session))!.sessions++;
-        } else {
-          deviceCount.push({ name: getDeviceType(session), sessions: 1 });
-        }
-      }
-
-  deviceCount.sort((a, b) => b.sessions - a.sessions);
-
   const data = {
-    labels: deviceCount.map(p => p.name),
+    labels: devices.map(p => p.name),
     datasets: [
       {
         type: 'pie' as const,
         label: 'Sessions',
         backgroundColor: [theme.colors.success[0], theme.colors.primary[0], theme.colors.background[1]],
-        data: deviceCount.map(p => p.sessions),
+        data: devices.map(p => p.sessions),
       },
     ],
   };
