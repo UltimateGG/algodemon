@@ -52,6 +52,7 @@ interface SessionsResponse {
   totalSessions: number;
   pageViews: PageView[];
   devices: Device[];
+  avgDuration: number;
   sessions: Session[];
 }
 
@@ -123,7 +124,7 @@ export const SessionExplorer = () => {
       </Box>
       <Box style={{ padding: '0 2rem', marginBottom: '1.2rem' }}>
         <small>{response.totalSessions} sessions | {
-          response.sessions && response.sessions.length > 0 && toDuration((response.sessions.reduce((a, b) => a + (new Date(b.updatedAt || 0).getTime() - b.start), 0) / response.sessions.length))
+          response.sessions && response.sessions.length > 0 && toDuration(response.avgDuration)
         } avg duration</small>
       </Box>
 

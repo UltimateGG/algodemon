@@ -98,6 +98,8 @@ router.get('/sessions', asyncHandler(async (req, res) => {
   
   devices.sort((a, b) => b.sessions - a.sessions);
 
+  const avgDuration = sessions.reduce((a, b) => a + (new Date(b.updatedAt || 0).getTime() - b.start), 0) / sessions.length;
+
   sessions.splice(0, skip);
   sessions.splice(maxItemsPerPage);
 
@@ -107,6 +109,7 @@ router.get('/sessions', asyncHandler(async (req, res) => {
     totalSessions: count,
     pageViews,
     devices,
+    avgDuration,
     sessions,
   });
 }));
