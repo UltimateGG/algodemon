@@ -5,7 +5,7 @@ import FAQ from '../components/FAQ';
 import { useNotifications } from '../contexts/NotificationContext';
 import Review from '../components/Review';
 import { NAME, PRICE } from '../globals';
-import { Box, Button, Divider, Icon, IconEnum, Modal, TextField, ThemeContext } from '../Jet';
+import { Box, Button, Divider, FileInput, Icon, IconEnum, Modal, Progress, TextArea, TextField, ThemeContext } from '../Jet';
 import { apiGet } from '../api/apiExecutor';
 import { EventType, useSessionTracker } from '../contexts/SessionTrackerContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -91,6 +91,8 @@ export const PricingPage = () => {
   const [textField, setTextField] = React.useState('');
   const [affiliateCode, setAffiliateCode] = React.useState<string | null>(null);
   const [currentPrice, setCurrentPrice] = React.useState(PRICE + '');
+  const [submittingReivew, setSubmittingReview] = React.useState(false);
+  const [reviewError, setReviewError] = React.useState('');
   const { addNotification } = useNotifications();
   const { addToQueue } = useSessionTracker();
   const { user } = useAuth();
@@ -200,12 +202,52 @@ export const PricingPage = () => {
           />
 
           <Review
-            title="The best that I've ever used!"
-            description={`${NAME} is so much better than other indicators I have used. First off, it offers more features for a cheaper price unlike other greedy companies! Second of all the signals actually work and I was able to make back the cost of the algo within the first day of purchasing! I definitely recommend it.`}
+            title="The best that I've ever used"
+            description={`${NAME} is so much better than other indicators I have used. First off, it offers more features for a cheaper price unlike other greedy companies.. Second of all the signals actually work and I was able to make back the cost of the algo within the first day of purchasing! I definitely recommend it.`}
             avatar="https://i.imgur.com/U9H3Be4.png"
             name="Pot_Rapid"
             subtitle="Stock Swing Trader"
           />
+        </Box>
+
+        <Box flexDirection="column">
+          <h5 className="pretitle" style={{ marginTop: '6rem' }}>Write a Review</h5>
+          <h1 className="section-header" style={{ marginBottom: '2rem' }}>Share your experience</h1>
+
+          <Box justifyContent="center" display="grid">
+            {submittingReivew ? (
+              <Progress circular indeterminate />
+            ) : (
+              <>
+                {reviewError !== '' && (
+                  <Box flexDirection="column" justifyContent="center" alignItems="center">
+                    <h1 style={{ color: theme.colors.danger[0], fontSize: '3rem' }}><Icon icon={IconEnum.error} size={36} color={theme.colors.danger[0]} /> Error</h1>
+                    <p>{reviewError}</p>
+                  </Box>
+                )}
+                <Box spacing="1rem">
+                  <TextField placeholder="Your Name" fullWidth />
+                  <TextField placeholder="Your Role" fullWidth />
+                </Box>
+
+                <div style={{ margin: '1rem 0' }}>
+                  <label style={{ float: 'left' }}>Profile Picture</label>
+                  <FileInput placeholder="Upload a photo" />
+                </div>
+
+                <TextField placeholder="Review Title" fullWidth />
+                <TextArea placeholder="Your Review" fullWidth></TextArea>
+
+                <Button block style={{ marginBottom: 0 }} onClick={() => {
+                  setSubmittingReview(true);
+                  setTimeout(() => {
+                    setSubmittingReview(false);
+                    setReviewError('You must purchase the indicator to write a review.');
+                  }, 2000);
+                }}>Submit Review</Button>
+              </>
+            )}
+          </Box>
         </Box>
       </Box>
 

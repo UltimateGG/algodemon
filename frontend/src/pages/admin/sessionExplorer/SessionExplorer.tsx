@@ -4,7 +4,10 @@ import { apiGet } from '../../../api/apiExecutor';
 import { useAuth } from '../../../contexts/AuthContext';
 import { Session } from '../../../contexts/SessionTrackerContext';
 import { NAME } from '../../../globals';
-import { Box, Button, Icon, IconEnum, Progress, ThemeContext } from '../../../Jet';
+import { Box, Button, Dropdown, Icon, IconEnum, Progress, ThemeContext } from '../../../Jet';
+import { toDuration } from '../../../utils';
+import DevicesChart from './DevicesChart';
+import PageViewsChart from './PageViewsChart';
 import SessionCard from './SessionCard';
 import SessionView from './SessionView';
 
@@ -24,12 +27,24 @@ const PageStyle = styled.div.attrs((props: any) => props)`
     }
   }
 
+  @media (max-width: 645px) {
+    .charts-container {
+      flex-direction: column;
+    }
+  }
+
   @media (max-width: 600px) {
     .heading {
       font-size: 1.5rem;
     }
   }
 `;
+
+enum SortType {
+  DURATION = 'Duration',
+  EVENTS = 'Event Count',
+  TIME = 'Time',
+}
 
 export const SessionExplorer = () => {
   const { theme } = useContext(ThemeContext);
@@ -41,6 +56,7 @@ export const SessionExplorer = () => {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
   const [viewing, setViewing] = React.useState<Session | null>(null);
+  const [sort, setSort] = React.useState<SortType>(SortType.TIME);
 
   const fetchSessions = async (page: number) => {
     setLoading(true);
@@ -48,7 +64,7 @@ export const SessionExplorer = () => {
     
     apiGet('admin/sessions?page=' + page, true).then(res => {
       if (res.error) return setError(res.error);
-      setSessions(res.data.sessions);
+      setSessions(getSortedSessions(res.data.sessions));
       setTotalPages(res.data.totalPages);
       setTotalSessions(res.data.totalSessions);
     }).finally(() => {
@@ -66,6 +82,23 @@ export const SessionExplorer = () => {
     }
   }
 
+  const getSortedSessions = (sessions: Session[]) => {
+    switch (sort) {
+      case SortType.DURATION:
+        sessions.sort((a, b) => (new Date(a.updatedAt || 0).getTime() - a.start) - (new Date(b.updatedAt || 0).getTime() - b.start));
+        break;
+      case SortType.EVENTS:
+        sessions.sort((a, b) => a.events.length - b.events.length);
+        break;
+      default:
+      case SortType.TIME:
+        sessions.sort((a, b) => a.start - b.start);
+        break;
+    }
+
+    return sessions.reverse();
+  }
+
   useEffect(() => {
     document.title = NAME + ' - Session Explorer';
 
@@ -75,7 +108,7 @@ export const SessionExplorer = () => {
     }
 
     if (!sessions) fetchSessions(page);
-  }, [user, sessions, page]);
+  }, [user, sessions, page]); // eslint-disable-line
 
   if (viewing)
     return (
@@ -91,11 +124,37 @@ export const SessionExplorer = () => {
 
   return (
     <PageStyle theme={theme}>
-      <Box alignItems="center" spacing="1.2rem" style={{ padding: '0 2rem', marginBottom: '1.2rem' }}>
+      <Box alignItems="center" spacing="1.2rem" style={{ padding: '0 2rem', marginBottom: '0.2rem' }}>
         <Button color="secondary" style={{ padding: '0.2rem 0.4rem' }} onClick={() => window.location.href = '/#/dashboard'}>
           <Icon icon={IconEnum.left} />
         </Button>
-        <h1 className="heading" style={{ textAlign: 'center', margin: 0, wordBreak: 'break-word' }}>Session Explorer ({totalSessions})</h1>
+        <h1 className="heading" style={{ textAlign: 'center', margin: 0, wordBreak: 'break-word' }}>Session Explorer</h1>
+      </Box>
+      <Box style={{ padding: '0 2rem', marginBottom: '1.2rem' }}>
+        <small>{totalSessions} sessions | {
+          sessions && sessions.length > 0 && toDuration((sessions.reduce((a, b) => a + (new Date(b.updatedAt || 0).getTime() - b.start), 0) / sessions.length))
+        } avg duration</small>
+      </Box>
+
+      <Box className="charts-container" style={{ padding: '0 2rem', marginBottom: '0.4rem' }} spacing="0.2rem">
+        <div>
+          {sessions && <PageViewsChart sessions={sessions} />}
+        </div>
+        <div>
+          {sessions && <DevicesChart sessions={sessions} />}
+        </div>
+      </Box>
+
+      <Box justifyContent="flex-end" style={{ padding: '0 2rem', marginBottom: '0.2rem' }}>
+        <Dropdown
+          values={Object.values(SortType).map(v => ({ label: v }))}
+          selected={{ label: sort }}
+          onSelectOption={(v) => {
+            setSort(v.label as SortType);
+            setSessions(null);
+          }}
+          style={{ maxWidth: '12rem' }}
+        />
       </Box>
 
       {error !== '' && (

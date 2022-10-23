@@ -7,6 +7,7 @@ import { apiPost } from '../api/apiExecutor';
 
 const ContactPageStyle = styled(Box).attrs((props: any) => props)`
   height: 100%;
+  padding: 0 1.2rem;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     padding-top: 3rem;
@@ -105,7 +106,8 @@ const ContactPage = () => {
         <Progress indeterminate circular />
       </Box> : (
         <form id="contact-form" onSubmit={onSubmit}>
-          <h1 style={{ fontSize: '3.4rem' }}>Contact Us</h1>
+          <h1 style={{ fontSize: '3.4rem', marginBottom: 0 }}>Contact Us</h1>
+          <p style={{ marginBottom: '0.6rem', maxWidth: '30rem' }}>We offer 24/7 support. Feel free to send us a message here with any questions you have, and we will get back to you at the email provided.</p>
 
           <Box spacing="1rem">
             <TextField placeholder="Name" fullWidth value={name} onChanged={setName} onBlur={validateName} error={nameError} />

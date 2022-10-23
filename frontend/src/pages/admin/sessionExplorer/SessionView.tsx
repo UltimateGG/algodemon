@@ -12,6 +12,11 @@ const PageStyle = styled.div.attrs((props: any) => props)`
   margin-bottom: 2rem;
   padding: 0 2rem;
   position: relative;
+
+  .text-wrapping {
+    word-break: break-all;
+    word-wrap: break-word;
+  }
 `;
 
 export interface SessionViewProps {
@@ -60,7 +65,7 @@ export const SessionView = ({ session, onDelete, onClose }: SessionViewProps) =>
       <h4 className="text-wrapping" style={{ margin: 0 }}>User Agent:</h4>
       <Box alignItems="center" spacing="0.2rem">
         <div>
-          {(session.device.platform === 'iPhone' || session.device.platform === 'Android') ? (
+          {(session.device.platform === 'iPhone' || session.device.userAgent.includes('Android')) ? (
             <Icon icon={IconEnum.phone} size={18} color={theme.colors.text[5]} />
           ) : (session.device.platform.startsWith('Win') || session.device.platform.includes('Linux')) ? (
             <>
@@ -84,7 +89,7 @@ export const SessionView = ({ session, onDelete, onClose }: SessionViewProps) =>
       <h6>{session.device.timezone}</h6>
 
       <h4 className="text-wrapping" style={{ margin: 0 }}>Start URL:</h4>
-      <h6>{session.startUrl}</h6>
+      <h6 className="text-wrapping">{session.startUrl}</h6>
 
       <h4 className="text-wrapping" style={{ margin: 0, display: 'flex', alignItems: 'center' }}>Brave Browser: <Icon style={{ marginLeft: '0.4rem' }} icon={session.device.isBrave ? IconEnum.checkmark : IconEnum.x} color={session.device.isBrave ? theme.colors.success[0] : theme.colors.danger[0]} /></h4>
 

@@ -64,7 +64,7 @@ export const SessionCard = ({ session, onDelete, onClick }: SessionCardProps) =>
         <h6>{toDuration(duration)}</h6>
         <Box alignItems="center">
           {!session.startUrl.startsWith(URL) && <Icon icon={IconEnum.warning} size={18} color={theme.colors.warning[0]} />}
-          <small>{session.events.length} event{session.events.length === 1 ? '' : 's'} | {session.startUrl}</small>
+          <small className="text-wrapping">{session.events.length} event{session.events.length === 1 ? '' : 's'} | {session.startUrl}</small>
         </Box>
 
         {session.user && (
@@ -76,7 +76,7 @@ export const SessionCard = ({ session, onDelete, onClick }: SessionCardProps) =>
 
         <Box alignItems="center" spacing="0.2rem">
           <div>
-            {(session.device.platform === 'iPhone' || session.device.platform === 'Android') ? (
+            {(session.device.platform === 'iPhone' || session.device.userAgent.includes('Android')) ? (
               <Icon icon={IconEnum.phone} size={18} color={theme.colors.text[5]} />
             ) : (session.device.platform.startsWith('Win') || session.device.platform.includes('Linux')) ? (
               <>

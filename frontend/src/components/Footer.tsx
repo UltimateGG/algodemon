@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { AFFILIATE_PERCENT, NAME, PRICE } from '../globals';
+import { NAME } from '../globals';
 import { Box, Button, Divider, ThemeContext } from '../Jet';
 
 
@@ -74,7 +74,7 @@ const Footer = () => {
         <BannerStyle justifyContent="center" alignItems="center" style={{ backgroundColor: theme.colors.background[1], marginBottom: 0 }} theme={theme}>
           <div>
             <h1>Become an Affiliate</h1>
-            <p>Earn ${((PRICE * 0.2) * (AFFILIATE_PERCENT / 100.0)).toFixed(2)} everytime someone clicks your link</p>
+            <p>Earn money through social media with {NAME}</p>
             <Button color="secondary" onClick={() => {
               window.scrollTo(0, 0);
               window.location.href = '#/affiliates';
