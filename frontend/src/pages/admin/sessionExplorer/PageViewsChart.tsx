@@ -8,8 +8,10 @@ import {
   LineElement,
   Legend,
   Tooltip,
+  ArcElement,
+  BarController
 } from 'chart.js';
-import { Chart } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import { Session } from '../../../contexts/SessionTrackerContext';
 import { ThemeContext } from '../../../Jet';
 
@@ -20,7 +22,9 @@ ChartJS.register(
   PointElement,
   LineElement,
   Legend,
-  Tooltip
+  Tooltip,
+  ArcElement,
+  BarController
 );
 
 export const options = {
@@ -72,8 +76,7 @@ export const PageViewsChart = ({ sessions }: Props) => {
   };
 
   return (
-    <Chart
-      type='bar'
+    <Bar
       options={options}
       data={data}
     />
