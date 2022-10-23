@@ -57,7 +57,7 @@ const ContactPage = () => {
   }
 
   const validateEmail = () => {
-    return requiredValidator(setEmailError, email) && lengthValidator(setEmailError, email, 100) && emailValidator(setEmailError, email);
+    return requiredValidator(setEmailError, email.trim()) && lengthValidator(setEmailError, email.trim(), 100) && emailValidator(setEmailError, email.trim());
   }
 
   const validateMessage = () => {
