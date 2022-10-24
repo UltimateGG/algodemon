@@ -132,12 +132,12 @@ const Navbar = () => {
 
       <DrawerStyle open={drawerOpen} onClose={() => setDrawerOpen(false)} theme={theme}>
         {links.map(link => (
-          <NavbarLinkStyle key={link.href} href={'#' + link.href} active={location.pathname === link.href} theme={theme}>
+          <NavbarLinkStyle key={link.href} href={'#' + link.href} onClick={() => setDrawerOpen(false)} active={location.pathname === link.href} theme={theme}>
             {link.label}
           </NavbarLinkStyle>
         ))}
         {localStorage.getItem('token') && (
-          <NavbarLinkStyle href="#/dashboard" active={location.pathname === '/dashboard'} theme={theme}>Dashboard</NavbarLinkStyle>
+          <NavbarLinkStyle href="#/dashboard" active={location.pathname === '/dashboard'} onClick={() => setDrawerOpen(false)} theme={theme}>Dashboard</NavbarLinkStyle>
         )}
       </DrawerStyle>
     </>

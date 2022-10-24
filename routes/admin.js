@@ -72,6 +72,15 @@ router.get('/sessions', asyncHandler(async (req, res) => {
     sessions.sort((a, b) => b.events.length - a.events.length);
   } else if (sort === 'duration') {
     sessions.sort((a, b) => (new Date(a.updatedAt || 0).getTime() - a.start) - (new Date(b.updatedAt || 0).getTime() - b.start)).reverse();
+  } else if (sort === 'purchased') {
+    sessions.sort((a, b) => {
+      const aPurchase = a.events.find(e => e.type === 'purchase');
+      const bPurchase = b.events.find(e => e.type === 'purchase');
+      if (aPurchase && bPurchase) return new Date(bPurchase.time).getTime() - new Date(aPurchase.time).getTime();
+      if (aPurchase) return -1;
+      if (bPurchase) return 1;
+      return 0;
+    });
   }
 
   const pageViews = [];
@@ -99,7 +108,9 @@ router.get('/sessions', asyncHandler(async (req, res) => {
   devices.sort((a, b) => b.sessions - a.sessions);
 
   const avgDuration = sessions.reduce((a, b) => a + (new Date(b.updatedAt || 0).getTime() - b.start), 0) / sessions.length;
-
+  const purchases = sessions.filter(s => s.events.find(e => e.type === 'purchase')).length;
+  const conversionRate = purchases / sessions.length * 100;
+  
   sessions.splice(0, skip);
   sessions.splice(maxItemsPerPage);
 
@@ -110,6 +121,7 @@ router.get('/sessions', asyncHandler(async (req, res) => {
     pageViews,
     devices,
     avgDuration,
+    conversionRate,
     sessions,
   });
 }));

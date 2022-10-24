@@ -31,6 +31,10 @@ const PageStyle = styled.div.attrs((props: any) => props)`
     max-width: 100%;
   }
 
+  .profits-img {
+    max-width: 700px;
+  }
+
   .brands img {
     max-height: 50px;
   }
@@ -129,7 +133,7 @@ export const HomePage = () => {
           <p>Take the complication out of trading &amp; simplify your charts with {NAME} 🚀</p>
         </Box>
 
-        <img className="profits-img" src="/img/profit.png" alt={NAME + " Profits"} style={{ maxWidth: '500px', borderRadius: theme.rounded, padding: '6rem 0' }} />
+        <img className="header-img" src="/img/home.png" alt={NAME + " Indicator"} style={{ borderRadius: theme.rounded, padding: '6rem 0' }} />
       </Box>
 
       <Box className="container" flexDirection="column" style={{ padding: '4rem 6rem', marginTop: '4rem', backgroundColor: theme.colors.background[1] }} justifyContent="space-around" alignItems="center" spacing="1.6rem">
@@ -153,19 +157,19 @@ export const HomePage = () => {
 
           <ReasonBlock
             title="All Markets"
-            description={NAME + " works in any market and any timeframe. Perfect for day traders, swing traders and scalpers!"}
+            description={NAME + " works in any market and any timeframe (Forex, Crypto, Options, etc). Perfect for day traders, swing traders and scalpers."}
             icon={IconEnum.accessibility}
           />
 
           <ReasonBlock
             title="Easy To Use"
-            description="Our indicator is built to be beginner friendly! It is very easy to use and it also includes a tutorial!"
+            description="Our indicator is built to be beginner friendly, it is very easy to use and it also includes a tutorial."
             icon={IconEnum.checkmark}
           />
 
           <ReasonBlock
             title="Lifetime Access"
-            description={`Say good-bye to annoying monthly payments, ${NAME} is a life time membership unlike our competitors who offer less value!`}
+            description={`Say good-bye to annoying monthly payments, ${NAME} is a life time membership unlike our competitors who offer less value.`}
             icon={IconEnum.calendar}
           />
         </Box>
@@ -184,7 +188,7 @@ export const HomePage = () => {
         <Box flexDirection="column" spacing="1rem">
           <h5 className="pretitle" style={{ textAlign: 'left' }}>Features</h5>
           <h1>More Helpful Features 😉</h1>
-          <p style={{ marginBottom: '1rem' }}>Take advantage of the many features {NAME} has to offer (all included in the one time payment!)</p>
+          <p style={{ marginBottom: '1rem' }}>Take advantage of the many features {NAME} has to offer (all included in the one time payment)</p>
 
           <Box alignItems="center" spacing="1rem">
             <Icon className="background-primary" icon={IconEnum.checkmark_circle} style={{ borderRadius: theme.rounded, padding: '0.4rem' }} size={36} />
@@ -200,7 +204,7 @@ export const HomePage = () => {
       </Box>
 
       <Box className="container" style={{ padding: '6rem', backgroundColor: theme.colors.background[1] }} spacing="4.6rem" justifyContent="center">
-        <img className="header-img" src="/img/home.png" alt={NAME + " Indicator"} />
+        <img className="profits-img" src="/img/profit.png" alt={NAME + " Profits"} />
 
         <Box flexDirection="column" spacing="1.4rem" justifyContent="center">
           <h5 className="pretitle" style={{ textAlign: 'left' }}>Get Started</h5>

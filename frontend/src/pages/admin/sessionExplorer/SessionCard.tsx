@@ -63,7 +63,7 @@ export const SessionCard = ({ session, onDelete, onClick }: SessionCardProps) =>
         </Box>
         <h6>{toDuration(duration)}</h6>
         <Box alignItems="center">
-          {!session.startUrl.startsWith(URL) && <Icon icon={IconEnum.warning} size={18} color={theme.colors.warning[0]} />}
+          {!session.startUrl.replace('www', '').startsWith(URL) && <Icon icon={IconEnum.warning} size={18} color={theme.colors.warning[0]} />}
           <small className="text-wrapping">{session.events.length} event{session.events.length === 1 ? '' : 's'} | {session.startUrl}</small>
         </Box>
 
