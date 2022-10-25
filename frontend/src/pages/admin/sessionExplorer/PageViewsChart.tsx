@@ -12,7 +12,6 @@ import {
   BarController
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { Session } from '../../../contexts/SessionTrackerContext';
 import { ThemeContext } from '../../../Jet';
 
 ChartJS.register(

@@ -87,7 +87,7 @@ export interface PurchaseEvent {
   country: string;
   username: string;
   affiliateCode: string;
-  stripePaymentIntentId: string;
+  paymentId: string;
 }
 
 export type Event = StartEvent | ClickEvent | ScrollEvent | LoginEvent | SignUpEvent | PurchaseEvent;

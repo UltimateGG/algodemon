@@ -3,6 +3,6 @@ export const URL = 'https://algodemon.com';
 export const THEME_COLOR = '#6200EE';
 export const PRICE = 74.95;//149.99;
 export const AFFILIATE_PERCENT = 10.0;
-export const STRIPE_PUBLIC_KEY = process.env.NODE_ENV === 'development'
-  ? 'pk_test_51LiTBQJe97HcqNhtpmqJiqMNdmnkwwlEzJJhuKiHIezAzzZLsHLd7KVLw0HuKr37I6CZUSZ5yAfroO5DNBUlNjec00VnIaPoaI'
-  : 'pk_live_51LiTBQJe97HcqNhtl3fwXIKh1yIVVwWdRRsuxb4dV68o9lbQNX044I35aBHbVVqt3eErpjpYmhBO1nepyqNtNkxI00P16SQ7OJ';
+export const PAYPAL_CLIENT_ID = process.env.NODE_ENV === 'development'
+  ? 'AXLSvOucX2MLY-m-dWu1BbCNF51FTJlKYqtkQuxPh93YPxj7iWxK874Cnpn7ddCFLaYJFR75xZO5Ed7H'
+  : 'AffQ0kX6TJRQuZmK-n6E3CH1aJQuT3_x4xxtAFqTbLRhKFLZjFLQCdcmvN2qmvOuUNTAp72iu_QQVLPs';

@@ -140,7 +140,7 @@ export const HomePage = () => {
         <h5 className="pretitle">Trusted by Thousands of Traders</h5>
 
         <Box spacing="2rem" className="brands">
-          <img src="/img/stripe.png" alt="Stripe" />
+          <img src="/img/paypal.png" alt="PayPal" />
           <img src="/img/tradingview.png" alt="TradingView" />
         </Box>
       </Box>

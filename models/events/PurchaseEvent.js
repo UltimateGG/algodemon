@@ -44,7 +44,7 @@ const PurchaseEvent = new Schema({
     type: String,
     required: true,
   },
-  stripePaymentIntentId: {
+  paymentId: {
     type: String,
     required: true,
   },

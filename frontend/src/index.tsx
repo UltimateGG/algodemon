@@ -10,9 +10,8 @@ import ContactPage from './pages/ContactPage';
 import PricingPage from './pages/PricingPage';
 import TutorialPage from './pages/TutorialPage';
 import TOSPage from './pages/TOSPage';
-import { loadStripe } from '@stripe/stripe-js';
-import { STRIPE_PUBLIC_KEY } from './globals';
-import { Elements } from '@stripe/react-stripe-js';
+import { PAYPAL_CLIENT_ID } from './globals';
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import SuccessPage from './pages/SuccessPage';
 import AffiliatePage from './pages/affiliates/AffiliatePage';
 import LoginPage from './pages/affiliates/Login';
@@ -25,12 +24,11 @@ import SessionExplorer from './pages/admin/sessionExplorer/SessionExplorer';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 
 root.render(
   <React.StrictMode>
     <JetDesign>
-      <Elements stripe={stripePromise}>
+      <PayPalScriptProvider options={{ 'client-id': PAYPAL_CLIENT_ID, 'disable-funding': 'credit', 'currency': 'USD' }}>
         <HashRouter>
           <SessionTrackerProvider>
             <ScrollToTop />
@@ -60,7 +58,7 @@ root.render(
             </AuthProvider>
           </SessionTrackerProvider>
         </HashRouter>
-      </Elements>
+      </PayPalScriptProvider>
     </JetDesign>
   </React.StrictMode>
 );

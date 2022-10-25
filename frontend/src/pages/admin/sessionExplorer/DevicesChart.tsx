@@ -11,7 +11,6 @@ import {
   ArcElement
 } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import { Session } from '../../../contexts/SessionTrackerContext';
 import { ThemeContext } from '../../../Jet';
 
 ChartJS.register(

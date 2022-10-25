@@ -66,7 +66,7 @@ const getPurchaseEvent = (event: PurchaseEvent) => {
       <p>Country: {event.country}</p>
       <p>Username: {event.username}</p>
       <p>Affiliate Code: {event.affiliateCode}</p>
-      <p>Stripe Payment Intent ID: {event.stripePaymentIntentId}</p>
+      <p>Payment ID: {event.paymentId}</p>
     </>
   );
 }
