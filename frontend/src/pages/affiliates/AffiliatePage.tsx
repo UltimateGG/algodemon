@@ -4,7 +4,7 @@ import { apiPost } from '../../api/apiExecutor';
 import ReasonBlock from '../../components/ReasonBlock';
 import { useAuth } from '../../contexts/AuthContext';
 import { EventType, useSessionTracker } from '../../contexts/SessionTrackerContext';
-import { AFFILIATE_PERCENT, NAME, PRICE } from '../../globals';
+import { AFFILIATE_PERCENT, NAME } from '../../globals';
 import { Box, Button, Icon, IconEnum, Progress, TextField, ThemeContext } from '../../Jet';
 
 
@@ -30,6 +30,10 @@ const PageStyle = styled.div.attrs((props: any) => props)`
       flex-direction: column;
       padding: 2rem !important;
     }
+
+    .reasons-container {
+      flex-direction: column;
+    }
   }
 `;
 
@@ -39,7 +43,6 @@ export const AffiliatePage = () => {
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const { addToQueue } = useSessionTracker();
-  const EARN = ((PRICE * 0.2) * (AFFILIATE_PERCENT / 100.0)).toFixed(2);
 
   useEffect(() => {
     document.title = NAME + ' - Affiliates';
@@ -84,8 +87,8 @@ export const AffiliatePage = () => {
     <PageStyle>
       <HeaderStyle flexDirection="column" justifyContent="center" alignItems="center" theme={theme}>
         <Box className="header-box" flexDirection="column" justifyContent="center" alignItems="center">
-          <h1 style={{ fontSize: '6rem' }}>Earn ${EARN}</h1>
-          <h4>Everytime someone uses your link</h4>
+          <h1 style={{ fontSize: '6rem' }}>Earn Money</h1>
+          <h4>With {NAME}, by using social media</h4>
 
           <Button style={{ maxWidth: '50%', display: user ? 'none' : 'inline-block' }} block onClick={() => {
             const start = document.querySelector('#start');
@@ -94,31 +97,55 @@ export const AffiliatePage = () => {
           <Button style={{ maxWidth: '50%' }} block variant={user ? 'filled' : 'outlined'} onClick={() => window.location.href = '#/login'}>Affiliate Dashboard</Button>
         </Box>
       </HeaderStyle>
+
+      <Box className="container" flexDirection="column" style={{ padding: '2rem 6rem' }} spacing="1rem">
+        <h2><h2 style={{ display: 'inline' }} className="text-primary">Why</h2> Become An Affiliate?</h2>
+        <Box className="reasons-container" spacing="1rem">
+          <ReasonBlock
+              title="No Minimum Withdrawal"
+              icon={IconEnum.info}
+              description={<>
+                You are automatically paid out after every referral within a week. There is no minimum withdrawal amount and the money is sent directly to your PayPal email that you sign up with.
+              </>}
+            />
+
+            <ReasonBlock
+              title="No Risk"
+              icon={IconEnum.warning}
+              description={<>
+                Being an affiliate is completely free. You do not have to pay anything to become an affiliate, and you do not have to pay anything to receive your earnings. You can try out sharing your link and see how much you earn.
+              </>}
+            />
+        </Box>
+      </Box>
     
-      <Box className="container" style={{ padding: '2rem 6rem', marginTop: '4rem', paddingBottom: '6rem' }} spacing="1rem">
-        <ReasonBlock
-          title="How does it work?"
-          icon={IconEnum.money}
-          description={<>
-            When you sign up for an account, you will be given a unique <u>referral code</u>. Put this code in your TikTok bio, and when someone clicks on your link and accesses the indicator, you will earn <strong>${EARN}</strong>.
-          </>}
-        />
+      <Box className="container" flexDirection="column" style={{ padding: '2rem 6rem' }} spacing="1rem">
+        <h2>FAQ</h2>
+        <Box className="reasons-container" spacing="1rem">
+          <ReasonBlock
+            title="How does it work?"
+            icon={IconEnum.money}
+            description={<>
+              When you sign up for an account, you will be given a unique <u>referral code</u>. Share this link as much as you can, and when someone clicks on your link and accesses the indicator, you will earn {AFFILIATE_PERCENT}% of their purchase. Easy as that!
+            </>}
+          />
 
-        <ReasonBlock
-          title="What do I need to do?"
-          icon={IconEnum.clock}
-          description={<>
-            Simply post a few TikTok videos with your referral code. When someone clicks on your link, you will earn <strong>${EARN}</strong>. You can also post your link on other social media platforms, such as Instagram, Twitter, and Facebook. The more attention you bring, the more you earn.
-          </>}
-        />
+          <ReasonBlock
+            title="What do I need to do?"
+            icon={IconEnum.clock}
+            description={<>
+              Simply post TikTok videos with your referral code. When someone uses your referral code, you will earn {AFFILIATE_PERCENT}% or their purchase. You can also post your link on other social media platforms, such as Instagram, Twitter, and Facebook. The more attention you bring, the more you earn.
+            </>}
+          />
 
-        <ReasonBlock
-          title="How do I start?"
-          icon={IconEnum.info}
-          description={<>
-            Sign up to receive your affiliate code below and start earning. You will enter information like your PayPal, your email, etc. Once you sign up, you will be able to access your affiliate dashboard, where you can view your earnings.
-          </>}
-        />
+          <ReasonBlock
+            title="How do I start?"
+            icon={IconEnum.info}
+            description={<>
+              Sign up below for <u><strong>free</strong></u> to receive your affiliate code and start earning. You will enter your PayPal email, then you will be able to access your affiliate dashboard, where you can view your earnings.
+            </>}
+          />
+        </Box>
       </Box>
 
       <Box id="start" flexDirection="column" className="container" style={{ display: user ? 'none' : '', padding: '2rem 6rem', marginTop: '4rem', paddingBottom: '2rem', backgroundColor: theme.colors.background[1] }} spacing="1rem">

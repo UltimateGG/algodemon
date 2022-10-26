@@ -61,8 +61,11 @@ const PageStyle = styled.div.attrs((props: any) => props)`
   }
 
   @media (max-width: 600px) {
+    .trusted-title {
+      font-size: 1.0rem;
+    }
+
     .brands {
-      flex-direction: column;
       justify-content: center;
       align-items: center;
 
@@ -109,7 +112,7 @@ export const HomePage = () => {
 
     // Affiliates query
     const urlParams = new URLSearchParams(window.location.search);
-    const affiliate = urlParams.get('r') || 'dmn'; // TODO - temp. We give user 80% off till affiliate program is ready
+    const affiliate = urlParams.get('r');
 
     if (affiliate) localStorage.setItem('ref', affiliate);
   });
@@ -137,7 +140,7 @@ export const HomePage = () => {
       </Box>
 
       <Box className="container" flexDirection="column" style={{ padding: '4rem 6rem', marginTop: '4rem', backgroundColor: theme.colors.background[1] }} justifyContent="space-around" alignItems="center" spacing="1.6rem">
-        <h5 className="pretitle">Trusted by Thousands of Traders</h5>
+        <h5 className="pretitle trusted-title">Trusted by Thousands of Traders</h5>
 
         <Box spacing="2rem" className="brands">
           <img src="/img/paypal.png" alt="PayPal" />

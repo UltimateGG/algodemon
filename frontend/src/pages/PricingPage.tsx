@@ -112,9 +112,13 @@ export const PricingPage = () => {
   }, [addNotification]);
 
   useEffect(() => {
+    if (!localStorage.getItem('ref')) localStorage.setItem('ref', 'dmn'); // TODO - temp till affiliate program is ready
+  }, []);
+
+  useEffect(() => {
     document.title = `${NAME} - Purchase`;
 
-    const ref = localStorage.getItem('ref');
+    const ref = localStorage.getItem('ref'); 
     if (ref) handleSetCode(ref);
   }, [handleSetCode]);
 
@@ -178,32 +182,32 @@ export const PricingPage = () => {
 
         <Box className="reviews" display="grid" spacing="2rem">
           <Review
-            title="Paid for itself within the first trade!"
-            description={`I was skeptical when buying ${NAME} because I've tried similar indicators that haven't worked but my mind was blown when I made over $160 within my first trade.`}
+            title="Good Indicator"
+            description={`I was skeptical when buying ${NAME} because I've tried similar indicators that haven't worked but I was amazed after what I made with my first trade.`}
             avatar="https://i.imgur.com/qSHZSKw.png"
             name="Lxgan"
             subtitle="Options Trader"
           />
 
           <Review
-            title="I can't believe more people aren't using it"
-            description={`I was blessed to find an ad about ${NAME}, I've been using it for a month now and i've never made so much money trading futures. Thank you ${NAME} team!`}
+            title="Best Choice I've Made"
+            description={`Paid for itself already. I've been using it for a month now and i've never made so much money trading futures. Highly recommend it to anyone beginner, or advanced.`}
             avatar="https://i.imgur.com/OioRfhl.png"
             name="Cptp"
-            subtitle="Forex Day Trader"
+            subtitle="Futures Trader"
           />
 
           <Review
-            title="Just when I was about to give up on trading..."
-            description={`Before using ${NAME}, I was constantly losing money and blowing up my account, it was so frustrating. But once I started using ${NAME} that completely changed. Since purchasing I've made enough to buy myself my dream computer setup!`}
+            title="Saved My Trading Account"
+            description={`Before using ${NAME} I was constantly losing money and blowing up my account, it was so frustrating and I was about to give up. But once I started using ${NAME} I have been making consistent profits and I'm finally back on track.`}
             avatar="https://i.imgur.com/pCDVL6G.png"
             name="Luxy"
             subtitle="Forex Day Trader"
           />
 
           <Review
-            title="The best that I've ever used"
-            description={`${NAME} is so much better than other indicators I have used. First off, it offers more features for a cheaper price unlike other greedy companies.. Second of all the signals actually work and I was able to make back the cost of the algo within the first day of purchasing! I definitely recommend it.`}
+            title="Nice"
+            description={`This tool offers way more features for a cheaper price from other indicators i've tried.. also the signals actually work and I was able to make back the cost of the algo within the first day of purchasing. I definitely recommend it.`}
             avatar="https://i.imgur.com/U9H3Be4.png"
             name="Pot_Rapid"
             subtitle="Stock Swing Trader"
@@ -232,7 +236,7 @@ export const PricingPage = () => {
 
                 <div style={{ margin: '1rem 0' }}>
                   <label style={{ float: 'left' }}>Profile Picture</label>
-                  <FileInput placeholder="Upload a photo" />
+                  <FileInput tooltipPosition="left" placeholder="Upload a photo" />
                 </div>
 
                 <TextField placeholder="Review Title" fullWidth />
