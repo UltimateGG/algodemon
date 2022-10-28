@@ -48,6 +48,10 @@ const PageStyle = styled.div.attrs((props: any) => props)`
       flex-direction: column;
       padding: 2rem !important;
     }
+
+    .header-img {
+      padding: 0 !important;
+    }
   }
 
   @media (max-width: 900px) {
@@ -139,7 +143,7 @@ export const HomePage = () => {
         <img className="header-img" src="/img/home.png" alt={NAME + " Indicator"} style={{ borderRadius: theme.rounded, padding: '6rem 0' }} />
       </Box>
 
-      <Box className="container" flexDirection="column" style={{ padding: '4rem 6rem', marginTop: '4rem', backgroundColor: theme.colors.background[1] }} justifyContent="space-around" alignItems="center" spacing="1.6rem">
+      <Box className="container" flexDirection="column" style={{ padding: '4rem 6rem', marginTop: '1rem', backgroundColor: theme.colors.background[1] }} justifyContent="space-around" alignItems="center" spacing="1.6rem">
         <h5 className="pretitle trusted-title">Trusted by Thousands of Traders</h5>
 
         <Box spacing="2rem" className="brands">

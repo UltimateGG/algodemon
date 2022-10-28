@@ -209,7 +209,12 @@ export const SessionTrackerProvider = ({ children }: any) => {
   // Init func, setup websocket once per page refresh
   useEffect(() => {
     if (ws) return;
-    setWs(new WebSocket(`${getWSUrl('/al/c')}?t=${localStorage.getItem('token')}`));
+    try {
+      setWs(new WebSocket(`${getWSUrl('/al/c')}?t=${localStorage.getItem('token')}`));
+    } catch (e) {
+      setWs(null);
+      return;
+    }
 
     const start = {
       start: Date.now(),

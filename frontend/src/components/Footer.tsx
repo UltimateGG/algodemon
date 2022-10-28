@@ -77,7 +77,9 @@ const Footer = () => {
             <p>Earn money through social media with {NAME}</p>
             <Button color="secondary" onClick={() => {
               window.scrollTo(0, 0);
-              window.location.href = '#/affiliates';
+              setTimeout(() => {
+                window.location.href = '#/affiliates';
+              }, 100); // wait for scroll to top animation to finish
             }} block>Learn More</Button>
           </div>
         </BannerStyle>
