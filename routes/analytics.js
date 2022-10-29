@@ -46,7 +46,7 @@ const processEvent = (event, req, session) => {
 
     if (json.type === 'start') {
       await onSessionStart(session, req, json);
-      return reject();
+      return resolve();
     }
 
     if (!session) return resolve();
@@ -78,7 +78,9 @@ wss.on('connection', (ws, req, user) => {
       const session = await getSession(req);
       for (let i = 0; i < msg.length; i++)
         await processEvent(msg[i], req, session);
-    } catch (ignored) {}
+    } catch (ignored) {
+      console.error(ignored);
+    }
   });
 });
 

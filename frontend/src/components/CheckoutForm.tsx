@@ -62,13 +62,13 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
             }}
             onApprove={async (data, actions) => {
               apiPost('payment/verify', {
-                paymentId: data.paymentID || '',
-                payerId: data.payerID || '',
+                paymentId: data.paymentID || '[unknown]',
+                payerId: data.payerID || '[unknown]',
                 username: username,
                 ref: localStorage.getItem('ref')
               }).then(res => {
                 if (res.error) return setError(res.error);
-                onSuccessfulCheckout(res.data.log, username, localStorage.getItem('ref') || '[none]', data.paymentID || '[unknown]');
+                onSuccessfulCheckout(res.data.log || res.data, username, localStorage.getItem('ref') || '[none]', data.paymentID || '[unknown]');
               });
             }}
             onError={(err) => {
