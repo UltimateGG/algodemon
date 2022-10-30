@@ -104,17 +104,17 @@ export const AffiliatePage = () => {
           <ReasonBlock
               title="No Minimum Withdrawal"
               icon={IconEnum.info}
-              description={<>
+              description={<p>
                 You are automatically paid out after every referral within a week. There is no minimum withdrawal amount and the money is sent directly to your PayPal email that you sign up with.
-              </>}
+              </p>}
             />
 
             <ReasonBlock
               title="No Risk"
               icon={IconEnum.warning}
-              description={<>
+              description={<p>
                 Being an affiliate is completely free. You do not have to pay anything to become an affiliate, and you do not have to pay anything to receive your earnings. You can try out sharing your link and see how much you earn.
-              </>}
+              </p>}
             />
         </Box>
       </Box>
@@ -125,25 +125,25 @@ export const AffiliatePage = () => {
           <ReasonBlock
             title="How does it work?"
             icon={IconEnum.money}
-            description={<>
+            description={<p>
               When you sign up for an account, you will be given a unique <u>referral code</u>. Share this link as much as you can, and when someone clicks on your link and accesses the indicator, you will earn {AFFILIATE_PERCENT}% of their purchase. Easy as that!
-            </>}
+            </p>}
           />
 
           <ReasonBlock
             title="What do I need to do?"
             icon={IconEnum.clock}
-            description={<>
+            description={<p>
               Simply post TikTok videos with your referral code. When someone uses your referral code, you will earn {AFFILIATE_PERCENT}% or their purchase. You can also post your link on other social media platforms, such as Instagram, Twitter, and Facebook. The more attention you bring, the more you earn.
-            </>}
+            </p>}
           />
 
           <ReasonBlock
             title="How do I start?"
             icon={IconEnum.info}
-            description={<>
+            description={<p>
               Sign up below for <u><strong>free</strong></u> to receive your affiliate code and start earning. You will enter your PayPal email, then you will be able to access your affiliate dashboard, where you can view your earnings.
-            </>}
+            </p>}
           />
         </Box>
       </Box>
