@@ -116,7 +116,7 @@ export const PricingPage = () => {
   }, []);
 
   useEffect(() => {
-    document.title = `${NAME} - Purchase`;
+    document.title = `${NAME} - Pricing`;
 
     const ref = localStorage.getItem('ref'); 
     if (ref) handleSetCode(ref);
@@ -127,7 +127,7 @@ export const PricingPage = () => {
       <Box className="info-section background-primary" flexDirection="column" alignItems="center" style={{ paddingBottom: '12rem' }}>
         <h5 className="pretitle">Pricing</h5>
         <h1>Get Access</h1>
-        <p style={{ maxWidth: '25rem', marginTop: '1.6rem' }}>Purchase life-time access to our value packed trading tool that will help you simplify your charts and gain an edge in the markets for just a one time payment.</p>
+        <p style={{ maxWidth: '25rem', marginTop: '1.6rem' }}>Purchase life-time access to the most accurate trading indicator for just a one time payment.</p>
       </Box>
 
       <Box justifyContent="center">
@@ -166,7 +166,7 @@ export const PricingPage = () => {
           <div className="package-section">
             <div>
               <p>🟣 Buy &amp; Sell Signals</p>
-              <p>🟣 Auto S/R Levels</p>
+              <p>🟣 2 Take Profit Signals</p>
               <p>🟣 Free Updates</p>
               <p>🟣 24/7 Support</p>
             </div>
@@ -260,15 +260,15 @@ export const PricingPage = () => {
 
         <Box flexDirection="column" spacing="2rem">
           <FAQ title={`Does ${NAME} work for forex?`}>
-            Yes! Our trading algorithm works for all markets and all timeframes!
+            Yes, the algorithm works for all markets and all timeframes.
           </FAQ>
 
           <FAQ title="How do I setup the algorithm?">
-            Its very simple to setup/use! Follow the tutorial <a href="#/tutorial">here</a>.
+            Its very simple to setup/use, please see the tutorial <a href="#/tutorial">here</a>.
           </FAQ>
 
           <FAQ title="Does it work for the free version of Tradingview?">
-            Yes! {NAME} works perfectly with the free version of Tradingview.
+            Yes, {NAME} works perfectly with the free version of Tradingview.
           </FAQ>
 
           <FAQ title={`How can I contact the ${NAME} team?`}>

@@ -78,9 +78,7 @@ wss.on('connection', (ws, req, user) => {
       const session = await getSession(req);
       for (let i = 0; i < msg.length; i++)
         await processEvent(msg[i], req, session);
-    } catch (ignored) {
-      console.error(ignored);
-    }
+    } catch (ignored) {}
   });
 });
 

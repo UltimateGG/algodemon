@@ -99,7 +99,7 @@ export const AffiliatePage = () => {
       </HeaderStyle>
 
       <Box className="container" flexDirection="column" style={{ padding: '2rem 6rem' }} spacing="1rem">
-        <h2><h2 style={{ display: 'inline' }} className="text-primary">Why</h2> Become An Affiliate?</h2>
+        <h2><div style={{ display: 'inline' }} className="text-primary">Why</div> Become An Affiliate?</h2>
         <Box className="reasons-container" spacing="1rem">
           <ReasonBlock
               title="No Minimum Withdrawal"

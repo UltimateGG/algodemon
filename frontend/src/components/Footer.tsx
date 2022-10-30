@@ -70,7 +70,8 @@ const Footer = () => {
 
   return (
     <WrapperStyle theme={theme}>
-      {location.pathname !== '/affiliates' && location.pathname !== '/dashboard' && (
+      {/* TODO: Temp */}
+      {false && location.pathname !== '/affiliates' && location.pathname !== '/dashboard' && ( 
         <BannerStyle justifyContent="center" alignItems="center" style={{ backgroundColor: theme.colors.background[1], marginBottom: 0 }} theme={theme}>
           <div>
             <h1>Become an Affiliate</h1>

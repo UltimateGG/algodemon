@@ -16,6 +16,10 @@ const PageStyle = styled.div.attrs((props: any) => props)`
     text-align: left;
   }
 
+  .reason-sect:nth-child(even) {
+    margin-left: auto;
+  }
+
   .reasons-text {
     margin: 0;
     margin-bottom: 2rem;
@@ -39,10 +43,6 @@ const PageStyle = styled.div.attrs((props: any) => props)`
     max-height: 50px;
   }
 
-  .reasons {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
   @media (max-width: 1123px) {
     .container {
       flex-direction: column;
@@ -55,12 +55,27 @@ const PageStyle = styled.div.attrs((props: any) => props)`
   }
 
   @media (max-width: 900px) {
-    .reasons {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
     .quote {
       max-width: 70% !important;
+    }
+
+    .reason-sect {
+      flex-direction: column;
+
+      p {
+        max-width: 100% !important;
+      }
+    }
+
+    .stop-img {
+      max-height: 200px;
+      max-width: 350px;
+      width: auto;
+    }
+
+    .phone-img {
+      max-height: 400px;
+      object-fit: contain;
     }
   }
 
@@ -79,16 +94,13 @@ const PageStyle = styled.div.attrs((props: any) => props)`
       }
     }
 
-    .reasons {
-      grid-template-columns: 1fr;
-    }
-
     .reasons-text {
-      font-size: 2.6rem;
+      font-size: 2rem;
     }
 
     .quote {
       max-width: 95% !important;
+      font-size: 1.4rem !important;
     }
   }
 
@@ -112,7 +124,7 @@ export const HomePage = () => {
   const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
-    document.title = `${NAME} - The Ultimate Trading Indicator`;
+    document.title = NAME;
 
     // Affiliates query
     const urlParams = new URLSearchParams(window.location.search);
@@ -123,21 +135,20 @@ export const HomePage = () => {
 
   return (
     <PageStyle theme={theme}>
-      <Box className="container" style={{ padding: '2rem 6rem', marginTop: '4rem', paddingBottom: '4rem' }} justifyContent="space-around" alignItems="center" spacing="1.6rem">
+      <Box className="container" style={{ padding: '1rem 6rem', marginTop: '4rem', paddingBottom: '1rem' }} justifyContent="space-around" alignItems="center" spacing="1.6rem">
         <Box flexDirection="column" spacing="1.8rem">
           <div>
             <h1 className="welcome-text">Welcome to</h1>
             <h1 className="welcome-text text-primary">{NAME}</h1>
           </div>
 
-          <p>The ultimate trading tool to help you gain an edge in the markets.</p>
+          <p>The most accurate zero lag trading indicator.</p>
+          <p>With a win rate of <u>81.91%</u> and high precision signals, you will profit in any market.</p>
 
           <Box spacing="1rem" className="action-buttons">
             <Button className="background-primary" onClick={() => window.location.href = '#/pricing'} large glowing><div style={{ color: theme.colors.text[0] }}>Get Access</div></Button>
             <Button onClick={() => window.location.href = '#/contact'} large style={{ backgroundColor: theme.colors.text[0] }}><div style={{ color: theme.colors.primary[0] }}>Contact</div></Button>
           </Box>
-
-          <p>Take the complication out of trading &amp; simplify your charts with {NAME} 🚀</p>
         </Box>
 
         <img className="header-img" src="/img/home.png" alt={NAME + " Indicator"} style={{ borderRadius: theme.rounded, padding: '6rem 0' }} />
@@ -153,37 +164,55 @@ export const HomePage = () => {
       </Box>
 
       <Box className="container" flexDirection="column" style={{ padding: '2rem 6rem', marginTop: '4rem', paddingBottom: '6rem' }} spacing="1.6rem">
-        <h1 className="reasons-text"><span className="text-primary">Reasons</span> to choose <br />{NAME}</h1>
+        <h1 className="reasons-text"><span className="text-primary">Reasons</span> to use {NAME}</h1>
 
-        <Box display="grid" className="reasons" spacing="1.2rem">
-          <ReasonBlock
-            title="Increase Profits"
-            description="Our trading tool can help you increase your profitability with simple buy &amp; sell signals."
-            icon={IconEnum.money}
-          />
+        <Box flexDirection="column" spacing="2rem">
+          <Box spacing="1rem" className="reason-sect">
+            <img className="reason-img" src="/img/winrate.png" alt="Win rate" />
+            <ReasonBlock
+              title="Accurate"
+              description={<p style={{ maxWidth: '25rem' }}>
+                {NAME} has a win rate of <u>81.91%</u> and works in real time, unlike many indicators which lag or repaint. With an extremely tight stop loss and accurate take profit signals, the risk to reward ratio is extremely high.
+              </p>}
+              icon={IconEnum.money}
+            />
+          </Box>
 
-          <ReasonBlock
-            title="All Markets"
-            description={NAME + " works in any market and any timeframe (Forex, Crypto, Options, etc). Perfect for day traders, swing traders and scalpers."}
-            icon={IconEnum.accessibility}
-          />
+          <Box spacing="1rem" className="reason-sect">
+            <img className="reason-img stop-img" src="/img/stop.png" style={{ objectFit: 'cover' }} alt="Stop loss" />
+            <ReasonBlock
+              title="Honest"
+              description={<p style={{ maxWidth: '25rem' }}>No indicator is perfect, and we believe in transparency. {NAME} will automatically turn failed signals gray if the stop loss was tripped, or no take profit targets were alerted. This is also why we calculate and show the win rate of the indicator on your chart.</p>}
+              icon={IconEnum.checkmark}
+            />
+          </Box>
 
-          <ReasonBlock
-            title="Easy To Use"
-            description="Our indicator is built to be beginner friendly, it is very easy to use and it also includes a tutorial."
-            icon={IconEnum.checkmark}
-          />
+          <Box spacing="1rem" className="reason-sect">
+            <img className="reason-img phone-img" src="/img/phone.png" alt="Mobile Signals" style={{
+              transform: 'perspective(700px) rotateX(10deg) rotateY(15deg)',
+            }} />
+            <ReasonBlock
+              title="Simple"
+              description={<p style={{ maxWidth: '25rem' }}>
+                {NAME} will output precise entries through buy/sell signals, and profitable exits using take profit targets, all while limiting risk with tight built-in stop-losses. {NAME} can be used by traders of all experience levels. You can even trade from your phone while at work or school. 
+              </p>}
+              icon={IconEnum.phone}
+            />
+          </Box>
 
-          <ReasonBlock
-            title="Lifetime Access"
-            description={`Say good-bye to annoying monthly payments, ${NAME} is a life time membership unlike our competitors who offer less value.`}
-            icon={IconEnum.calendar}
-          />
+          <Box spacing="1rem" className="reason-sect">
+            <img className="reason-img" src="/img/signals.png" alt="Trading signals" />
+            <ReasonBlock
+              title="All Markets"
+              description={<p style={{ maxWidth: '25rem' }}>{NAME}  works on any market (Forex, Crypto, Options, etc), stock, or timeframe. Perfect for any trader, regardless of their experience or trading style.</p>}
+              icon={IconEnum.accessibility}
+            />
+          </Box>
         </Box>
       </Box>
 
       <Box className="container background-primary" flexDirection="column" justifyContent="center" alignItems="center" style={{ padding: '4rem 6rem' }} spacing="1rem">
-        <h2 className="quote" style={{ maxWidth: '50%', textAlign: 'center' }}>“{NAME} has changed the way I trade, I am able to utilize the features in the indicator to make consistent profits every day.”</h2>
+        <h2 className="quote" style={{ maxWidth: '50%', textAlign: 'center' }}>“{NAME} has changed the way I trade, I am able to make consistent profits every day with minimal risk.”</h2>
 
         <div>
           <p>@Excluded</p>
@@ -194,20 +223,30 @@ export const HomePage = () => {
       <Box className="container" style={{ padding: '6rem' }} spacing="1rem" justifyContent="center">
         <Box flexDirection="column" spacing="1rem">
           <h5 className="pretitle" style={{ textAlign: 'left' }}>Features</h5>
-          <h1>More Helpful Features 😉</h1>
-          <p style={{ marginBottom: '1rem' }}>Take advantage of the many features {NAME} has to offer (all included in the one time payment)</p>
+          <h1>All Features</h1>
+          <p style={{ marginBottom: '1rem' }}>Take advantage of the amazing features {NAME} has to offer.</p>
 
           <Box alignItems="center" spacing="1rem">
             <Icon className="background-primary" icon={IconEnum.checkmark_circle} style={{ borderRadius: theme.rounded, padding: '0.4rem' }} size={36} />
-            <p>Automatic Support/Resistance</p>
+            <p>Buy/Sell Signals</p>
           </Box>
 
           <Box alignItems="center" spacing="1rem">
             <Icon className="background-primary" icon={IconEnum.info} style={{ borderRadius: theme.rounded, padding: '0.4rem' }} size={36} />
-            <p>Energy Cloud</p>
+            <p>2 Take Profit Points</p>
+          </Box>
+
+          <Box alignItems="center" spacing="1rem">
+            <Icon className="background-primary" icon={IconEnum.lock} style={{ borderRadius: theme.rounded, padding: '0.4rem' }} size={36} />
+            <p>Tight Stop Loss</p>
+          </Box>
+
+          <Box alignItems="center" spacing="1rem">
+            <Icon className="background-primary" icon={IconEnum.clock} style={{ borderRadius: theme.rounded, padding: '0.4rem' }} size={36} />
+            <p>Constant Updates</p>
           </Box>
         </Box>
-        <img className="header-img" src="https://i.imgur.com/irQgl4P.png" alt={NAME + "features"} />
+        <img className="header-img" src="/img/signals.png" alt={NAME + "features"} />
       </Box>
 
       <Box className="container" style={{ padding: '6rem', backgroundColor: theme.colors.background[1] }} spacing="4.6rem" justifyContent="center">

@@ -5,7 +5,7 @@ const paypal = require('paypal-rest-sdk');
 const { logInfo } = require('../utils/logging');
 const { sendDiscordMessage } = require('../utils/utils');
 
-const PRICE = 74.95;//149.99;
+const PRICE = 124.95;//149.99;
 const AFFILIATE_PERCENTAGE = 10.0; // Affiliates earn 10%
 paypal.configure({
   'mode': process.env.NODE_ENV === 'DEVELOPMENT' ? 'sandbox' : 'live',
