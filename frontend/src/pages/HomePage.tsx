@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { AnimationOnScroll } from 'react-animation-on-scroll';
 import styled from 'styled-components';
 import ReasonBlock from '../components/ReasonBlock';
 import { NAME } from '../globals';
@@ -163,50 +164,66 @@ export const HomePage = () => {
         </Box>
       </Box>
 
-      <Box className="container" flexDirection="column" style={{ padding: '2rem 6rem', marginTop: '4rem', paddingBottom: '6rem' }} spacing="1.6rem">
+      <Box className="container" flexDirection="column" style={{ padding: '2rem 6rem', marginTop: '4rem', paddingBottom: '6rem', overflowX: 'hidden' }} spacing="1.6rem">
         <h1 className="reasons-text"><span className="text-primary">Reasons</span> to use {NAME}</h1>
 
         <Box flexDirection="column" spacing="2rem">
           <Box spacing="1rem" className="reason-sect">
-            <img className="reason-img" src="/img/winrate.png" alt="Win rate" />
-            <ReasonBlock
-              title="Accurate"
-              description={<p style={{ maxWidth: '25rem' }}>
-                {NAME} has a win rate of <u>81.91%</u> and works in real time, unlike many indicators which lag or repaint. With an extremely tight stop loss and accurate take profit signals, the risk to reward ratio is extremely high.
-              </p>}
-              icon={IconEnum.money}
-            />
+            <AnimationOnScroll animateIn="animate__fadeInLeft" animateOnce={true}>
+              <Box spacing="1rem" className="reason-sect">
+                <img className="reason-img" src="/img/winrate.png" alt="Win rate" />
+                <ReasonBlock
+                  title="Accurate"
+                  description={<p style={{ maxWidth: '25rem' }}>
+                    {NAME} has a win rate of <u>81.91%</u> and works in real time, unlike many indicators which lag or repaint. With an extremely tight stop loss and accurate take profit signals, the risk to reward ratio is extremely high.
+                  </p>}
+                  icon={IconEnum.money}
+                />
+              </Box>
+            </AnimationOnScroll>
+          </Box>
+          
+          <Box spacing="1rem" className="reason-sect">
+            <AnimationOnScroll animateIn="animate__fadeInRight" animateOnce={true}>
+              <Box spacing="1rem" className="reason-sect">
+                <img className="reason-img stop-img" src="/img/stop.png" style={{ objectFit: 'cover' }} alt="Stop loss" />
+                <ReasonBlock
+                  title="Honest"
+                  description={<p style={{ maxWidth: '25rem' }}>No indicator is perfect, and we believe in transparency. {NAME} will automatically turn failed signals gray if the stop loss was tripped, or no take profit targets were alerted. This is also why we calculate and show the win rate of the indicator on your chart.</p>}
+                  icon={IconEnum.checkmark}
+                />
+              </Box>
+            </AnimationOnScroll>
+          </Box>
+          
+          <Box spacing="1rem" className="reason-sect">
+            <AnimationOnScroll animateIn="animate__fadeInLeft" animateOnce={true}>
+              <Box spacing="1rem" className="reason-sect">
+                <img className="reason-img phone-img" src="/img/phone.png" alt="Mobile Signals" style={{
+                  transform: 'perspective(700px) rotateX(10deg) rotateY(15deg)',
+                }} />
+                <ReasonBlock
+                  title="Simple"
+                  description={<p style={{ maxWidth: '25rem' }}>
+                    {NAME} will output precise entries through buy/sell signals, and profitable exits using take profit targets, all while limiting risk with tight built-in stop-losses. {NAME} can be used by traders of all experience levels. You can even trade from your phone while at work or school. 
+                  </p>}
+                  icon={IconEnum.phone}
+                />
+              </Box>
+            </AnimationOnScroll>
           </Box>
 
           <Box spacing="1rem" className="reason-sect">
-            <img className="reason-img stop-img" src="/img/stop.png" style={{ objectFit: 'cover' }} alt="Stop loss" />
-            <ReasonBlock
-              title="Honest"
-              description={<p style={{ maxWidth: '25rem' }}>No indicator is perfect, and we believe in transparency. {NAME} will automatically turn failed signals gray if the stop loss was tripped, or no take profit targets were alerted. This is also why we calculate and show the win rate of the indicator on your chart.</p>}
-              icon={IconEnum.checkmark}
-            />
-          </Box>
-
-          <Box spacing="1rem" className="reason-sect">
-            <img className="reason-img phone-img" src="/img/phone.png" alt="Mobile Signals" style={{
-              transform: 'perspective(700px) rotateX(10deg) rotateY(15deg)',
-            }} />
-            <ReasonBlock
-              title="Simple"
-              description={<p style={{ maxWidth: '25rem' }}>
-                {NAME} will output precise entries through buy/sell signals, and profitable exits using take profit targets, all while limiting risk with tight built-in stop-losses. {NAME} can be used by traders of all experience levels. You can even trade from your phone while at work or school. 
-              </p>}
-              icon={IconEnum.phone}
-            />
-          </Box>
-
-          <Box spacing="1rem" className="reason-sect">
-            <img className="reason-img" src="/img/signals.png" alt="Trading signals" />
-            <ReasonBlock
-              title="All Markets"
-              description={<p style={{ maxWidth: '25rem' }}>{NAME}  works on any market (Forex, Crypto, Options, etc), stock, or timeframe. Perfect for any trader, regardless of their experience or trading style.</p>}
-              icon={IconEnum.accessibility}
-            />
+            <AnimationOnScroll animateIn="animate__fadeInRight" animateOnce={true}>
+              <Box spacing="1rem" className="reason-sect">
+                <img className="reason-img" src="/img/signals.png" alt="Trading signals" />
+                <ReasonBlock
+                  title="All Markets"
+                  description={<p style={{ maxWidth: '25rem' }}>{NAME}  works on any market (Forex, Crypto, Options, etc), stock, or timeframe. Perfect for any trader, regardless of their experience or trading style.</p>}
+                  icon={IconEnum.accessibility}
+                />
+              </Box>
+            </AnimationOnScroll>
           </Box>
         </Box>
       </Box>
@@ -245,8 +262,16 @@ export const HomePage = () => {
             <Icon className="background-primary" icon={IconEnum.clock} style={{ borderRadius: theme.rounded, padding: '0.4rem' }} size={36} />
             <p>Constant Updates</p>
           </Box>
+          
+          <Box alignItems="center" spacing="1rem">
+            <Button color="secondary" onClick={() => {
+              window.scrollTo(0, 0);
+              setTimeout(() => window.location.href = '#/tutorial', 100);
+            }}>See Tutorial</Button>
+          </Box>
         </Box>
-        <img className="header-img" src="/img/signals.png" alt={NAME + "features"} />
+
+        <img className="header-img" src="/img/signals.png" style={{ maxHeight: '350px' }} alt={NAME + "features"} />
       </Box>
 
       <Box className="container" style={{ padding: '6rem', backgroundColor: theme.colors.background[1] }} spacing="4.6rem" justifyContent="center">

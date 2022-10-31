@@ -64,9 +64,15 @@ const CopyrightStyle = styled(Box)`
   padding: 1rem 2rem;
 `;
 
+/* eslint-disable */
 const Footer = () => {
   const { theme } = useContext(ThemeContext);
   const location = useLocation();
+
+  const navigate = (path: string) => {
+    window.scrollTo(0, 0);
+    setTimeout(() => window.location.href = path, 100); // wait for scroll to top animation to finish
+  }
 
   return (
     <WrapperStyle theme={theme}>
@@ -76,12 +82,7 @@ const Footer = () => {
           <div>
             <h1>Become an Affiliate</h1>
             <p>Earn money through social media with {NAME}</p>
-            <Button color="secondary" onClick={() => {
-              window.scrollTo(0, 0);
-              setTimeout(() => {
-                window.location.href = '#/affiliates';
-              }, 100); // wait for scroll to top animation to finish
-            }} block>Learn More</Button>
+            <Button color="secondary" onClick={() => navigate('#/affiliates')} block>Learn More</Button>
           </div>
         </BannerStyle>
       )}
@@ -94,7 +95,7 @@ const Footer = () => {
             <p>and up to 80% off using a referral code</p>
           </div>
           
-          <Button className="access-btn" onClick={() => window.location.href = '#/pricing'} block>
+          <Button className="access-btn" onClick={() => navigate('#/pricing')} block>
             <div className="text-primary">Click Here To Get Access</div>
           </Button>
         </BannerStyle>
@@ -105,14 +106,14 @@ const Footer = () => {
 
         <Box spacing="1rem">
           <Box flexDirection="column" spacing="0.6rem">
-            <a href="#/">Home</a>
-            <a href="#/pricing">Pricing</a>
-            <a href="#/contact">Contact</a>
+            <a onClick={() => navigate('#/')}>Home</a>
+            <a onClick={() => navigate('#/pricing')}>Pricing</a>
+            <a onClick={() => navigate('#/contact')}>Contact</a>
           </Box>
 
           <Box flexDirection="column" spacing="0.6rem">
-            <a href="#/affiliates">Affiliates</a>
-            <a href="#/tos">Disclaimer / Terms</a>
+            <a onClick={() => navigate('#/affiliates')}>Affiliates</a>
+            <a onClick={() => navigate('#/tos')}>Disclaimer / Terms</a>
           </Box>
         </Box>
       </Box>
