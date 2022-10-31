@@ -62,10 +62,10 @@ export const TutorialPage = () => {
         <img className="main-img" src="/img/tutorial.png" alt={NAME + " Indicator"} style={{ maxWidth: '900px', margin: '0 auto' }} />
 
         <h2>Locating {NAME}</h2>
-        <p>First, you want to go to tradingview.com and launch a chart.
-          <br />Once you have your chart open, click on the indicators tab --&gt; invite only scripts --&gt; and click on the "{NAME}" indicator</p>
+        <p>To install {NAME} onto a chart, use <a href="https://www.tradingview.com/" target="_blank" rel="noreferrer">TradingView</a>. TradingView is a free charting platform that allows you to apply custom indicators and scripts to free real-time market data. Once you have created a free account, you can install {NAME} by following the steps below.
+          <br /><br />Go to the products tab, click "Chart +" Click on the the indicators tab at the top (Mobile users: click the + in the bottom toolbar, and click indicators) --&gt; invite only scripts --&gt; finally, click on the "{NAME} Indicator"</p>
         
-        <p>If the indicator does not show up after 24 hours, please <a href="#/contact">contact us</a> with your TradingView username and order ID.</p>
+        <p>If the indicator does not show up under "Invite Only Scripts" after 24 hours, please <a href="#/contact">contact us</a> with your TradingView username and order ID.</p>
 
         <h2>Setup</h2>
         <p>{NAME} is built for any stock (SPY, NFLX, AMZN, etc.) and any timeframe. For the highest accuracy, you should use <u>Heikin Ashi</u> candles. To enable this on TradingView, click on the candle icon in the top center of the screen and select Heikin Ashi. For mobile users, click the three dots in the bottom right of a chart, and click "Chart Type"</p>
@@ -81,6 +81,16 @@ export const TutorialPage = () => {
 
         <h2>Confirmation</h2>
         <p>You should always confirm signals with other indicators. {NAME} is a great indicator, but it is not perfect. You should always confirm signals with other indicators of your choice such as RSI, MACD, etc. You may enter a trade as soon as you see a buy or sell signal, as {NAME} is non-lagging. You may scale out on take profit signals as much as you want (Ex: 12 contracts on TP1, 3 contracts on TP2). If the stop loss is hit, (gray signal, or candle close past stop line) you should close out your entire position immediately to minimize your loss.</p>
+
+        <h2>Tips</h2>
+        <p>Here are some things to know to help you get the most out of {NAME}:</p>
+
+        <ul style={{ marginLeft: '2rem' }}>
+          <li>Use Heikin Ashi candles for the highest accuracy</li>
+          <li>Set your chart to "Regular Trading Hours"</li>
+          <li>Any setting that changes the chart will change when signals fire (ETH/RTH, timeframe, candle type, etc.), but overall, the win rate should be around 80%</li>
+          <li>Trade on a security with high volume</li>
+        </ul>
       </Box>
     </PageStyle>
   );
