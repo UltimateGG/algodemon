@@ -16,21 +16,18 @@ const PageStyle = styled.div.attrs((props: any) => props)`
 
   .purchase-box {
     border-radius: ${props => props.theme.rounded};
-    background-color: #fff;
+    background-color: ${props => props.theme.colors.background[1]};
     max-width: 60rem;
     margin: 0 4rem;
     margin-bottom: 4rem;
     transform: translateY(-8rem);
-
-    h1, h2, h3, h4, h5, p, span, a, s {
-      color: #000;
-    }
+    box-shadow: 5px 5px 50px 1px rgba(0, 0, 0, 0.4);
   }
 
   .code-p {
     display: flex;
     align-items: center;
-    background-color: ${props => props.theme.colors.text[2]};
+    background-color: ${props => props.theme.colors.background[2]};
     padding: 0.2rem 0.4rem;
     border-radius: ${props => props.theme.rounded};
     margin-top: 1rem;
@@ -140,9 +137,9 @@ export const PricingPage = () => {
           </div>
 
           <Box style={{ width: '100%' }} justifyContent="center" alignItems="center">
-            <Divider style={{ borderColor: theme.colors.text[3] }} fullWidth />
-            <h5 style={{ margin: '0 1rem', color: '#000', textAlign: 'center', whiteSpace: 'nowrap' }}>{affiliateCode ? '80% OFF!' : `OR $${(PRICE * 0.2).toFixed(2)}`}</h5>
-            <Divider style={{ borderColor: theme.colors.text[3] }} fullWidth />
+            <Divider style={{ borderColor: theme.colors.background[2] }} fullWidth />
+            <h5 style={{ margin: '0 1rem', textAlign: 'center', whiteSpace: 'nowrap' }}>{affiliateCode ? '80% OFF!' : `OR $${(PRICE * 0.2).toFixed(2)}`}</h5>
+            <Divider style={{ borderColor: theme.colors.background[2] }} fullWidth />
           </Box>
 
           {affiliateCode ? (
@@ -169,6 +166,7 @@ export const PricingPage = () => {
               <p>🟣 2 Take Profit Signals</p>
               <p>🟣 Free Updates</p>
               <p>🟣 24/7 Support</p>
+              <p>🟣 Lifetime Access</p>
             </div>
 
             <Button block large glowing style={{ fontSize: '1.4rem', marginTop: '2rem', marginBottom: 0 }} onClick={() => setShowCheckoutModal(true)}>Get Access</Button>
