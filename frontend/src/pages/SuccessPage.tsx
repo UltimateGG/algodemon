@@ -7,6 +7,39 @@ import { Box, Button, ThemeContext } from '../Jet';
 const HeaderStyle = styled(Box)`
   height: 100vh;
   text-align: center;
+
+  .header-box {
+    padding: 2rem;
+
+    h1 {
+      font-size: 6rem;
+      margin-top: 6rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .header-box {
+      h1 {
+        font-size: 4rem;
+      }
+
+      h4 {
+        font-size: 1.4rem;
+      }
+    }
+  }
+
+  @media (max-width: 420px) {
+    .header-box {
+      h1 {
+        font-size: 2.6rem;
+      }
+
+      h4 {
+        font-size: 1.2rem;
+      }
+    }
+  }
 `;
 
 export const SuccessPage = () => {
@@ -20,7 +53,7 @@ export const SuccessPage = () => {
     <div>
       <HeaderStyle flexDirection="column" justifyContent="center" alignItems="center" theme={theme}>
         <Box className="header-box" flexDirection="column" justifyContent="center" alignItems="center">
-          <h1 style={{ fontSize: '6rem', marginTop: '6rem' }}>Thank You!</h1>
+          <h1>Thank You!</h1>
           <h4>Your order has been confirmed. You should see the indicator under "Invite Only Scripts" shortly.</h4>
           <p><strong>Please wait up to 24 hours.</strong> If you do not see the indicator by then, <a href="#/contact">contact us</a> with your order ID and TradingView username.</p>
           

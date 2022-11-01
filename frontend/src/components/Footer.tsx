@@ -87,7 +87,7 @@ const Footer = () => {
         </BannerStyle>
       )}
 
-      {location.pathname !== '/dashboard' && (
+      {location.pathname !== '/dashboard' && location.pathname !== '/success' && (
         <BannerStyle justifyContent="space-around" alignItems="center" theme={theme}>
           <div>
             <h1>Get Access Today</h1>
