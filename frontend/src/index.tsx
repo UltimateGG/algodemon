@@ -28,37 +28,37 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <JetDesign>
-      <PayPalScriptProvider options={{ 'client-id': PAYPAL_CLIENT_ID, 'disable-funding': 'credit', 'currency': 'USD' }}>
         <HashRouter>
           <SessionTrackerProvider>
-            <ScrollToTop />
-            <AuthProvider>
-              <NotificationProvider>
-                <Navbar />
+            <PayPalScriptProvider options={{ 'client-id': PAYPAL_CLIENT_ID, 'disable-funding': 'credit', 'currency': 'USD' }}>
+              <ScrollToTop />
+              <AuthProvider>
+                <NotificationProvider>
+                  <Navbar />
 
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="pricing" element={<PricingPage />} />
-                  <Route path="success" element={<SuccessPage />} />
-                  <Route path="tutorial" element={<TutorialPage />} />
-                  <Route path="contact" element={<ContactPage />} />
-                  <Route path="affiliates" element={<AffiliatePage />} />
-                  <Route path="tos" element={<TOSPage />} />
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="pricing" element={<PricingPage />} />
+                    <Route path="success" element={<SuccessPage />} />
+                    <Route path="tutorial" element={<TutorialPage />} />
+                    <Route path="contact" element={<ContactPage />} />
+                    <Route path="affiliates" element={<AffiliatePage />} />
+                    <Route path="tos" element={<TOSPage />} />
 
-                  <Route path="login" element={<LoginPage />} />
-                  <Route path="dashboard" element={<DashboardPage />} />
-                  
-                  <Route path="admin/sessions" element={<SessionExplorer />} />
+                    <Route path="login" element={<LoginPage />} />
+                    <Route path="dashboard" element={<DashboardPage />} />
+                    
+                    <Route path="admin/sessions" element={<SessionExplorer />} />
 
-                  <Route path="*" element={<Page404 />} />
-                </Routes>
+                    <Route path="*" element={<Page404 />} />
+                  </Routes>
 
-                <Footer />
-              </NotificationProvider>
-            </AuthProvider>
+                  <Footer />
+                </NotificationProvider>
+              </AuthProvider>
+            </PayPalScriptProvider>
           </SessionTrackerProvider>
         </HashRouter>
-      </PayPalScriptProvider>
     </JetDesign>
   </React.StrictMode>
 );

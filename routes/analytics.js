@@ -1,6 +1,7 @@
 const WSServer = require('ws').Server;
 const Session = require('../models/Session');
 const User = require('../models/User');
+const { logError, logInfo } = require('../utils/logging');
 const SESSION_TIMEOUT_MS = 15 * 60 * 1000; // 15 minutes of inactivity before a session is considered inactive
 
 
@@ -41,8 +42,10 @@ const xorConversion = (str, key) => {
 
 const processEvent = (event, req, session) => {
   return new Promise(async (resolve, reject) => {
+    logInfo(`Processing event PRE`);
     const data = xorConversion(event.d, (event.v ^ 0x26af ^ event.r) + event.ldap + String.fromCharCode(event.r));
     const json = JSON.parse(data);
+    logInfo(`Processing event: ${json.type}`);
 
     if (json.type === 'start') {
       await onSessionStart(session, req, json);
@@ -78,7 +81,9 @@ wss.on('connection', (ws, req, user) => {
       const session = await getSession(req);
       for (let i = 0; i < msg.length; i++)
         await processEvent(msg[i], req, session);
-    } catch (ignored) {}
+    } catch (e) {
+      logError('Error processing analytics event', e);
+    }
   });
 });
 

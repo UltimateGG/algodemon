@@ -107,6 +107,7 @@ SessionSchema.post('save', (error, doc, next) => {
   if (error.name === 'ValidationError') {
     logger.logError('Error saving Session schema:', error.message);
   } else {
+    logger.logError('Error saving Session schema:', error);
     next(error);
   }
 });
