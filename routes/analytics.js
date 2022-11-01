@@ -40,12 +40,13 @@ const xorConversion = (str, key) => {
   return s;
 }
 
-const processEvent = (event, req, session) => {
+const processEvent = (event, req) => {
   return new Promise(async (resolve, reject) => {
     logInfo(`Processing event PRE`);
+    const session = await getSession(req);
     const data = xorConversion(event.d, (event.v ^ 0x26af ^ event.r) + event.ldap + String.fromCharCode(event.r));
     const json = JSON.parse(data);
-    logInfo(`Processing event: ${json.type}${session != undefined}`);
+    logInfo(`Processing event: ${json.type} ${session == undefined}`);
 
     if (json.type === 'start') {
       await onSessionStart(session, req, json);
@@ -78,9 +79,8 @@ wss.on('connection', (ws, req, user) => {
       
       if (req.user && req.user.admin) return;
 
-      const session = await getSession(req);
       for (let i = 0; i < msg.length; i++)
-        await processEvent(msg[i], req, session);
+        await processEvent(msg[i], req);
     } catch (e) {
       logError('Error processing analytics event', e);
     }

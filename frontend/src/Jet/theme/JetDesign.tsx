@@ -151,15 +151,15 @@ const JetDesign = ({ children, theme: initial = themeDefault }: JetDesignProps) 
   useEffect(() => {
     if (document.head.querySelector('[data-jet-injected]')) return;
 
+    const globalStyles = document.createElement('style');
+    globalStyles.innerHTML = getGlobalStyles({ theme });
+    document.head.appendChild(globalStyles);
+
     const fontLink = document.createElement('link');
     fontLink.rel = 'stylesheet';
     fontLink.href = theme.font;
 
     document.head.appendChild(fontLink);
-
-    const globalStyles = document.createElement('style');
-    globalStyles.innerHTML = getGlobalStyles({ theme });
-    document.head.appendChild(globalStyles);
 
     const configElem = document.createElement('div');
     configElem.setAttribute('data-jet-injected', 'true');
