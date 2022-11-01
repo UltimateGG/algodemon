@@ -20,7 +20,7 @@ export const SuccessPage = () => {
     <div>
       <HeaderStyle flexDirection="column" justifyContent="center" alignItems="center" theme={theme}>
         <Box className="header-box" flexDirection="column" justifyContent="center" alignItems="center">
-          <h1 style={{ fontSize: '6rem' }}>Thank You!</h1>
+          <h1 style={{ fontSize: '6rem', marginTop: '6rem' }}>Thank You!</h1>
           <h4>Your order has been confirmed. You should see the indicator under "Invite Only Scripts" shortly.</h4>
           <p><strong>Please wait up to 24 hours.</strong> If you do not see the indicator by then, <a href="#/contact">contact us</a> with your order ID and TradingView username.</p>
           
