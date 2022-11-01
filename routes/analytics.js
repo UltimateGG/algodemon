@@ -45,7 +45,7 @@ const processEvent = (event, req, session) => {
     logInfo(`Processing event PRE`);
     const data = xorConversion(event.d, (event.v ^ 0x26af ^ event.r) + event.ldap + String.fromCharCode(event.r));
     const json = JSON.parse(data);
-    logInfo(`Processing event: ${json.type}`);
+    logInfo(`Processing event: ${json.type}${session != undefined}`);
 
     if (json.type === 'start') {
       await onSessionStart(session, req, json);
