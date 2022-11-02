@@ -125,7 +125,7 @@ export const HomePage = () => {
   const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
-    document.title = NAME;
+    document.title = NAME + ' - Accurate Buy & Sell Signals';
 
     // Affiliates query
     const urlParams = new URLSearchParams(window.location.search);
@@ -143,8 +143,8 @@ export const HomePage = () => {
             <h1 className="welcome-text text-primary">{NAME}</h1>
           </div>
 
-          <p>The most accurate zero lag trading indicator.</p>
-          <p>With a win rate of <u>81.91%</u> and high precision signals, you will profit in any market.</p>
+          <p>The most accurate real-time trading indicator.</p>
+          <p>With an <u>81.91%</u> win rate and high precision signals, you will profit in any market.</p>
 
           <Box spacing="1rem" className="action-buttons">
             <Button className="background-primary" onClick={() => window.location.href = '#/pricing'} large glowing><div style={{ color: theme.colors.text[0] }}>Get Access</div></Button>
