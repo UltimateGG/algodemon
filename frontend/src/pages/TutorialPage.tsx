@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import { NAME } from '../globals';
+import { DISCORD_URL, NAME } from '../globals';
 import { Box, ThemeContext } from '../Jet';
 
 
@@ -65,7 +65,7 @@ export const TutorialPage = () => {
         <p>To install {NAME} onto a chart, use <a href="https://www.tradingview.com/" target="_blank" rel="noreferrer">TradingView</a>. TradingView is a free charting platform that allows you to apply custom indicators and scripts to free real-time market data. Once you have created a free account, you can install {NAME} by following the steps below.
           <br /><br />Go to the products tab, click "Chart +" Click on the the indicators tab at the top (Mobile users: click the + in the bottom toolbar, and click indicators) --&gt; invite only scripts --&gt; finally, click on the "{NAME} Indicator"</p>
         
-        <p>If the indicator does not show up under "Invite Only Scripts" after 24 hours, please <a href="#/contact">contact us</a> with your TradingView username and order ID.</p>
+        <p>If the indicator does not show up under "Invite Only Scripts" after 24 hours, please join our <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">Discord</a> and message a staff member with your TradingView username and order ID.</p>
 
         <h2>Setup</h2>
         <p>{NAME} is built for any stock (SPY, NFLX, AMZN, etc.) and any timeframe. For the highest accuracy, you should use <u>Heikin Ashi</u> candles. To enable this on TradingView, click on the candle icon in the top center of the screen and select Heikin Ashi. For mobile users, click the three dots in the bottom right of a chart, and click "Chart Type"</p>

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { NAME } from '../globals';
+import { DISCORD_URL, NAME } from '../globals';
 import { Box, Button, Divider, ThemeContext } from '../Jet';
 
 
@@ -108,7 +108,7 @@ const Footer = () => {
           <Box flexDirection="column" spacing="0.6rem">
             <a onClick={() => navigate('#/')}>Home</a>
             <a onClick={() => navigate('#/pricing')}>Pricing</a>
-            <a onClick={() => navigate('#/contact')}>Contact</a>
+            <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">Discord</a>
           </Box>
 
           <Box flexDirection="column" spacing="0.6rem">

@@ -4,7 +4,7 @@ import CheckoutForm from '../components/CheckoutForm';
 import FAQ from '../components/FAQ';
 import { useNotifications } from '../contexts/NotificationContext';
 import Review from '../components/Review';
-import { NAME, PRICE } from '../globals';
+import { DISCORD_URL, NAME, PRICE } from '../globals';
 import { Box, Button, Divider, FileInput, Icon, IconEnum, Modal, Progress, TextArea, TextField, ThemeContext } from '../Jet';
 import { apiGet } from '../api/apiExecutor';
 import { EventType, useSessionTracker } from '../contexts/SessionTrackerContext';
@@ -262,15 +262,15 @@ export const PricingPage = () => {
           </FAQ>
 
           <FAQ title="How do I setup the algorithm?">
-            Its very simple to setup/use, please see the tutorial <a href="#/tutorial">here</a>.
+            It is very simple to setup/use, please see the tutorial <a href="#/tutorial">here</a>.
           </FAQ>
 
           <FAQ title="Does it work for the free version of Tradingview?">
-            Yes, {NAME} works perfectly with the free version of Tradingview.
+            Yes, {NAME} works perfectly with the free version of TradingView.
           </FAQ>
 
           <FAQ title={`How can I contact the ${NAME} team?`}>
-            We offer 24/7 support, just <a href="#/contact">send us a message</a>!
+            We offer 24/7 support, join our <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">Discord</a>!
           </FAQ>
         </Box>
       </Box>

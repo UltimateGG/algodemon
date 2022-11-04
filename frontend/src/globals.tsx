@@ -1,5 +1,6 @@
 export const NAME = 'AlgoDemon';
 export const URL = 'https://algodemon.com';
+export const DISCORD_URL = 'https://discord.gg/J4ENkbshTE';
 export const THEME_COLOR = '#6200EE';
 export const PRICE = 124.95;//149.99;
 export const AFFILIATE_PERCENT = 10.0;

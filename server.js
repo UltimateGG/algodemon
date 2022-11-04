@@ -30,25 +30,6 @@ app.use((req, res, next) => {
 // Serve static react app assets
 app.use(express.static(path.join(__dirname, 'frontend/build/')));
 
-app.post('/api/contact', asyncHandler(async (req, res) => {
-  const { name, email, message } = req.body;
-
-  if (name.length > 200 || email.length > 200 || message.length > 2040 || !name || !email || !message) 
-    throw new Error('Invalid data');
-
-  // Send to discord webhook
-  await sendDiscordMessage('@everyone - Contact Form', {
-    title: name,
-    color: 0x1349d3,
-    fields: [
-      { name: 'Email', value: email },
-      { name: 'Message', value: message },
-    ]
-  });
-
-  res.status(200).json({ message: 'Sent' });
-}));
-
 // Routes
 app.use('/api/payment', require('./routes/payment'));
 app.use('/api/affiliates', require('./routes/affiliates'));

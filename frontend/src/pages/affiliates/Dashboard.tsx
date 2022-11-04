@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import ReferralList from '../../components/ReferralList';
 import { useAuth } from '../../contexts/AuthContext';
-import { AFFILIATE_PERCENT, NAME } from '../../globals';
+import { AFFILIATE_PERCENT, DISCORD_URL, NAME } from '../../globals';
 import { Box, ThemeContext } from '../../Jet';
 import { AdminPage } from '../admin/AdminPanel';
 
@@ -79,7 +79,7 @@ export const DashboardPage = () => {
 
         <Box flexDirection="column" >
           <h2>Payment Info</h2>
-          <p>You will be paid {AFFILIATE_PERCENT}% from every purchase made using your referral code. Payments are sent to your PayPal account using the email listed on this page. You should receive payments within a week of referral. If you have any issues, please feel free to <a href="#/contact">contact us</a>.</p>
+          <p>You will be paid {AFFILIATE_PERCENT}% from every purchase made using your referral code. Payments are sent to your PayPal account using the email listed on this page. You should receive payments within a week of referral. If you have any issues, please feel free to <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">contact us</a>.</p>
         </Box>
       </Box>
 

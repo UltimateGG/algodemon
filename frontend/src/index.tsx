@@ -6,7 +6,6 @@ import JetDesign from './Jet/theme/JetDesign';
 import Navbar from './components/Navbar';
 import Page404 from './pages/Page404';
 import Footer from './components/Footer';
-import ContactPage from './pages/ContactPage';
 import PricingPage from './pages/PricingPage';
 import TutorialPage from './pages/TutorialPage';
 import TOSPage from './pages/TOSPage';
@@ -41,7 +40,6 @@ root.render(
                     <Route path="pricing" element={<PricingPage />} />
                     <Route path="success" element={<SuccessPage />} />
                     <Route path="tutorial" element={<TutorialPage />} />
-                    <Route path="contact" element={<ContactPage />} />
                     <Route path="affiliates" element={<AffiliatePage />} />
                     <Route path="tos" element={<TOSPage />} />
 

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import { NAME } from '../globals';
+import { DISCORD_URL, NAME } from '../globals';
 import { Box, Button, ThemeContext } from '../Jet';
 
 
@@ -55,7 +55,7 @@ export const SuccessPage = () => {
         <Box className="header-box" flexDirection="column" justifyContent="center" alignItems="center">
           <h1>Thank You!</h1>
           <h4>Your order has been confirmed. You should see the indicator under "Invite Only Scripts" shortly.</h4>
-          <p><strong>Please wait up to 24 hours.</strong> If you do not see the indicator by then, <a href="#/contact">contact us</a> with your order ID and TradingView username.</p>
+          <p><strong>Please wait up to 24 hours.</strong> If you do not see the indicator by then, <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">join our Discord</a> and message a staff member with your order ID and TradingView username.</p>
           
           <h4 style={{ marginTop: '4rem' }}>Want to become an affiliate?</h4>
           <p>Earn money everytime someone uses your referrral code</p>

@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { AnimationOnScroll } from 'react-animation-on-scroll';
 import styled from 'styled-components';
 import ReasonBlock from '../components/ReasonBlock';
-import { NAME } from '../globals';
+import { DISCORD_URL, NAME } from '../globals';
 import { Box, Button, Icon, IconEnum, ThemeContext } from '../Jet';
 
 
@@ -144,11 +144,12 @@ export const HomePage = () => {
           </div>
 
           <p>The most accurate real-time trading indicator.</p>
-          <p>With an <u>81.91%</u> win rate and high precision signals, you will profit in any market.</p>
 
           <Box spacing="1rem" className="action-buttons">
             <Button className="background-primary" onClick={() => window.location.href = '#/pricing'} large glowing><div style={{ color: theme.colors.text[0] }}>Get Access</div></Button>
-            <Button onClick={() => window.location.href = '#/contact'} large style={{ backgroundColor: theme.colors.text[0] }}><div style={{ color: theme.colors.primary[0] }}>Contact</div></Button>
+            <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">
+              <Button large style={{ backgroundColor: theme.colors.text[0] }}><div style={{ color: theme.colors.primary[0] }}>Discord</div></Button>
+            </a>
           </Box>
         </Box>
 

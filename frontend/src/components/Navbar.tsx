@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth } from '../contexts/AuthContext';
-import { NAME } from '../globals';
+import { DISCORD_URL, NAME } from '../globals';
 import { Box, Drawer, Icon, IconEnum, Navbar as JNavbar, ThemeContext, Button } from '../Jet';
 
 
@@ -16,8 +16,9 @@ const links = [
     href: '/tutorial',
   },
   {
-    label: 'Contact',
-    href: '/contact',
+    label: 'Discord',
+    href: DISCORD_URL,
+    newTab: true,
   },
   {
     label: 'Affiliates',
@@ -113,7 +114,7 @@ const Navbar = () => {
           <a className="logo" href="#/"><img src="/img/logo.png" alt={NAME} style={{ maxHeight: '70px' }} /></a>
           <Box className="nav-links">
             {links.map(link => (
-              <NavbarLinkStyle key={link.href} href={'#' + link.href} active={location.pathname === link.href} theme={theme}>
+              <NavbarLinkStyle key={link.href} href={link.newTab ? link.href : '#' + link.href} target={link.newTab ? '_blank' : ''} rel="noopener noreferrer" active={location.pathname === link.href} theme={theme}>
                 {link.label}
               </NavbarLinkStyle>
             ))}
@@ -132,7 +133,7 @@ const Navbar = () => {
 
       <DrawerStyle open={drawerOpen} onClose={() => setDrawerOpen(false)} theme={theme}>
         {links.map(link => (
-          <NavbarLinkStyle key={link.href} href={'#' + link.href} onClick={() => setDrawerOpen(false)} active={location.pathname === link.href} theme={theme}>
+          <NavbarLinkStyle key={link.href} href={link.newTab ? link.href : '#' + link.href} target={link.newTab ? '_blank' : ''} rel="noopener noreferrer" onClick={() => setDrawerOpen(false)} active={location.pathname === link.href} theme={theme}>
             {link.label}
           </NavbarLinkStyle>
         ))}
