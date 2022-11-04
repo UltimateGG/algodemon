@@ -220,20 +220,20 @@ export const SessionTrackerProvider = ({ children }: any) => {
       start: Date.now(),
       startUrl: window.location.href,
       device: {
-        userAgent: navigator.userAgent,
-        screenWidth: window.screen.width,
-        screenHeight: window.screen.height,
-        platform: navigator.platform,
-        vendor: navigator.vendor,
-        language: navigator.language,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        userAgent: navigator.userAgent || '[unknown]',
+        screenWidth: window.screen.width || 0,
+        screenHeight: window.screen.height || 0,
+        platform: navigator.platform || '[unknown]',
+        vendor: navigator.vendor || '[unknown]',
+        language: navigator.language || '[unknown]',
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '[unknown]',
         isBrave: (navigator as any).brave ? true : false,
       }
     };
 
     start.device.userAgent = start.device.userAgent === '' ? '[unknown]' : start.device.userAgent;
-    start.device.screenWidth = start.device.screenWidth === 0 ? 0 : start.device.screenWidth;
-    start.device.screenHeight = start.device.screenHeight === 0 ? 0 : start.device.screenHeight;
+    start.device.screenWidth = !start.device.screenWidth ? 0 : start.device.screenWidth;
+    start.device.screenHeight = !start.device.screenHeight ? 0 : start.device.screenHeight;
     start.device.platform = start.device.platform === '' ? '[unknown]' : start.device.platform;
     start.device.vendor = start.device.vendor === '' ? '[unknown]' : start.device.vendor;
     start.device.language = start.device.language === '' ? '[unknown]' : start.device.language;
