@@ -157,7 +157,7 @@ export const HomePage = () => {
       </Box>
 
       <Box className="container" flexDirection="column" style={{ padding: '4rem 6rem', marginTop: '1rem', backgroundColor: theme.colors.background[1] }} justifyContent="space-around" alignItems="center" spacing="1.6rem">
-        <h5 className="pretitle trusted-title">Trusted by Thousands of Traders</h5>
+        <h5 className="pretitle trusted-title">Accurate - Consistent - Simple - Profitable</h5>
 
         <Box spacing="2rem" className="brands">
           <img src="/img/paypal.png" alt="PayPal" />
@@ -166,7 +166,7 @@ export const HomePage = () => {
       </Box>
 
       <Box className="container" flexDirection="column" style={{ padding: '2rem 6rem', marginTop: '4rem', paddingBottom: '6rem', overflowX: 'hidden' }} spacing="1.6rem">
-        <h1 className="reasons-text"><span className="text-primary">Reasons</span> to use {NAME}</h1>
+        <h1 className="reasons-text"><span className="text-primary">Reasons</span> to choose {NAME}</h1>
 
         <Box flexDirection="column" spacing="2rem">
           <Box spacing="1rem" className="reason-sect">
@@ -176,7 +176,7 @@ export const HomePage = () => {
                 <ReasonBlock
                   title="Accurate"
                   description={<p style={{ maxWidth: '25rem' }}>
-                    {NAME} has a win rate of <u>81.91%</u> and works in real time, unlike many indicators which lag or repaint. With an extremely tight stop loss and accurate take profit signals, the risk to reward ratio is extremely high.
+                    {NAME} has an extremely high win rate and works in real time, unlike many indicators which lag or repaint. With an extremely tight stop loss and accurate take profit signals, the risk to reward ratio is unmatched by any other indicator.
                   </p>}
                   icon={IconEnum.money}
                 />
