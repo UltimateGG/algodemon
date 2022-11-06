@@ -44,7 +44,7 @@ const PageStyle = styled.div.attrs((props: any) => props)`
     max-height: 50px;
   }
 
-  @media (max-width: 1123px) {
+  @media (max-width: 1400px) {
     .container {
       flex-direction: column;
       padding: 2rem !important;
@@ -169,35 +169,7 @@ export const HomePage = () => {
         <h1 className="reasons-text"><span className="text-primary">Reasons</span> to choose {NAME}</h1>
 
         <Box flexDirection="column" spacing="2rem">
-          <Box spacing="1rem" className="reason-sect">
-            <AnimationOnScroll animateIn="animate__fadeInLeft" animateOnce={true}>
-              <Box spacing="1rem" className="reason-sect">
-                <img className="reason-img" src="/img/winrate.png" alt="Win rate" />
-                <ReasonBlock
-                  title="Accurate"
-                  description={<p style={{ maxWidth: '25rem' }}>
-                    {NAME} has an extremely high win rate and works in real time, unlike many indicators which lag or repaint. With an extremely tight stop loss and accurate take profit signals, the risk to reward ratio is unmatched by any other indicator.
-                  </p>}
-                  icon={IconEnum.money}
-                />
-              </Box>
-            </AnimationOnScroll>
-          </Box>
-          
-          <Box spacing="1rem" className="reason-sect">
-            <AnimationOnScroll animateIn="animate__fadeInRight" animateOnce={true}>
-              <Box spacing="1rem" className="reason-sect">
-                <img className="reason-img stop-img" src="/img/stop.png" style={{ objectFit: 'cover' }} alt="Stop loss" />
-                <ReasonBlock
-                  title="Honest"
-                  description={<p style={{ maxWidth: '25rem' }}>No indicator is perfect, and we believe in transparency. {NAME} will automatically turn failed signals gray if the stop loss was tripped, or no take profit targets were alerted. This is also why we calculate and show the win rate of the indicator on your chart.</p>}
-                  icon={IconEnum.checkmark}
-                />
-              </Box>
-            </AnimationOnScroll>
-          </Box>
-          
-          <Box spacing="1rem" className="reason-sect">
+        <Box spacing="1rem" className="reason-sect">
             <AnimationOnScroll animateIn="animate__fadeInLeft" animateOnce={true}>
               <Box spacing="1rem" className="reason-sect">
                 <img className="reason-img phone-img" src="/img/phone.png" alt="Mobile Signals" style={{
@@ -214,6 +186,34 @@ export const HomePage = () => {
             </AnimationOnScroll>
           </Box>
 
+          <Box spacing="1rem" className="reason-sect">
+            <AnimationOnScroll animateIn="animate__fadeInRight" animateOnce={true}>
+              <Box spacing="1rem" className="reason-sect">
+                <img className="reason-img" src="/img/winrate.png" alt="Win rate" />
+                <ReasonBlock
+                  title="Accurate"
+                  description={<p style={{ maxWidth: '25rem' }}>
+                    {NAME} has an extremely high win rate and works in real time, unlike many indicators which lag or repaint. With an extremely tight stop loss and accurate take profit signals, the risk to reward ratio is unmatched by any other indicator.
+                  </p>}
+                  icon={IconEnum.money}
+                />
+              </Box>
+            </AnimationOnScroll>
+          </Box>
+          
+          <Box spacing="1rem" className="reason-sect">
+            <AnimationOnScroll animateIn="animate__fadeInLeft" animateOnce={true}>
+              <Box spacing="1rem" className="reason-sect">
+                <img className="reason-img stop-img" src="/img/stop.png" style={{ objectFit: 'cover' }} alt="Stop loss" />
+                <ReasonBlock
+                  title="Honest"
+                  description={<p style={{ maxWidth: '25rem' }}>No indicator is perfect, and we believe in transparency. {NAME} will automatically turn failed signals gray if the stop loss was tripped, or no take profit targets were alerted. This is also why we calculate and show the win rate of the indicator on your chart.</p>}
+                  icon={IconEnum.checkmark}
+                />
+              </Box>
+            </AnimationOnScroll>
+          </Box>
+          
           <Box spacing="1rem" className="reason-sect">
             <AnimationOnScroll animateIn="animate__fadeInRight" animateOnce={true}>
               <Box spacing="1rem" className="reason-sect">
@@ -272,7 +272,7 @@ export const HomePage = () => {
           </Box>
         </Box>
 
-        <img className="header-img" src="/img/signals.png" style={{ maxHeight: '350px' }} alt={NAME + "features"} />
+        <img className="header-img" src="/img/signals.png" style={{ maxHeight: '350px', maxWidth: '653px' }} alt={NAME + "features"} />
       </Box>
 
       <Box className="container" style={{ padding: '6rem', backgroundColor: theme.colors.background[1] }} spacing="4.6rem" justifyContent="center">
