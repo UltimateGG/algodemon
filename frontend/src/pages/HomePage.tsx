@@ -140,7 +140,7 @@ export const HomePage = () => {
           {FREE_TRIALS_ACTIVE && <p>Try it for free for 7 days.</p>}
 
           <Box spacing="1rem" className="action-buttons">
-            <Button className="background-primary" onClick={() => window.location.href = '#/pricing'} large glowing><div style={{ color: theme.colors.text[0] }}>Get Access</div></Button>
+            <Button className="background-primary" onClick={() => window.location.href = '#/pricing'} large glowing><div style={{ color: theme.colors.text[0] }}>{FREE_TRIALS_ACTIVE ? 'Free Trial' : 'Get Access'}</div></Button>
             <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">
               <Button large style={{ backgroundColor: theme.colors.text[0] }}><div style={{ color: theme.colors.primary[0] }}>Discord</div></Button>
             </a>

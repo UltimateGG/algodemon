@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { DISCORD_URL, NAME } from '../globals';
+import { DISCORD_URL, FREE_TRIALS_ACTIVE, NAME } from '../globals';
 import { Box, Button, Divider, ThemeContext } from '../Jet';
 
 
@@ -91,11 +91,15 @@ const Footer = () => {
         <BannerStyle justifyContent="space-around" alignItems="center" theme={theme}>
           <div>
             <h1>Get Access Today</h1>
-            <p>Get life time access for a one time payment</p>
+            {FREE_TRIALS_ACTIVE ? (
+              <p>Start your 7 day free trial today to see results for yourself</p>
+            ) : (
+              <p>Get life time access for a one time payment</p>
+            )}
           </div>
           
           <Button className="access-btn" onClick={() => navigate('#/pricing')} block>
-            <div className="text-primary">Click Here To Get Access</div>
+            <div className="text-primary">{FREE_TRIALS_ACTIVE ? 'Start Free Trial' : 'Click Here To Get Access'}</div>
           </Button>
         </BannerStyle>
       )}

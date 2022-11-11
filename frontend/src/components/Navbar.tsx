@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth } from '../contexts/AuthContext';
-import { DISCORD_URL, NAME } from '../globals';
+import { DISCORD_URL, FREE_TRIALS_ACTIVE, NAME } from '../globals';
 import { Box, Drawer, Icon, IconEnum, Navbar as JNavbar, ThemeContext, Button } from '../Jet';
 
 
@@ -127,7 +127,7 @@ const Navbar = () => {
             <Button className="access-btn" variant="outlined" onClick={logout}>Logout</Button>
           </Box>
         ) : (
-        <Button className="access-btn" onClick={() => window.location.href = '#/pricing'}>Get Access</Button>
+            <Button className="access-btn" onClick={() => window.location.href = '#/pricing'} variant={FREE_TRIALS_ACTIVE ? 'outlined' : 'filled'}>{FREE_TRIALS_ACTIVE ? 'Free Trial' : 'Get Access'}</Button>
         )}
       </NavbarStyle>
 

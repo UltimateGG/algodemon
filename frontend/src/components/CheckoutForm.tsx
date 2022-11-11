@@ -27,6 +27,7 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
   return (
     <>
       <h2 style={{ marginBottom: 0 }}>TradingView</h2>
+      <a href="https://tradingview.com/" rel="noopener noreferrer" target="_blank">Create Free TradingView Account</a>
       <TextField
         name="username"
         placeholder="TradingView Username"

@@ -4,6 +4,7 @@ const asyncHandler = require('express-async-handler');
 const paypal = require('paypal-rest-sdk');
 const { logInfo } = require('../utils/logging');
 const { sendDiscordMessage } = require('../utils/utils');
+const FreeTrial = require('../models/FreeTrial');
 
 const PRICE = 124.95;//149.99;
 const AFFILIATE_PERCENTAGE = 10.0; // Affiliates earn 10%
@@ -124,6 +125,37 @@ router.post('/verify', asyncHandler(async (req, res) => {
       }});
     }
   });
+}));
+
+
+router.post('/trial', asyncHandler(async (req, res) => {
+  if (process.env.FREE_TRIALS_ENABLED !== 'true') throw new Error('Free trials are not enabled');
+
+  let { username } = req.body;
+  if (!username) throw new Error('Invalid username provided');
+  username = username.toLowerCase().trim();
+  if (username.includes(' ')) throw new Error('Invalid username provided');
+
+  const existing = await FreeTrial.findOne({ username });
+  if (existing) throw new Error('You have already requested a free trial');
+
+  const trial = new FreeTrial({
+    username: username
+  });
+
+  await trial.save();
+
+  // Send to discord webhook
+  await sendDiscordMessage('@everyone **New Free Trial**', {
+    title: 'Payment',
+    color: 0xd61dae,
+    fields: [
+      { name: 'TradingView Username', value: username, }
+    ]
+  });
+
+  logInfo('Free trial started for: ' + username);
+  res.status(200).json({ message: 'Free trial started' });
 }));
 
 
