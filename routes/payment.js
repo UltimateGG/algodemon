@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const asyncHandler = require('express-async-handler');
 const paypal = require('paypal-rest-sdk');
-const { logInfo } = require('../utils/logging');
+const { logInfo, logError } = require('../utils/logging');
 const { sendDiscordMessage } = require('../utils/utils');
 const FreeTrial = require('../models/FreeTrial');
+const request = require('request-promise');
 
 const PRICE = 124.95;//149.99;
 const AFFILIATE_PERCENTAGE = 10.0; // Affiliates earn 10%
@@ -139,6 +140,18 @@ router.post('/trial', asyncHandler(async (req, res) => {
   const existing = await FreeTrial.findOne({ username });
   if (existing) throw new Error('You have already requested a free trial');
 
+  let resp = await request.get(`https://tradingview.com/u/${username}`).catch(e => {
+    throw new Error('Error verifying your TradingView account, please check your username or try again later');
+  });
+
+  resp = resp.split('tv-profile__title-info-item--joined')[1];
+  const time = Number(resp.split('<time data-time=\'')[1].split('\' data-force-ago-format>')[0]) * 1000;
+  const diff = Date.now() - time;
+
+  if (isNaN(time)) throw new Error('Error verifying your TradingView account, please check your username or try again later');
+  if (diff < 1000 * 60 * 60 * 24 * 1) // if account is less than 1 day old, deny
+    throw new Error('Your TradingView account must be at least 1 day old to request a free trial');
+
   const trial = new FreeTrial({
     username: username
   });
@@ -150,7 +163,8 @@ router.post('/trial', asyncHandler(async (req, res) => {
     title: 'Payment',
     color: 0xd61dae,
     fields: [
-      { name: 'TradingView Username', value: username, }
+      { name: 'TradingView Username', value: username, },
+      { name: 'Expires At', value: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).toDateString() }
     ]
   });
 
