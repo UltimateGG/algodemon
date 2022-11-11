@@ -55,11 +55,11 @@ export const TutorialPage = () => {
     <PageStyle theme={theme}>
       <Box className="container" flexDirection="column" spacing="1.6rem">
         <Box flexDirection="column">
-          <h1 className="title" style={{ textAlign: 'center' }}>{NAME} Tutorial/Starter Guide</h1>
-          <small style={{ fontSize: '1rem', marginBottom: '2rem', textAlign: 'center' }}>October 29, 2022</small>
+          <h1 className="title" style={{ textAlign: 'center' }}>{NAME} v3 Tutorial</h1>
+          <small style={{ fontSize: '1rem', marginBottom: '2rem', textAlign: 'center' }}>November 10, 2022</small>
         </Box>
 
-        <img className="main-img" src="/img/tutorial.png" alt={NAME + " Indicator"} style={{ maxWidth: '900px', margin: '0 auto' }} />
+        <img className="main-img" src="https://s3.tradingview.com/snapshots/i/iR0pjZRH.png" alt={NAME + " Indicator"} style={{ maxWidth: '900px', margin: '0 auto' }} />
 
         <h2>Locating {NAME}</h2>
         <p>To install {NAME} onto a chart, use <a href="https://www.tradingview.com/" target="_blank" rel="noreferrer">TradingView</a>. TradingView is a free charting platform that allows you to apply custom indicators and scripts to free real-time market data. Once you have created a free account, you can install {NAME} by following the steps below.
@@ -71,12 +71,12 @@ export const TutorialPage = () => {
         <p>{NAME} is built for any stock (SPY, NFLX, AMZN, etc.) and any timeframe. For the highest accuracy, you should use <u>Heikin Ashi</u> candles. To enable this on TradingView, click on the candle icon in the top center of the screen and select Heikin Ashi. For mobile users, click the three dots in the bottom right of a chart, and click "Chart Type"</p>
 
         <p>The indicator comes pre-configured with the most accurate settings, and you do not need to adjust them. If you do want to adjust them, the "Trend Length" and "Trend Sensitivity" control when buy and sell signals fire, and the "TP Sensitivity" controls when take profit signals fire. The "TP Magnitude" only affects take profit signals for <strong>sell</strong> orders.</p>
-        <img className="energy-cloud" src="https://i.imgur.com/Rvi4s8D.png" alt="Indicator Settings" style={{ maxWidth: '300px' }} />
+        <img className="energy-cloud" src="https://i.imgur.com/5A3BIdv.png" alt="Indicator Settings" style={{ maxWidth: '300px' }} />
 
         <h2>Signals</h2>
-        <p>{NAME} will give you three types of signals: buy, sell, and take profit. Buy signals are green, sell signals are red, and take profit signals color vary based on the current signal. The line near the signal is the stop loss line, If the price closes past the stop loss, the trade will turn gray and be cancelled out. A signal may also turn gray if no take profit signals were fired before a new signal fired.</p>
-        <p>The image below shows a sell trade that was stopped out.</p>
-        <img className="energy-cloud" src="/img/stop.png" alt="Stop loss" style={{ maxWidth: '200px' }} />
+        <p>{NAME} will give you three types of signals: buy, sell, and take profit. Buy signals are green, sell signals are red, and take profit signals color vary based on the current signal.<br /><br />The solid red line above/below the signal label is the stop loss line, If the price closes past the stop loss, the trade will turn gray and be cancelled out. A signal may also turn gray if no take profit signals were fired before a new signal fired. If you are following a trade and see it turn gray, sell all of your position immediately.<br /><br />The dotted line is the entry price, this shows the realistic point you would have seen the signal at, and entered the trade. It is also where profit is tracked from.</p>
+        <p>The image below shows a sell signal. The solid line is the stop loss (shorts/puts gain value when the stock falls, and lose value when the price rises, so for sell signals the stop loss is above the trade, and for buy signals it is below the trade) The red dotted line is the price at which the signal actually fired to the user, and where the take profit points calculate their profit from.</p>
+        <img src="https://i.imgur.com/zcwj9sn.png" alt="Stop loss" style={{ maxWidth: '400px' }} />
 
 
         <h2>Confirmation</h2>

@@ -92,7 +92,6 @@ const Footer = () => {
           <div>
             <h1>Get Access Today</h1>
             <p>Get life time access for a one time payment</p>
-            <p>and up to 80% off using a referral code</p>
           </div>
           
           <Button className="access-btn" onClick={() => navigate('#/pricing')} block>
@@ -112,6 +111,7 @@ const Footer = () => {
           </Box>
 
           <Box flexDirection="column" spacing="0.6rem">
+            <a onClick={() => navigate('#/tutorial')}>Tutorial</a>
             <a onClick={() => navigate('#/affiliates')}>Affiliates</a>
             <a onClick={() => navigate('#/tos')}>Disclaimer / Terms</a>
           </Box>

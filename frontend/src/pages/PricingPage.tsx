@@ -163,7 +163,7 @@ export const PricingPage = () => {
           <div className="package-section">
             <div>
               <p>🟣 Buy &amp; Sell Signals</p>
-              <p>🟣 2 Take Profit Signals</p>
+              <p>🟣 3 Take Profit Signals</p>
               <p>🟣 Free Updates</p>
               <p>🟣 24/7 Support</p>
               <p>🟣 Lifetime Access</p>
@@ -257,16 +257,16 @@ export const PricingPage = () => {
         <h1 className="section-header" style={{ textAlign: 'left' }}>Frequently Asked Questions</h1>
 
         <Box flexDirection="column" spacing="2rem">
-          <FAQ title={`Does ${NAME} work for forex?`}>
-            Yes, the algorithm works for all markets and all timeframes.
+          <FAQ title={`What app do I use?`}>
+            To use the indicator, you will need a free <a href="https://tradingview.com/" rel="noopener noreferrer" target="_blank">TradingView</a> account. This is where you will be able to view price data, and buy/sell signals.
+          </FAQ>
+
+          <FAQ title="Does it work for the free version of TradingView?">
+            Yes, {NAME} works perfectly with the free version of TradingView.
           </FAQ>
 
           <FAQ title="How do I setup the algorithm?">
-            It is very simple to setup/use, please see the tutorial <a href="#/tutorial">here</a>.
-          </FAQ>
-
-          <FAQ title="Does it work for the free version of Tradingview?">
-            Yes, {NAME} works perfectly with the free version of TradingView.
+            Please see the tutorial on how to setup and use the algorithm <a href="#/tutorial">here</a>.
           </FAQ>
 
           <FAQ title={`How can I contact the ${NAME} team?`}>

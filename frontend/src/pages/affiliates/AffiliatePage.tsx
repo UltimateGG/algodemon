@@ -11,7 +11,7 @@ import { Box, Button, Icon, IconEnum, Progress, TextField, ThemeContext } from '
 const HeaderStyle = styled(Box)`
   height: 75vh;
   text-align: center;
-  background: url('/img/affiliate.jpg') no-repeat center / cover;
+  background: url('https://i.imgur.com/Mga7c1W.jpg') no-repeat center / cover;
 
   @media (max-width: 760px) {
     h1 {
