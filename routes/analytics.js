@@ -51,7 +51,7 @@ const processEvent = (event, req) => {
       return resolve();
     }
 
-    if (!session && !req.user.admin)
+    if (!session && (!req.user || !req.user.admin))
       logError(`Received event from ${req.ip} without a session ${json.type}`);
     if (!session) return resolve();
     if (json.type === 'login') {
