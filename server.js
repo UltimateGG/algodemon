@@ -37,7 +37,7 @@ app.use('/api/admin', auth, adminAuth, require('./routes/admin'));
 
 
 server.on('upgrade', async (req, socket, head) => {
-  if (!req.url.startsWith('/al/c')) return socket.destroy();
+  if (!req.url.includes('/al/c')) return socket.destroy();
   await authWs(req);
 
   wss.handleUpgrade(req, socket, head, (ws) => {

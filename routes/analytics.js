@@ -1,7 +1,7 @@
 const WSServer = require('ws').Server;
 const Session = require('../models/Session');
 const User = require('../models/User');
-const { logError } = require('../utils/logging');
+const { logError, logInfo } = require('../utils/logging');
 const SESSION_TIMEOUT_MS = 15 * 60 * 1000; // 15 minutes of inactivity before a session is considered inactive
 
 
@@ -52,7 +52,7 @@ const processEvent = (event, req) => {
     }
 
     if (!session && (!req.user || !req.user.admin))
-      logError(`Received event from ${req.ip} without a session ${json.type}`);
+      logError(`Received event from ${req.ip} without a session - ${json.type}`);
     if (!session) return resolve();
     if (json.type === 'login') {
       session.user = json.data.user;
@@ -64,7 +64,7 @@ const processEvent = (event, req) => {
       }
     }
   
-    if (json.type === 'purchase') logError(`Received purchase event!!!`);
+    if (json.type === 'purchase') logInfo(`Received purchase event`);
     session.events.push(json);
     session.markModified('events');
     await session.save();
