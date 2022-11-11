@@ -44,6 +44,7 @@ server.on('upgrade', async (req, socket, head) => {
     ws.user = req.user;
     req.ip = req.headers['x-forwarded-for'];
     if (process.env.NODE_ENV === 'DEVELOPMENT') req.ip = '::1';
+    else if (!req.ip) logger.logError('No IP address found in request');
 
     wss.emit('connection', ws, req, req.user);
   });

@@ -51,6 +51,8 @@ const processEvent = (event, req) => {
       return resolve();
     }
 
+    if (!session && !req.user.admin)
+      logError(`Received event from ${req.ip} without a session ${json.type}`);
     if (!session) return resolve();
     if (json.type === 'login') {
       session.user = json.data.user;
@@ -62,7 +64,9 @@ const processEvent = (event, req) => {
       }
     }
   
+    if (json.type === 'purchase') logError(`Received purchase event!!!`);
     session.events.push(json);
+    session.markModified('events');
     await session.save();
     resolve();
   });
