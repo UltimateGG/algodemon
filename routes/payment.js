@@ -3,12 +3,17 @@ const router = express.Router();
 const asyncHandler = require('express-async-handler');
 const paypal = require('paypal-rest-sdk');
 const { logInfo, logError } = require('../utils/logging');
-const { sendDiscordMessage } = require('../utils/utils');
 const FreeTrial = require('../models/FreeTrial');
-const request = require('request-promise');
+const PinescriptAccessManager = require('../utils/PinescriptAccessManager');
+const { getChannel } = require('../discord');
+const Discord = require('discord.js');
+const SCRIPT_ID = 'PUB;2ec587c34380448e9cd697da39169ed6';
+const accessManager = new PinescriptAccessManager(process.env.TV_SID, SCRIPT_ID);
 
-const PRICE = 124.95;//149.99;
+
+const PRICE = 124.95; //149.99;
 const AFFILIATE_PERCENTAGE = 10.0; // Affiliates earn 10%
+const FREE_TRIAL_DAYS = 7;
 paypal.configure({
   'mode': process.env.NODE_ENV === 'DEVELOPMENT' ? 'sandbox' : 'live',
   'client_id': process.env.PAYPAL_CLIENT_ID,
@@ -71,11 +76,11 @@ router.post('/verify', asyncHandler(async (req, res) => {
   if (affiliate) price = +((price * 0.2).toFixed(2)); // 80% off
 
   const execute_payment_json = {
-    "payer_id": payerId,
-    "transactions": [{
-      "amount": {
-        "currency": "USD",
-        "total": price
+    'payer_id': payerId,
+    'transactions': [{
+      'amount': {
+        'currency': 'USD',
+        'total': price
       }
     }]
   };
@@ -86,6 +91,13 @@ router.post('/verify', asyncHandler(async (req, res) => {
       throw error;
     } else {
       if (!payment.state === 'approved') throw new Error('Payment not approved');
+
+      try {
+        await accessManager.addUser(username);
+      } catch (e) {
+        logError(e);
+        throw new Error('Error adding user to TradingView, please contact us on Discord. Order ID: ' + paymentId);
+      }
 
       // Add to affiliates referrals
       const affiliateCommission = ((PRICE * 0.2) * (AFFILIATE_PERCENTAGE / 100.0));
@@ -98,21 +110,21 @@ router.post('/verify', asyncHandler(async (req, res) => {
         
         await affiliate.save();
       }
-      
-      // Send to discord webhook
+
       const amt = Number(payment.transactions[0].amount.total);
-      await sendDiscordMessage('@everyone - **New Sale**', {
-        title: 'Payment',
-        color: 0x13d32f,
-        fields: [
-          { name: 'Customer Name', value: payment.payer.payer_info.first_name + ' ' + payment.payer.payer_info.last_name, },
-          { name: 'Customer Email', value: payment.payer.payer_info.email, },
-          { name: 'Amount', value: `$${amt} ${payment.transactions[0].amount.currency}`, },
-          { name: 'TradingView Username', value: username, },
-          { name: 'Affiliate', value: affiliate ? `${affiliate.email} (${affiliate.referrals.length}) - ${affiliate.affiliateCode}\nEarned: **$${affiliateCommission.toFixed(2)}**` : 'None', },
-          { name: 'Profit', value: `$${(amt - affiliateCommission).toFixed(2)}`, }
-        ]
-      });
+      getChannel().send({ content: '@everyone - **New Sale**', embeds: [
+        new Discord.EmbedBuilder()
+          .setTitle('Payment')
+          .setColor(0x13d32f)
+          .addFields(
+            { name: 'Customer Name', value: payment.payer.payer_info.first_name + ' ' + payment.payer.payer_info.last_name, },
+            { name: 'Customer Email', value: payment.payer.payer_info.email, },
+            { name: 'Amount', value: `$${amt} ${payment.transactions[0].amount.currency}`, },
+            { name: 'TradingView Username', value: username, },
+            { name: 'Affiliate', value: affiliate ? `${affiliate.email} (${affiliate.referrals.length}) - ${affiliate.affiliateCode}\nEarned: **$${affiliateCommission.toFixed(2)}**` : 'None', },
+            { name: 'Profit', value: `$${(amt - affiliateCommission).toFixed(2)}`, }
+          )
+      ] });
 
       logInfo('New sale from ' + username, payment);
       res.status(200).json({ message: 'Payment successful', id: paymentId, log: {
@@ -140,37 +152,35 @@ router.post('/trial', asyncHandler(async (req, res) => {
   const existing = await FreeTrial.findOne({ username });
   if (existing) throw new Error('You have already requested a free trial');
 
-  let resp = await request.get(`https://tradingview.com/u/${username}`).catch(e => {
-    throw new Error('Error verifying your TradingView account, please check your username or try again later');
-  });
-
-  resp = resp.split('tv-profile__title-info-item--joined')[1];
-  const time = Number(resp.split('<time data-time=\'')[1].split('\' data-force-ago-format>')[0]) * 1000;
-  const diff = Date.now() - time;
-
-  if (isNaN(time)) throw new Error('Error verifying your TradingView account, please check your username or try again later');
-  if (diff < 1000 * 60 * 60 * 24 * 1) // if account is less than 1 day old, deny
-    throw new Error('Your TradingView account must be at least 1 day old to request a free trial');
-
   const trial = new FreeTrial({
     username: username
   });
 
   await trial.save();
+  const user = await accessManager.getUser(username);
+  if (user && !user.expiration)
+    throw new Error('User already has full access');
 
-  // Send to discord webhook
-  await sendDiscordMessage('@everyone **New Free Trial**', {
-    title: 'Payment',
-    color: 0xd61dae,
-    fields: [
-      { name: 'TradingView Username', value: username, },
-      { name: 'Expires At', value: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).toDateString() }
-    ]
-  });
+  try {
+    await accessManager.addUser(username, FREE_TRIAL_DAYS);
+  } catch (e) {
+    logError(e);
+    throw new Error('Error adding user to indicator, please check your TradingView username and try again, or contact us on Discord');
+  }
+
+
+  getChannel().send({ content: '@everyone - **New Free Trial**', embeds: [
+    new Discord.EmbedBuilder()
+      .setTitle('Free Trial')
+      .setColor(0x13d32f)
+      .addFields(
+        { name: 'TradingView Username', value: username, },
+        { name: 'Expires At', value: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).toDateString() }
+      )
+  ] });
 
   logInfo('Free trial started for: ' + username);
   res.status(200).json({ message: 'Free trial started' });
 }));
-
 
 module.exports = router;

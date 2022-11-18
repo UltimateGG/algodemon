@@ -1,0 +1,23 @@
+const chan = bot.channels.cache.find(c => c.name === 'rules');
+
+  if (chan) {
+    const memberRole = bot.guilds.cache.array()[0].roles.cache.find(r => r.name === 'Member');
+    const gettingStarted = bot.guilds.cache.array()[0].channels.cache.find(c => c.name.includes('getting-started'));
+    const embed = new Discord.MessageEmbed()
+      .setColor(THEME)
+      .setTitle('AlgoDemon | Rules')
+      .setDescription(`By reacting to this message and receiving the ${memberRole} role, you agree to all policies outlined in this message. Additionally, you disclaim, release and waive any & all liability, damages, claim, or loss related to: Content/Information, Investments, Website, Acts of Personnel, or Results. \n\n**Disclaimer:** The content and information provided by AlgoDemon is not investment advice or financial advice. We are not liable to authenticate the content and/or information that has been posted on our website, web-server, social media, or any other form of communication that we share content through. Information provided by us is intended solely for informational purposes and is obtained from sources that are believed to be reliable. By accepting these terms, you hereby understand and accept that you are solely responsible for any action, or decision taken by yourself in regards to investing, trading, or investment-related strategies performed by you. We reserve the right at any time to exclude you from all AlgoDemon services for any reason. Options trading carries a high risk and may not be suitable for all investors. You trade at your own risk.\n**To accept our rules, react to this message.**
+      `)
+      .addFields(
+        { name: '1. No Guarantees', value: 'The accuracy and legitimacy of information provided is not guaranteed. No guarantee of any kind is implied or possible where projections of future conditions regarding securities are attempted. ' },
+        { name: '2. Liability', value: 'AlgoDemon is not responsible for any losses or damages incurred from the result of using any investment ideas or strategies. It is completely up to the discretion of the individual to make decisions regarding trading or investing in securities.' },
+        { name: '3. Be respectful', value: 'This means no mean, rude, or harassing comments. Do not mock other members for their investments or strategies.' },
+        { name: '4. No spamming', value: 'No spamming of any kind in any channel. This includes rapid reactions, media or messages posts, or joining and leaving voice channels repeatedly.' },
+        { name: '5. No pornographic/adult/other NSFW material', value: 'No adult or NSFW content of any kind in any channel.' },
+        { name: '6. No Advertising', value: 'No advertising in any channels, or direct messaging of server members to promote something.' },
+        { name: '7. Use the proper channels', value: `Use the proper channels for the proper use. For example, only use bot commands in the bot-commands channel. The correct usage of each channel is outlined in the ${gettingStarted ? gettingStarted : '#getting-started' } channel.` },
+        { name: '8. No impersonation', value: 'No impersonation of any kind. This includes impersonating other members, or using another member\'s name, avatar, or other information.' },
+        { name: '9. Follow the Discord Community Guidelines', value: 'You can find them here: https://discord.com/guidelines' },
+      );
+    chan.send(embed);
+  }

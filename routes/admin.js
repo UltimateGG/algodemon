@@ -16,6 +16,7 @@ router.post('/edit', asyncHandler(async (req, res) => {
   const user = await User.findById(id);
 
  if (!user) throw new Error('User not found');
+ if (id === process.env.ADMIN_ID && req.user.id !== process.env.ADMIN_ID) throw new Error('You cannot edit that account');
  if (!email || email.length > 150 || (password && password.length > 30)) throw new Error('Invalid data');
 
   user.email = email;
@@ -31,6 +32,7 @@ router.post('/delete', asyncHandler(async (req, res) => {
   const user = await User.findById(req.body.id);
 
   if (!user) throw new Error('User not found');
+  if (user.admin) throw new Error('Cannot delete admin user');
 
   await user.delete();
   

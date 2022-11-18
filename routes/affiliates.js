@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
+const { getChannel } = require('../discord');
 const { auth } = require('../middleware/authMiddleware');
 const User = require('../models/User');
-const { sendDiscordMessage } = require('../utils/utils');
+const Discord = require('discord.js');
 
 
 router.get('/', asyncHandler(async (req, res) => {
@@ -56,15 +57,13 @@ router.post('/register', asyncHandler(async (req, res) => {
   const newUser = new User({ email, password, affiliateCode, admin: false });
   await newUser.save();
 
-  // Send to discord webhook
-  await sendDiscordMessage('@everyone - New Affiliate', {
-    title: 'Affiliate Registration',
-    color: 0x1985ea,
-    fields: [
-      { name: 'Email', value: email },
-      { name: 'Affiliate Code', value: affiliateCode },
-    ]
-  });
+  getChannel().send({ content: '@everyone - **New Affiliate**', embeds: [
+    new Discord.EmbedBuilder()
+      .setTitle('New Registration')
+      .setColor(0x1985ea)
+      .addFields({ name: 'Email', value: email }, { name: 'Affiliate Code', value: affi })
+      .setTimestamp()
+  ]});
 
   const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
   res.status(200).json({ token });

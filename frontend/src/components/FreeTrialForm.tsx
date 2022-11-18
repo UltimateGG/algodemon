@@ -24,7 +24,7 @@ const FreeTrialForm = ({ onClose }: { onClose: () => any }) => {
     return (
       <>
         <h2>Free Trial Started</h2>
-        <p>Please allow up to 24 hours for the indicator to show up under "invite only scripts"</p>
+        <p>The indicator should now show up under "invite only scripts"</p>
         <p>From there you will have 7 days before your access expires.</p>
         <p><a href={DISCORD_URL} rel="noopener noreferrer" target="_blank">Join our Discord</a> for help or any questions!</p>
 
