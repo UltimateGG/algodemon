@@ -45,7 +45,7 @@ router.post('/register', asyncHandler(async (req, res) => {
 
   // Generate affiliate code
   let affiliateCode = '';
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 200; i++) {
     affiliateCode = generateCode(3);
 
     if (!allAffiliateCodes.includes(affiliateCode)) break;
@@ -71,7 +71,7 @@ router.post('/register', asyncHandler(async (req, res) => {
 }));
 
 function generateCode(len) {
-  const chars = 'ABCDEFGHJKLMNPRSTUVWXYZ0123456789';
+  const chars = 'ABCDEFGHJKLMNPRSTUVWXYZ123456789';
   let code = '';
 
   for (let i = 0; i < len; i++)
