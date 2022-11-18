@@ -7,13 +7,9 @@ const FreeTrial = require('../models/FreeTrial');
 const PinescriptAccessManager = require('../utils/PinescriptAccessManager');
 const { getChannel } = require('../discord');
 const Discord = require('discord.js');
-const SCRIPT_ID = 'PUB;2ec587c34380448e9cd697da39169ed6';
-const accessManager = new PinescriptAccessManager(process.env.TV_SID, SCRIPT_ID);
+const CONFIG = require('../config.json');
+const accessManager = new PinescriptAccessManager(process.env.TV_SID, CONFIG.scriptId);
 
-
-const PRICE = 124.95; //149.99;
-const AFFILIATE_PERCENTAGE = 10.0; // Affiliates earn 10%
-const FREE_TRIAL_DAYS = 7;
 paypal.configure({
   'mode': process.env.NODE_ENV === 'DEVELOPMENT' ? 'sandbox' : 'live',
   'client_id': process.env.PAYPAL_CLIENT_ID,
@@ -25,7 +21,7 @@ router.get('/intent', asyncHandler(async (req, res) => {
   const ref = req.query.ref;
   const affiliate = await User.findOne({ affiliateCode: ref });
 
-  let price = PRICE;
+  let price = CONFIG.price;
   if (affiliate) price = +((price * 0.2).toFixed(2)); // 80% off
 
   const payment = {
@@ -72,7 +68,7 @@ router.post('/verify', asyncHandler(async (req, res) => {
   const { paymentId, payerId, username, ref } = req.body;
   const affiliate = await User.findOne({ affiliateCode: ref });
   
-  let price = PRICE;
+  let price = CONFIG.price;
   if (affiliate) price = +((price * 0.2).toFixed(2)); // 80% off
 
   const execute_payment_json = {
@@ -100,7 +96,7 @@ router.post('/verify', asyncHandler(async (req, res) => {
       }
 
       // Add to affiliates referrals
-      const affiliateCommission = ((PRICE * 0.2) * (AFFILIATE_PERCENTAGE / 100.0));
+      const affiliateCommission = ((CONFIG.price * 0.2) * (CONFIG.affiliatePercentage / 100.0));
 
       if (affiliate) {
         affiliate.referrals.push({
@@ -162,7 +158,7 @@ router.post('/trial', asyncHandler(async (req, res) => {
     throw new Error('User already has full access');
 
   try {
-    await accessManager.addUser(username, FREE_TRIAL_DAYS);
+    await accessManager.addUser(username, CONFIG.freeTrialDays);
   } catch (e) {
     logError(e);
     throw new Error('Error adding user to indicator, please check your TradingView username and try again, or contact us on Discord');

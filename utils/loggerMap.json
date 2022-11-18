@@ -3,5 +3,5 @@
   "server.js": "MAIN/SERVER",
   "utils\\database.js": "DATABASE",
   "routes\\admin.js": "ADMIN ROUTE",
-  "utils.js": "UTILS"
+  "discord.js": "DISCORD"
 }
