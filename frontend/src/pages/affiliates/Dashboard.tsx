@@ -67,6 +67,17 @@ export const DashboardPage = () => {
       </Box>
 
       <Box style={{ padding: '2rem' }} flexDirection="column" spacing="1.2rem">
+        <h2>Affiliate Tutorial/Instructions</h2>
+
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/O3gQMrvrApU?start=39" title="YouTube video player" frameBorder={0} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+
+        <h2>Indicator Playlist</h2>
+        <p>Free {NAME} content for your TikTok videos. <br />
+        <a href="https://www.youtube.com/playlist?list=PLvP6Ooo2YTiLzRvDuz0qkLfB_4VFdsSIf" target="_blank" rel="noopener noreferrer">https://www.youtube.com/playlist?list=PLvP6Ooo2YTiLzRvDuz0qkLfB_4VFdsSIf</a>
+        </p>
+      </Box>
+
+      <Box style={{ padding: '2rem' }} flexDirection="column" spacing="1.2rem">
         <Box flexDirection="column">
           <h2>Account Info</h2>
 

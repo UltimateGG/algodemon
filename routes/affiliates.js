@@ -46,12 +46,7 @@ router.post('/register', asyncHandler(async (req, res) => {
   // Generate affiliate code
   let affiliateCode = '';
   for (let i = 0; i < 20; i++) {
-    affiliateCode = '';
-
-    for (let j = 0; j < 3; j++) {
-      const random = Math.floor(Math.random() * 36);
-      affiliateCode += random.toString(36);
-    }
+    affiliateCode = generateCode(3);
 
     if (!allAffiliateCodes.includes(affiliateCode)) break;
   }
@@ -74,6 +69,16 @@ router.post('/register', asyncHandler(async (req, res) => {
   const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
   res.status(200).json({ token });
 }));
+
+function generateCode(len) {
+  const chars = 'ABCDEFGHJKLMNPRSTUVWXYZ0123456789';
+  let code = '';
+
+  for (let i = 0; i < len; i++)
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+
+  return code;
+}
 
 
 module.exports = router;

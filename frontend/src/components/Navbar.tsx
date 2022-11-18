@@ -20,10 +20,10 @@ const links = [
     href: DISCORD_URL,
     newTab: true,
   },
-  /*{
+  {
     label: 'Affiliates',
     href: '/affiliates',
-  }*/
+  }
 ];
 
 const NavbarLinkStyle = styled.a.attrs((props: any) => props)`
