@@ -164,8 +164,7 @@ router.post('/trial', asyncHandler(async (req, res) => {
     throw new Error('Error adding user to indicator, please check your TradingView username and try again, or contact us on Discord');
   }
 
-
-  getChannel().send({ content: '@everyone - **New Free Trial**', embeds: [
+  getChannel().send({ content: '**New Free Trial**', embeds: [
     new Discord.EmbedBuilder()
       .setTitle('Free Trial')
       .setColor(0x13d32f)

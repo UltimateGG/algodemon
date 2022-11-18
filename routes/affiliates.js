@@ -57,7 +57,7 @@ router.post('/register', asyncHandler(async (req, res) => {
   const newUser = new User({ email, password, affiliateCode, admin: false });
   await newUser.save();
 
-  getChannel().send({ content: '@everyone - **New Affiliate**', embeds: [
+  getChannel().send({ content: '**New Affiliate**', embeds: [
     new Discord.EmbedBuilder()
       .setTitle('New Registration')
       .setColor(0x1985ea)

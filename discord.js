@@ -27,7 +27,7 @@ const FOOTER = 'algodemon.com';
 const PREFIX = '.';
 
 const recentlyBanned = [];
-const joinLeaveMessages = true;
+const joinLeaveMessages = process.env.NODE_ENV !== 'DEVELOPMENT';
 
 
 bot.on('ready', () => {
