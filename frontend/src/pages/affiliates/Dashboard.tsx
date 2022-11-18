@@ -33,6 +33,18 @@ const PageStyle = styled.div.attrs((props: any) => props)`
       margin-left: 1rem;
     }
   }
+
+  .youtube-embed {
+    max-width: 560px;
+
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .instructions-text {
+      font-size: 1.5rem;
+    }
+  }
 `;
 
 export const DashboardPage = () => {
@@ -67,13 +79,13 @@ export const DashboardPage = () => {
       </Box>
 
       <Box style={{ padding: '2rem' }} flexDirection="column" spacing="1.2rem">
-        <h2>Affiliate Tutorial/Instructions</h2>
+        <h2 className="instructions-text">Affiliate Tutorial/Instructions</h2>
 
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/O3gQMrvrApU?start=39" title="YouTube video player" frameBorder={0} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+        <iframe className="youtube-embed" height="315" src="https://www.youtube.com/embed/O3gQMrvrApU?start=39" title="YouTube video player" frameBorder={0} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
 
         <h2>Indicator Playlist</h2>
         <p>Free {NAME} content for your TikTok videos. <br />
-        <a href="https://www.youtube.com/playlist?list=PLvP6Ooo2YTiLzRvDuz0qkLfB_4VFdsSIf" target="_blank" rel="noopener noreferrer">https://www.youtube.com/playlist?list=PLvP6Ooo2YTiLzRvDuz0qkLfB_4VFdsSIf</a>
+        <a href="https://www.youtube.com/playlist?list=PLvP6Ooo2YTiLzRvDuz0qkLfB_4VFdsSIf" target="_blank" rel="noopener noreferrer">Youtube Playlist</a>
         </p>
       </Box>
 
