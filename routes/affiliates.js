@@ -61,7 +61,7 @@ router.post('/register', asyncHandler(async (req, res) => {
     new Discord.EmbedBuilder()
       .setTitle('New Registration')
       .setColor(0x1985ea)
-      .addFields({ name: 'Email', value: email }, { name: 'Affiliate Code', value: affi })
+      .addFields({ name: 'Email', value: email }, { name: 'Affiliate Code', value: affiliateCode })
       .setTimestamp()
   ]});
 

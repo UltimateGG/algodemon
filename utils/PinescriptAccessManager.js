@@ -52,7 +52,7 @@ class PinescriptAccessManager {
   
       const data = await this.pineRequest('add/', { 'username_recip': username, expiration: expirationDays !== -1 ? expiration.toISOString() : undefined });
   
-      if (data.status !== 'ok' && data.status !== 'exists') return reject('Failed to add user to indicator');
+      if (data.status !== 'ok' && data.status !== 'exists') return reject('Failed to add user to indicator: ' + JSON.stringify(data));
       resolve(data);
     });
   }
