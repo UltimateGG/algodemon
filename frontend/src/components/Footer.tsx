@@ -16,6 +16,15 @@ const WrapperStyle = styled.div.attrs((props: any) => props)`
     }
   }
 
+  .footer-images {
+    align-items: center;
+  }
+
+  .footer-img {
+    max-width: 100%;
+    height: auto;
+  }
+
   .footer-links {
     padding-bottom: 2.8rem;
 
@@ -31,6 +40,11 @@ const WrapperStyle = styled.div.attrs((props: any) => props)`
   }
 
   @media (max-width: 580px) {
+    .footer-images {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
     .footer-links {
       flex-direction: column;
       justify-content: center;
@@ -91,21 +105,25 @@ const Footer = () => {
         <BannerStyle justifyContent="space-around" alignItems="center" theme={theme}>
           <div>
             <h1>Get Access Today</h1>
-            {FREE_TRIALS_ACTIVE ? (
-              <p>Start your 7 day free trial today to see results for yourself</p>
-            ) : (
-              <p>Get life time access for a one time payment</p>
-            )}
+            <p>See the results for yourself{FREE_TRIALS_ACTIVE ? '. Start your free trial today!' : ' with a single payment.'}</p>
           </div>
           
-          <Button className="access-btn" onClick={() => navigate('#/pricing')} block>
-            <div className="text-primary">{FREE_TRIALS_ACTIVE ? 'Start Free Trial' : 'Click Here To Get Access'}</div>
+          <Button className="access-btn" glowing color="secondary" onClick={() => navigate('#/pricing')} block>
+            <div className="text-primary">Purchase Full Access</div>
           </Button>
         </BannerStyle>
       )}
 
       <Box className="footer-links" justifyContent="space-around">
-        <img className="footer-img" src="/img/logo.png" alt={NAME} />
+        <Box className="footer-images" spacing="1rem">
+          <div>
+            <div><img className="footer-img" src="/img/logo.png" alt={NAME} /></div>
+            <div><img className="footer-img" src="/img/tradingview.png" alt="TradingView" /></div>
+          </div>
+          <div>
+            <img className="footer-img" src="/img/paypal.png" alt="PayPal" />
+          </div>
+        </Box>
 
         <Box spacing="1rem">
           <Box flexDirection="column" spacing="0.6rem">
