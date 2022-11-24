@@ -40,7 +40,7 @@ bot.on('ready', () => {
 
   logInfo('Discord bot ready');
 });
-/*
+
 bot.on('messageCreate', (message) => {
   if (message.channel.type == 'dm') return;
   if (message.author.bot || !message.member) return;
@@ -67,7 +67,7 @@ bot.on('messageCreate', (message) => {
 
   // anti advertising
   if (message.member.permissions.has(PermissionFlagsBits.ManageMessages)) return;
-  if (message.content.includes('been lurking around this server for a while') && message.content.includes('discord.gg/')) {
+  if ((message.content.includes('I\'ll help the first') || message.content.includes('been lurking around this server for a while')) && message.content.includes('discord.gg/')) {
     message.member.ban({ reason: 'Advertising' });
 
     const embed = new Discord.EmbedBuilder()
@@ -116,7 +116,7 @@ bot.on('interactionCreate', interaction => {
     .setFooter({ text: FOOTER, iconURL: LOGO_URL });
 
   interaction.update({ content: ':white_check_mark: User Banned', embeds: [embed], components: [] });
-});*/
+});
 
 bot.on('guildMemberAdd', member => {
   const channel = member.guild.channels.cache.find(c => c.name === 'welcome');
