@@ -78,7 +78,7 @@ const Switch = (props: SwitchProps) => {
   const { onCheck, variant, checked, disabled, label, ...rest } = props;
   const { theme } = React.useContext(ThemeContext);
 
-  const toggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const toggle = () => {
     if (disabled) return;
     onCheck && onCheck(!checked);
   }
@@ -91,7 +91,7 @@ const Switch = (props: SwitchProps) => {
         variant={variant}
         disabled={disabled}
         checked={checked}
-        onChange={toggle}
+        onClick={toggle}
         id={props.name}
       />
 

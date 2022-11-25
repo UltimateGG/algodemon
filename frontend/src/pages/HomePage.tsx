@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import ReasonBlock from '../components/ReasonBlock';
-import { DISCORD_URL, FREE_TRIALS_ACTIVE, NAME } from '../globals';
+import { DISCORD_URL, FREE_TRIALS_ACTIVE, LIGHT_THEME, NAME } from '../globals';
 import { Box, Button, Icon, IconEnum, ThemeContext } from '../Jet';
 import { ReviewsCarousel } from '../components/ReviewsCarousel';
 
@@ -157,9 +157,9 @@ export const HomePage = () => {
 
         <div>
           <Box spacing="1rem" className="action-buttons" justifyContent="center">
-            <Button color="success" onClick={() => window.location.href = '#/pricing'} large glowing><div style={{ color: theme.colors.text[0] }}>Purchase</div></Button>
+            <Button color="success" onClick={() => window.location.href = '#/pricing'} large glowing><div style={{ color: LIGHT_THEME ? '#fff' : theme.colors.text[0] }}>Purchase</div></Button>
             <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">
-              <Button large style={{ backgroundColor: theme.colors.text[0] }}><div style={{ color: theme.colors.primary[0] }}>Discord</div></Button>
+              <Button large style={{ backgroundColor: theme.colors[LIGHT_THEME ? 'primary' : 'text'][0] }}><div style={{ color: LIGHT_THEME ? '#fff' : theme.colors.primary[0] }}>Discord</div></Button>
             </a>
           </Box>
 
@@ -179,7 +179,7 @@ export const HomePage = () => {
             <ReasonBlock
               title="Realistic"
               description={<p style={{ maxWidth: '25rem' }}>{NAME} works in <u>real time</u>, and does not retract signals, unlike other indicators that show unrealistic results.<br /><br />
-              Other indicators will fire a signal on the previous candle, which is called "lag" and causes the indicator to look better than it actually is. {NAME} has <u>revolutionized</u> trading by solving this issue with custom code.</p>}
+              Other indicators fire a signal on the previous candle, which is called "lag" and causes the indicator to look better than it actually is. {NAME} has <u>revolutionized</u> trading by solving this issue with custom code.</p>}
               icon={IconEnum.checkmark}
             />
           </Box>
@@ -237,13 +237,13 @@ export const HomePage = () => {
       <ReviewsCarousel backgroundColor={1} />
 
       <Box className="container background-primary" flexDirection="column" justifyContent="center" alignItems="center" style={{ padding: '2rem 6rem' }} spacing="1rem">
-        <h2 className="quote" style={{ maxWidth: '50%', textAlign: 'center' }}>“{NAME} has changed the way I trade, I am able to make consistent profits every day with minimal risk.”</h2>
+        <h2 className="quote" style={{ maxWidth: '50%', textAlign: 'center', color: LIGHT_THEME ? '#fff' : 'inherit' }}>“{NAME} has changed the way I trade, I am able to make consistent profits every day with minimal risk.”</h2>
 
-        <div>
+        <Box flexDirection="column" alignItems="center">
           <img src="https://i.imgur.com/27ZMmQD.jpg" alt="Profile" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: theme.roundedFull }} />
-          <p>Troy Breslin</p>
-          <small style={{ textAlign: 'center', display: 'block' }}>Day Trader</small>
-        </div>
+          <p style={LIGHT_THEME ? { color: '#fff' } : {}}>Troy Breslin</p>
+          <small style={{ textAlign: 'center', display: 'block', color: LIGHT_THEME ? '#fff' : 'inherit' }}>Day Trader</small>
+        </Box>
       </Box>
 
       <Box className="container" style={{ padding: '6rem' }} spacing="1rem" justifyContent="center">

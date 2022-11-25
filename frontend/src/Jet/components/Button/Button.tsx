@@ -3,6 +3,7 @@ import { ThemeContext } from '../../theme/JetDesign';
 import styled from 'styled-components';
 import { contrast, hexToRgb, invertColor } from '../../theme';
 import Box from '../Box';
+import { LIGHT_THEME } from '../../../globals';
 
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -26,7 +27,7 @@ const ButtonStyle = styled.button.attrs((props: ButtonProps) => props)`
     border: ${props => props.variant === 'outlined' ? `2px solid ${props.color === 'secondary' ? props.theme.colors.background[3] : props.theme.colors[props.color || 'primary'][0]}` : '2px solid transparent'};
     border-radius: ${props => props.rounded ? props.theme.roundedFull : props.theme.rounded};
     cursor: pointer;
-	font-weight: inherit;
+	  font-weight: inherit;
     background-color: ${props => {
       const col = props.color === 'secondary' ? props.theme.colors.background[props.variant === 'outlined' ? 2 : 3] : props.theme.colors[props.color || 'primary'][0];
       if (props.variant === 'outlined') {
@@ -78,6 +79,8 @@ const Button = (props: ButtonProps) => {
   let textStyle: { color?: string } = {};
   if (textContrast < 2.5 && props.variant !== 'outlined')
     textStyle = { color: invertColor(color === 'secondary' ? theme.colors.background[3] : theme.colors[color || 'primary'][0]) };
+  else if (LIGHT_THEME)
+    textStyle = { color: '#fff' };
 
   return (
     <ButtonStyle

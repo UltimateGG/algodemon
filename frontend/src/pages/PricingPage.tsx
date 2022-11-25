@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import CheckoutForm from '../components/CheckoutForm';
 import FAQ from '../components/FAQ';
 import { useNotifications } from '../contexts/NotificationContext';
-import { DISCORD_URL, FREE_TRIALS_ACTIVE, NAME, PRICE } from '../globals';
+import { DISCORD_URL, FREE_TRIALS_ACTIVE, LIGHT_THEME, NAME, PRICE } from '../globals';
 import { Box, Button, Divider, Icon, IconEnum, Modal, TextField, ThemeContext } from '../Jet';
 import { apiGet } from '../api/apiExecutor';
 import { EventType, useSessionTracker } from '../contexts/SessionTrackerContext';
@@ -46,6 +46,14 @@ const PageStyle = styled.div.attrs((props: any) => props)`
   h4 {
     text-align: left;
   }
+
+  ${LIGHT_THEME ? `
+  .background-primary {
+    h1, h5, p, small {
+      color: #fff;
+    }
+  }
+  ` : ''}
 
   @media (max-width: 858px) {
     .packages-container {

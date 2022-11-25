@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { NAME } from '../globals';
+import { LIGHT_THEME, NAME } from '../globals';
 import { Box } from '../Jet';
 
 
@@ -15,7 +15,7 @@ const PageStyle = styled.div.attrs((props: any) => props)`
 
     p {
       line-height: 1.8;
-      color: #fff;
+      color: ${LIGHT_THEME ? '#000' : '#fff'};
     }
 
     strong {

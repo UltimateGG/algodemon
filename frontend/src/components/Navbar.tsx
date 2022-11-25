@@ -2,8 +2,8 @@ import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth } from '../contexts/AuthContext';
-import { DISCORD_URL, NAME } from '../globals';
-import { Box, Drawer, Icon, IconEnum, Navbar as JNavbar, ThemeContext, Button } from '../Jet';
+import { DISCORD_URL, LIGHT_THEME, NAME } from '../globals';
+import { Box, Drawer, Icon, IconEnum, Navbar as JNavbar, ThemeContext, Button, Switch } from '../Jet';
 
 
 const links = [
@@ -80,6 +80,12 @@ const NavbarStyle = styled(JNavbar)`
     }
   }
 
+  @media (max-width: 500px) {
+    .theme-changer {
+      display: none;
+    }
+  }
+
   @media (max-width: 390px) {
     .logo {
       max-width: 200px;
@@ -109,9 +115,9 @@ const Navbar = () => {
   return (
     <>
       <NavbarStyle theme={theme}>
-        <MenuButtonStyle className="menu-button" theme={theme} icon={IconEnum.menu} onClick={() => setDrawerOpen(true)} />
+        <MenuButtonStyle className="menu-button" theme={theme} color={LIGHT_THEME ? '#000' : '#fff'} icon={IconEnum.menu} onClick={() => setDrawerOpen(true)} />
         <Box alignItems="center" justifyContent="center" spacing="2rem">
-          <a className="logo" href="#/"><img src="/img/logo.png" alt={NAME} style={{ maxHeight: '70px' }} /></a>
+          <a className="logo" href="#/"><img src={LIGHT_THEME ? '/img/logo_dark.png' : '/img/logo.png'} alt={NAME} style={{ maxHeight: '70px' }} /></a>
           <Box className="nav-links">
             {links.map(link => (
               <NavbarLinkStyle key={link.href} href={link.newTab ? link.href : '#' + link.href} target={link.newTab ? '_blank' : ''} rel="noopener noreferrer" active={location.pathname === link.href} theme={theme}>
@@ -121,14 +127,28 @@ const Navbar = () => {
           </Box>
         </Box>
 
-        {localStorage.getItem('token') ? (
-          <Box spacing="1rem">
-            <Button className="access-btn" onClick={() => window.location.href = '#/dashboard'}>Dashboard</Button>
-            <Button className="access-btn" variant="outlined" onClick={logout}>Logout</Button>
+        <Box spacing="1rem" alignItems="center">
+          <Box className="theme-changer" spacing="0.2rem" alignItems="center">
+            <Icon icon={IconEnum.dark_mode} color={LIGHT_THEME ? '#000' : '#fff'} size={20} />
+            <Switch
+              checked={LIGHT_THEME}
+              onCheck={() => {
+                localStorage.setItem('dark-theme', LIGHT_THEME ? 'true' : 'false');
+                window.location.reload();
+              }}
+            />
+            <Icon icon={IconEnum.light_mode} color={LIGHT_THEME ? '#000' : '#fff'}  size={20} />
           </Box>
-        ) : (
-          <Button className="access-btn" color="success" onClick={() => window.location.href = '#/pricing'}>Purchase</Button>
-        )}
+
+          {localStorage.getItem('token') ? (
+            <Box spacing="1rem">
+              <Button className="access-btn" onClick={() => window.location.href = '#/dashboard'}>Dashboard</Button>
+              <Button className="access-btn" variant="outlined" onClick={logout}>Logout</Button>
+            </Box>
+          ) : (
+            <Button className="access-btn" color="success" onClick={() => window.location.href = '#/pricing'}>Purchase</Button>
+          )}
+        </Box>
       </NavbarStyle>
 
       <DrawerStyle open={drawerOpen} onClose={() => setDrawerOpen(false)} theme={theme}>
@@ -140,6 +160,18 @@ const Navbar = () => {
         {localStorage.getItem('token') && (
           <NavbarLinkStyle href="#/dashboard" active={location.pathname === '/dashboard'} onClick={() => setDrawerOpen(false)} theme={theme}>Dashboard</NavbarLinkStyle>
         )}
+
+        <Box spacing="0.2rem" alignItems="center">
+          <Icon icon={IconEnum.dark_mode} color={LIGHT_THEME ? '#000' : '#fff'} size={20} />
+          <Switch
+            checked={LIGHT_THEME}
+            onCheck={() => {
+              localStorage.setItem('dark-theme', LIGHT_THEME ? 'true' : 'false');
+              window.location.reload();
+            }}
+          />
+          <Icon icon={IconEnum.light_mode} color={LIGHT_THEME ? '#000' : '#fff'}  size={20} />
+        </Box>
       </DrawerStyle>
     </>
   );

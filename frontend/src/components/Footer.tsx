@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { DISCORD_URL, FREE_TRIALS_ACTIVE, NAME } from '../globals';
+import { DISCORD_URL, FREE_TRIALS_ACTIVE, LIGHT_THEME, NAME } from '../globals';
 import { Box, Button, Divider, ThemeContext } from '../Jet';
 
 
@@ -9,10 +9,10 @@ const WrapperStyle = styled.div.attrs((props: any) => props)`
   .access-btn {
     margin-top: 2rem;
     max-width: 18rem;
-    background-color: ${props => props.theme.colors.text[0]};
+    background-color: ${props => LIGHT_THEME ? props.theme.colors.background[2] : props.theme.colors.text[0]};
 
     &:hover {
-      background-color: ${props => props.theme.colors.text[0]};
+      background-color: ${props => LIGHT_THEME ? props.theme.colors.background[3] : props.theme.colors.text[0]};
     }
   }
 
@@ -59,6 +59,12 @@ const BannerStyle = styled(Box).attrs((props: any) => props)`
   background-color: ${props => props.theme.colors.primary[0]};
   padding: 4rem;
   margin-bottom: 2rem;
+
+  ${LIGHT_THEME && `
+    h1, h2, h3, h4, h5, h6, p {
+      color: #fff;
+    }
+  `}
 
   @media (max-width: 1050px) {
     flex-direction: column;
@@ -117,8 +123,8 @@ const Footer = () => {
       <Box className="footer-links" justifyContent="space-around">
         <Box className="footer-images" spacing="1rem">
           <div>
-            <div><img className="footer-img" src="/img/logo.png" alt={NAME} /></div>
-            <div><img className="footer-img" src="/img/tradingview.png" alt="TradingView" /></div>
+            <div><img className="footer-img" src={LIGHT_THEME ? '/img/logo_dark.png' : '/img/logo.png'} alt={NAME} /></div>
+            <div><img className="footer-img" src="/img/tradingview.png" alt="TradingView" style={LIGHT_THEME ? { filter: 'invert(1)' } : {}} /></div>
           </div>
           <div>
             <img className="footer-img" src="/img/paypal.png" alt="PayPal" />

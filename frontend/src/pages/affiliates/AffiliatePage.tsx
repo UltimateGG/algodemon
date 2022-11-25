@@ -4,7 +4,7 @@ import { apiPost } from '../../api/apiExecutor';
 import ReasonBlock from '../../components/ReasonBlock';
 import { useAuth } from '../../contexts/AuthContext';
 import { EventType, useSessionTracker } from '../../contexts/SessionTrackerContext';
-import { AFFILIATE_PERCENT, NAME } from '../../globals';
+import { AFFILIATE_PERCENT, LIGHT_THEME, NAME } from '../../globals';
 import { Box, Button, Icon, IconEnum, Progress, TextField, ThemeContext } from '../../Jet';
 
 
@@ -87,8 +87,8 @@ export const AffiliatePage = () => {
     <PageStyle>
       <HeaderStyle flexDirection="column" justifyContent="center" alignItems="center" theme={theme}>
         <Box className="header-box" flexDirection="column" justifyContent="center" alignItems="center">
-          <h1 style={{ fontSize: '6rem' }}>Earn Money</h1>
-          <h4>With {NAME}, by using social media</h4>
+          <h1 style={{ fontSize: '6rem', color: LIGHT_THEME ? '#fff' : 'inherit' }}>Earn Money</h1>
+          <h4 style={{ color: LIGHT_THEME ? '#fff' : 'inherit' }}>With {NAME}, by using social media</h4>
 
           <Button style={{ maxWidth: '50%', display: user ? 'none' : 'inline-block' }} block onClick={() => {
             const start = document.querySelector('#start');
