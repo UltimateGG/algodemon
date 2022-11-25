@@ -1,4 +1,4 @@
-import { LIGHT_THEME, THEME_COLOR } from "../../globals";
+import { THEME_COLOR } from "../../globals";
 
 export interface Theme {
   fontFamily: string;
@@ -74,8 +74,8 @@ export const themeDefault: Theme = {
   fontSize: '1rem',
   colors: {
     primary: generateColorsArray(THEME_COLOR, 9, Shade.DARKER),
-    text: generateColorsArray(LIGHT_THEME ? '#000000' : '#FAFAFA', 9, LIGHT_THEME ? Shade.LIGHTER : Shade.DARKER, 0.04),
-    background: generateColorsArray(LIGHT_THEME ? '#FAFAFA' : '#0E1320', 9, LIGHT_THEME ? Shade.DARKER : Shade.LIGHTER, LIGHT_THEME ? 0.06 : 0.04), // #0E1320
+    text: generateColorsArray('#FAFAFA', 9, Shade.DARKER, 0.04),
+    background: generateColorsArray('#0E1320', 9, Shade.LIGHTER, 0.04),
     danger: generateColorsArray('#d12929', 9, Shade.DARKER),
     success: generateColorsArray('#1dad35', 9, Shade.DARKER),
     warning: generateColorsArray('#efcb00', 9, Shade.DARKER),

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { LIGHT_THEME } from '../globals';
 import { Box, Icon, IconEnum, ThemeContext } from '../Jet';
 
 

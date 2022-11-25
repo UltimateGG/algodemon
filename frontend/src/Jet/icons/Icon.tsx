@@ -1,5 +1,4 @@
 import React from 'react';
-import { LIGHT_THEME } from '../../globals';
 import { ThemeContext } from '../theme/JetDesign';
 import { IconEnum, IconMap } from './Icons';
 
@@ -15,7 +14,7 @@ const Icon = (props: IconProps) => {
   let { icon, size = 32, color, onClick, ...rest } = props;
   const { theme } = React.useContext(ThemeContext);
   if (!color)
-    color = LIGHT_THEME ? '#fff' : theme.colors.text[0];
+    color = theme.colors.text[0];
 
   return (
     <svg

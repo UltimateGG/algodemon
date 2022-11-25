@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import ReasonBlock from '../components/ReasonBlock';
-import { DISCORD_URL, FREE_TRIALS_ACTIVE, LIGHT_THEME, NAME } from '../globals';
+import { DISCORD_URL, FREE_TRIALS_ACTIVE, NAME } from '../globals';
 import { Box, Button, Icon, IconEnum, ThemeContext } from '../Jet';
 import { ReviewsCarousel } from '../components/ReviewsCarousel';
 
@@ -165,13 +165,13 @@ export const HomePage = () => {
 
         <div>
           <Box spacing="1rem" className="action-buttons" justifyContent="center">
-            <Button color="success" onClick={() => window.location.href = '#/pricing'} large glowing><div style={{ color: LIGHT_THEME ? '#fff' : theme.colors.text[0] }}>Purchase</div></Button>
+            <Button onClick={() => window.location.href = '#/pricing'} large glowing>Purchase Now</Button>
             <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">
-              <Button large style={{ backgroundColor: theme.colors[LIGHT_THEME ? 'primary' : 'text'][0] }}><div style={{ color: LIGHT_THEME ? '#fff' : theme.colors.primary[0] }}>Discord</div></Button>
+              <Button color="secondary" large>Discord</Button>
             </a>
           </Box>
 
-          <video id="video-header" src="/img/home.mp4" autoPlay playsInline loop muted style={{ borderRadius: theme.rounded }} />
+          <video id="video-header" src="/img/home.mp4" autoPlay playsInline loop muted style={{ borderRadius: theme.rounded, marginTop: '0.4rem' }} />
         </div>
       </Box>
 
@@ -207,8 +207,8 @@ export const HomePage = () => {
                 icon={IconEnum.phone}
               />
 
-              {FREE_TRIALS_ACTIVE && <Button style={{ marginTop: '1rem', marginRight: '1rem' }} onClick={() => window.location.href = '#/pricing'}>Get Free Trial</Button>}
-              <Button color="success" style={{ marginTop: '1rem' }} onClick={() => window.location.href = '#/pricing'}>Purchase Now</Button>
+              {FREE_TRIALS_ACTIVE && <Button color="secondary" style={{ marginTop: '1rem', marginRight: '1rem' }} onClick={() => window.location.href = '#/pricing'}>Get Free Trial</Button>}
+              <Button style={{ marginTop: '1rem' }} onClick={() => window.location.href = '#/pricing'}>Purchase Now</Button>
             </div>
           </Box>
 
@@ -245,12 +245,12 @@ export const HomePage = () => {
       <ReviewsCarousel backgroundColor={1} />
 
       <Box className="container background-primary" flexDirection="column" justifyContent="center" alignItems="center" style={{ padding: '2rem 6rem' }} spacing="1rem">
-        <h2 className="quote" style={{ maxWidth: '50%', textAlign: 'center', color: LIGHT_THEME ? '#fff' : 'inherit' }}>“{NAME} has changed the way I trade, I am able to make consistent profits every day with minimal risk.”</h2>
+        <h2 className="quote" style={{ maxWidth: '50%', textAlign: 'center' }}>“{NAME} has changed the way I trade, I am able to make consistent profits every day with minimal risk.”</h2>
 
         <Box flexDirection="column" alignItems="center">
           <img src="https://i.imgur.com/27ZMmQD.jpg" alt="Profile" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: theme.roundedFull }} />
-          <p style={LIGHT_THEME ? { color: '#fff' } : {}}>Troy Breslin</p>
-          <small style={{ textAlign: 'center', display: 'block', color: LIGHT_THEME ? '#fff' : 'inherit' }}>Day Trader</small>
+          <p>Troy Breslin</p>
+          <small style={{ textAlign: 'center', display: 'block' }}>Day Trader</small>
         </Box>
       </Box>
 
@@ -281,7 +281,7 @@ export const HomePage = () => {
           </Box>
           
           <Box alignItems="center" spacing="1rem">
-            <Button color="success" onClick={() => {
+            <Button onClick={() => {
               window.scrollTo(0, 0);
               setTimeout(() => window.location.href = '#/pricing', 100);
             }}>Purchase</Button>

@@ -3,7 +3,6 @@ import { ThemeContext } from '../../theme/JetDesign';
 import styled from 'styled-components';
 import { contrast, hexToRgb, invertColor } from '../../theme';
 import Box from '../Box';
-import { LIGHT_THEME } from '../../../globals';
 
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -79,8 +78,6 @@ const Button = (props: ButtonProps) => {
   let textStyle: { color?: string } = {};
   if (textContrast < 2.5 && props.variant !== 'outlined')
     textStyle = { color: invertColor(color === 'secondary' ? theme.colors.background[3] : theme.colors[color || 'primary'][0]) };
-  else if (LIGHT_THEME)
-    textStyle = { color: '#fff' };
 
   return (
     <ButtonStyle

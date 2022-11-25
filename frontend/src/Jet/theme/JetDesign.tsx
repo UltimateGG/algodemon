@@ -1,5 +1,4 @@
 import React, { createContext, ReactNode, useEffect } from 'react';
-import { LIGHT_THEME } from '../../globals';
 import { shiftColor, Theme, themeDefault } from './Theme';
 
 
