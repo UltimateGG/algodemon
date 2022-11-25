@@ -67,7 +67,8 @@ bot.on('messageCreate', (message) => {
 
   // anti advertising
   if (message.member.permissions.has(PermissionFlagsBits.ManageMessages)) return;
-  if ((message.content.includes('I\'ll help the first') || message.content.includes('been lurking around this server for a while')) && message.content.includes('discord.gg/')) {
+  if (message.content.includes('discord.gg/') || message.content.includes('bit.ly/') || message.content.includes('I\'ll teach 10 people how to earn') || message.content.includes('I\'ll help the first 20 people on how to') || message.content.includes('You need to join this professional and highly')) {
+    message.delete();
     message.member.ban({ reason: 'Advertising' });
 
     const embed = new Discord.EmbedBuilder()
@@ -78,44 +79,7 @@ bot.on('messageCreate', (message) => {
       .setFooter({ text: FOOTER, iconURL: LOGO_URL });
     
     return message.guild.channels.cache.find(c => c.name === 'logs').send({ content: '@everyone', embeds: [embed] });
-  } else if (message.content.includes('discord.gg/') || message.content.includes('bit.ly/')) {
-    message.delete();
-    const embed = new Discord.EmbedBuilder()
-      .setColor(RED)
-      .setDescription(`Message sent by ${message.author} (${message.author.tag}) deleted for detected advertising.`)
-      .addFields({ name:'Message', value: message.content })
-      .setTimestamp()
-      .setFooter({ text: FOOTER, iconURL: LOGO_URL });
-
-    const row = new Discord.ActionRowBuilder()
-      .addComponents(
-        new Discord.ButtonBuilder()
-          .setCustomId('ban:' + message.author.id)
-          .setLabel('Ban User')
-          .setStyle(ButtonStyle.Danger)
-      );
-
-    return message.guild.channels.cache.find(c => c.name === 'logs').send({ content: '@everyone', embeds: [embed], components: [row] });
   }
-});
-
-bot.on('interactionCreate', interaction => {
-	if (!interaction.isButton()) return;
-  if (!interaction.customId.startsWith('ban:')) return;
-
-  const userId = interaction.customId.split(':')[1];
-  const member = interaction.guild.members.cache.get(userId);
-  if (!member) return;
-
-  member.ban({ reason: 'Advertising' });
-
-  const embed = new Discord.EmbedBuilder()
-    .setColor(GREEN)
-    .setDescription(`${member} (${member.user.tag}) was banned for advertising by ${interaction.user}.`)
-    .setTimestamp()
-    .setFooter({ text: FOOTER, iconURL: LOGO_URL });
-
-  interaction.update({ content: ':white_check_mark: User Banned', embeds: [embed], components: [] });
 });
 
 bot.on('guildMemberAdd', member => {
