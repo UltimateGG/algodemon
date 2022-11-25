@@ -7,6 +7,14 @@ import { ReviewsCarousel } from '../components/ReviewsCarousel';
 
 
 const PageStyle = styled.div.attrs((props: any) => props)`
+  #video-header {
+    background: url('/img/phone.png') no-repeat center center;
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
+    object-position: center;
+  }
+
   .welcome-text {
     font-size: 4rem;
     font-weight: 500;
@@ -151,7 +159,7 @@ export const HomePage = () => {
 
   return (
     <PageStyle theme={theme}>
-      <Box className="container" style={{ padding: '1rem 6rem', marginTop: '4.6rem', paddingBottom: '1rem' }} flexDirection="column" justifyContent="center" alignItems="center">
+      <Box className="container" id="header" style={{ padding: '1rem 6rem', marginTop: '4.6rem', paddingBottom: '1rem' }} flexDirection="column" justifyContent="center" alignItems="center">
         <h1 className="welcome-text">Become A Profitable Trader with <span className="text-primary">{NAME}</span></h1>
         <p>The most accurate trading indicator. No repainting. No lag. No subscription. Instant delivery.</p>
 
@@ -163,7 +171,7 @@ export const HomePage = () => {
             </a>
           </Box>
 
-          <img src="/img/home.png" alt={NAME + ' Indicator'} style={{ borderRadius: theme.rounded }} />
+          <video id="video-header" src="/img/home.mp4" autoPlay playsInline loop muted style={{ borderRadius: theme.rounded }} />
         </div>
       </Box>
 

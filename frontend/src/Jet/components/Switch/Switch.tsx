@@ -92,6 +92,7 @@ const Switch = (props: SwitchProps) => {
         disabled={disabled}
         checked={checked}
         onClick={toggle}
+        onChange={toggle}
         id={props.name}
       />
 
