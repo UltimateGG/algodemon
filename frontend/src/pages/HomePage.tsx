@@ -161,7 +161,7 @@ export const HomePage = () => {
     <PageStyle theme={theme}>
       <Box className="container" id="header" style={{ padding: '1rem 6rem', marginTop: '4.6rem', paddingBottom: '1rem' }} flexDirection="column" justifyContent="center" alignItems="center">
         <h1 className="welcome-text">Become A Profitable Trader with <span className="text-primary">{NAME}</span></h1>
-        <p>The most accurate trading indicator. No repainting. No lag. No subscription. Instant delivery.</p>
+        <p>The most accurate trading indicator. No repainting. No lag. No subscription.</p>
 
         <div>
           <Box spacing="1rem" className="action-buttons" justifyContent="center">
