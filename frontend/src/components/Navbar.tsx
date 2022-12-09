@@ -19,11 +19,7 @@ const links = [
     label: 'Discord',
     href: DISCORD_URL,
     newTab: true,
-  },
-  // {
-  //   label: 'Affiliates',
-  //   href: '/affiliates',
-  // }
+  }
 ];
 
 const NavbarLinkStyle = styled.a.attrs((props: any) => props)`
@@ -124,7 +120,7 @@ const Navbar = () => {
         <Box spacing="1rem" alignItems="center">
           {localStorage.getItem('token') ? (
             <Box spacing="1rem">
-              <Button className="access-btn" onClick={() => window.location.href = '#/dashboard'}>Dashboard</Button>
+              <Button className="access-btn" onClick={() => window.location.href = '#/admin/dashboard'}>Dashboard</Button>
               <Button className="access-btn" variant="outlined" onClick={logout}>Logout</Button>
             </Box>
           ) : (
@@ -140,7 +136,7 @@ const Navbar = () => {
           </NavbarLinkStyle>
         ))}
         {localStorage.getItem('token') && (
-          <NavbarLinkStyle href="#/dashboard" active={location.pathname === '/dashboard'} onClick={() => setDrawerOpen(false)} theme={theme}>Dashboard</NavbarLinkStyle>
+          <NavbarLinkStyle href="#/admin/dashboard" active={location.pathname === '/admin/dashboard'} onClick={() => setDrawerOpen(false)} theme={theme}>Dashboard</NavbarLinkStyle>
         )}
       </DrawerStyle>
     </>

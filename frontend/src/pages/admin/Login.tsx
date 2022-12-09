@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { apiPost } from '../../api/apiExecutor';
 import { useAuth } from '../../contexts/AuthContext';
-import { EventType, useSessionTracker } from '../../contexts/SessionTrackerContext';
 import { Box, Button, Icon, IconEnum, Paper, Progress, TextField, themeDefault } from '../../Jet';
 
 
@@ -22,10 +21,9 @@ export const LoginPage = () => {
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const { user, login } = useAuth();
-  const { addToQueue } = useSessionTracker();
   
   useEffect(() => {
-    if (user) window.location.href = '#/dashboard';
+    if (user !== undefined && user.admin) window.location.href = '#/admin/dashboard';
   }, [user]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -38,12 +36,11 @@ export const LoginPage = () => {
     const email = (e.target as any).email.value;
     const password = (e.target as any).password.value;
 
-    apiPost('affiliates/login', { email, password }).then(async res => {
+    apiPost('auth/login', { email, password }).then(async res => {
       if (res.error) return setError(res.error);
       localStorage.setItem('token', res.data.token);
-      addToQueue(EventType.LOGIN, { user: res.data.user._id });
       await login();
-      window.location.href = '#/dashboard';
+      window.location.href = '#/admin/dashboard';
     }).finally(() => setLoading(false));
   }
 
@@ -53,7 +50,7 @@ export const LoginPage = () => {
 
       <Paper elevation={1}>
         <Box flexDirection="column" justifyContent="center" alignItems="center" style={{ padding: '1rem 2rem 0.2rem 2rem' }}>
-          <h1 className="login-header">Affiliate Login</h1>
+          <h1 className="login-header">Admin Login</h1>
 
           {error !== '' && (
             <Box justifyContent="center" alignItems="center" style={{ color: 'red', margin: '1rem 0' }} spacing="0.2rem">
@@ -69,8 +66,6 @@ export const LoginPage = () => {
             <Button block type="submit" disabled={loading}>Login</Button>
             {loading && <Progress indeterminate />}
           </form>
-
-          <small style={{ float: 'right', width: '100%', marginTop: '1rem' }}>Want to become an affiliate? <a href="#/affiliates">Register</a></small>
         </Box>
       </Paper>
     </PageStyle>

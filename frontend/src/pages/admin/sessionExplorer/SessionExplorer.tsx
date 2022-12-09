@@ -94,7 +94,7 @@ export const SessionExplorer = () => {
     document.title = NAME + ' - Session Explorer';
 
     if (!user) {
-      window.location.href = '#/login';
+      window.location.href = '#/admin/login';
       return;
     }
 
@@ -119,7 +119,7 @@ export const SessionExplorer = () => {
   return (
     <PageStyle theme={theme}>
       <Box alignItems="center" spacing="1.2rem" style={{ padding: '0 2rem', marginBottom: '0.2rem' }}>
-        <Button color="secondary" style={{ padding: '0.2rem 0.4rem' }} onClick={() => window.location.href = '/#/dashboard'}>
+        <Button color="secondary" style={{ padding: '0.2rem 0.4rem' }} onClick={() => window.location.href = '/#/admin/dashboard'}>
           <Icon icon={IconEnum.left} />
         </Button>
         <h1 className="heading" style={{ textAlign: 'center', margin: 0, wordBreak: 'break-word' }}>Session Explorer</h1>

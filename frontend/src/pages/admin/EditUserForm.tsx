@@ -2,7 +2,6 @@ import React from 'react';
 import { apiPost } from '../../api/apiExecutor';
 import { User } from '../../api/types';
 import { useNotifications } from '../../contexts/NotificationContext';
-import ReferralList from '../../components/ReferralList';
 import { Box, Button, Checkbox, Icon, IconEnum, Modal, TextField, Theme } from '../../Jet';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -15,7 +14,6 @@ export interface EditUserFormProps {
 export const EditUserForm = ({ onClose, user, theme }: EditUserFormProps) => {
   const [email, setEmail] = React.useState(user.email);
   const [password, setPassword] = React.useState<string | undefined>(undefined);
-  const [affiliateCode, setAffiliateCode] = React.useState(user.affiliateCode);
   const [isAdmin, setIsAdmin] = React.useState(user.admin);
   const [showConfirm, setShowConfirm] = React.useState(false);
   const { addNotification } = useNotifications();
@@ -26,7 +24,6 @@ export const EditUserForm = ({ onClose, user, theme }: EditUserFormProps) => {
     
     const email = (e.target as any).email.value;
     const password = (e.target as any).password.value;
-    const affiliateCode = (e.target as any).affiliateCode.value;
     const admin = (e.target as any).admin.checked;
 
     if (!email) {
@@ -38,7 +35,6 @@ export const EditUserForm = ({ onClose, user, theme }: EditUserFormProps) => {
       id: user._id,
       email,
       password,
-      affiliateCode,
       admin
     }, true).then(res => {
       if (res.error) return addNotification(res.error);
@@ -60,7 +56,6 @@ export const EditUserForm = ({ onClose, user, theme }: EditUserFormProps) => {
   return (
     <>
       <Box justifyContent="space-between" alignItems="center">
-        <p>Referrals: {user.referrals.length}</p>
         <Icon icon={IconEnum.trash} color={theme.colors.danger[0]} size={32} style={{ cursor: 'pointer' }} onClick={() => setShowConfirm(true)} />
       </Box> 
 
@@ -68,7 +63,6 @@ export const EditUserForm = ({ onClose, user, theme }: EditUserFormProps) => {
         <Box spacing="1rem" flexDirection="column">
           <TextField fullWidth name="email" type="email" placeholder="Email" value={email} onChanged={setEmail} />
           <TextField fullWidth name="password" placeholder="Password" value={password} onChanged={setPassword} />
-          <TextField fullWidth name="affiliateCode" placeholder="Affiliate Code" value={affiliateCode} onChanged={setAffiliateCode} />
           <Checkbox name="admin" label="Admin" checked={isAdmin} onCheck={setIsAdmin} style={{ justifyContent: 'flex-start'}} />
         </Box>
 
@@ -85,9 +79,6 @@ export const EditUserForm = ({ onClose, user, theme }: EditUserFormProps) => {
           <Button color="danger" onClick={() => handleDelete()}>Delete</Button>
         </Box>
       </Modal>
-
-      <h1 style={{ marginTop: '2rem' }}>User's Referrals</h1>
-      <ReferralList user={user} />
     </>
   );
 }

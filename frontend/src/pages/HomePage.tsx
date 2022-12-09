@@ -150,12 +150,6 @@ export const HomePage = () => {
 
   useEffect(() => {
     document.title = NAME + ' - Accurate Buy & Sell Signals';
-
-    // Affiliates query
-    const urlParams = new URLSearchParams(window.location.search);
-    const affiliate = urlParams.get('r');
-
-    if (affiliate) localStorage.setItem('ref', affiliate);
   });
 
   return (

@@ -67,13 +67,6 @@ export const SessionCard = ({ session, onDelete, onClick }: SessionCardProps) =>
           <small className="text-wrapping">{session.events.length} event{session.events.length === 1 ? '' : 's'} | {session.startUrl}</small>
         </Box>
 
-        {session.user && (
-        <Box alignItems="center" spacing="0.2rem">
-          <Icon icon={IconEnum.account} size={18} color={theme.colors.text[5]} />
-          <small>{session.user.email}</small>
-        </Box>
-        )}
-
         <Box alignItems="center" spacing="0.2rem">
           <div>
             {(session.device.platform === 'iPhone' || session.device.userAgent.includes('Android')) ? (

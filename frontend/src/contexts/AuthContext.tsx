@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { apiGet } from '../api/apiExecutor';
 import { User } from '../api/types';
-import { EventType, useSessionTracker } from './SessionTrackerContext';
 
 
 export interface AuthContextProps {
@@ -25,7 +24,6 @@ export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = React.useState<User | undefined>(undefined);
   const [users, setUsers] = React.useState<User[]>([]);
   const [loading, setLoading] = React.useState(false);
-  const { addToQueue } = useSessionTracker();
 
   useEffect(() => {
     if (!user) login();
@@ -33,7 +31,7 @@ export const AuthProvider = ({ children }: any) => {
 
   const login = () => {
     return new Promise<void>(async (resolve, reject) => {
-      const res = await apiGet('affiliates/user', true);
+      const res = await apiGet('auth/user', true);
       if (res.error || res.status === 401) {
         setUser(undefined);
         resolve();
@@ -57,7 +55,6 @@ export const AuthProvider = ({ children }: any) => {
   const logout = () => {
     localStorage.removeItem('token');
     setUser(undefined);
-    addToQueue(EventType.LOGOUT);
   }
 
   return (

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { User } from '../api/types';
 import { IconEnum } from '../Jet';
 
 
@@ -38,10 +37,6 @@ export enum EventType {
   PAGE_VIEW = 'pageview',
   CLICK = 'click',
   SCROLL = 'scroll',
-  LOGIN = 'login',
-  LOGOUT = 'logout',
-  SIGNUP = 'signup',
-  PURCHASE = 'purchase',
 }
 
 export interface StartEvent {
@@ -67,30 +62,7 @@ export interface ScrollEvent {
   endY: number;
 }
 
-export interface LoginEvent {
-  user: string | User;
-}
-
-export interface SignUpEvent {
-  email: string;
-  passwordLength: number;
-}
-
-export interface PurchaseEvent {
-  user?: string | User;
-  name: string;
-  email: string;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-  country: string;
-  username: string;
-  affiliateCode: string;
-  paymentId: string;
-}
-
-export type Event = StartEvent | ClickEvent | ScrollEvent | LoginEvent | SignUpEvent | PurchaseEvent;
+export type Event = StartEvent | ClickEvent | ScrollEvent;
 
 export interface SessionEvent {
   type: EventType;
@@ -114,7 +86,6 @@ export interface Session {
   _id?: string;
   start: number;
   ipAddress: string;
-  user: User;
   startUrl: string;
   device: Device;
   events: SessionEvent[];

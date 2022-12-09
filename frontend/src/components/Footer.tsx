@@ -90,18 +90,7 @@ const Footer = () => {
 
   return (
     <WrapperStyle theme={theme}>
-      {/* TODO: Temp */}
-      {false && location.pathname !== '/affiliates' && location.pathname !== '/dashboard' && ( 
-        <BannerStyle justifyContent="center" alignItems="center" style={{ backgroundColor: theme.colors.background[1], marginBottom: 0 }} theme={theme}>
-          <div>
-            <h1>Become an Affiliate</h1>
-            <p>Earn money through social media with {NAME}</p>
-            <Button color="secondary" onClick={() => navigate('#/affiliates')} block>Learn More</Button>
-          </div>
-        </BannerStyle>
-      )}
-
-      {location.pathname !== '/dashboard' && location.pathname !== '/success' && (
+      {location.pathname !== '/admin/dashboard' && location.pathname !== '/success' && (
         <BannerStyle justifyContent="space-around" alignItems="center" theme={theme}>
           <div>
             <h1>Get Access Today</h1>
@@ -134,7 +123,7 @@ const Footer = () => {
 
           <Box flexDirection="column" spacing="0.6rem">
             <a onClick={() => navigate('#/tutorial')}>Tutorial</a>
-            <a onClick={() => navigate('#/affiliates')}>Affiliates</a>
+            <a onClick={() => navigate('#/admin/login')}>Admin Login</a>
             <a onClick={() => navigate('#/tos')}>Disclaimer / Terms</a>
           </Box>
         </Box>

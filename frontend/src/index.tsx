@@ -12,14 +12,13 @@ import TOSPage from './pages/TOSPage';
 import { PAYPAL_CLIENT_ID } from './globals';
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import SuccessPage from './pages/SuccessPage';
-import AffiliatePage from './pages/affiliates/AffiliatePage';
-import LoginPage from './pages/affiliates/Login';
-import DashboardPage from './pages/affiliates/Dashboard';
+import LoginPage from './pages/admin/Login';
 import ScrollToTop from './components/ScrollToTop';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { SessionTrackerProvider } from './contexts/SessionTrackerContext';
 import SessionExplorer from './pages/admin/sessionExplorer/SessionExplorer';
+import AdminPage from './pages/admin/AdminPanel';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -40,12 +39,10 @@ root.render(
                     <Route path="pricing" element={<PricingPage />} />
                     <Route path="success" element={<SuccessPage />} />
                     <Route path="tutorial" element={<TutorialPage />} />
-                    <Route path="affiliates" element={<AffiliatePage />} />
                     <Route path="tos" element={<TOSPage />} />
 
-                    <Route path="login" element={<LoginPage />} />
-                    <Route path="dashboard" element={<DashboardPage />} />
-                    
+                    <Route path="admin/login" element={<LoginPage />} />
+                    <Route path="admin/dashboard" element={<AdminPage />} />
                     <Route path="admin/sessions" element={<SessionExplorer />} />
 
                     <Route path="*" element={<Page404 />} />

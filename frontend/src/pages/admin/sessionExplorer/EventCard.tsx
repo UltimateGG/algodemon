@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { User } from '../../../api/types';
-import { ClickEvent, EventType, PurchaseEvent, ScrollEvent, Session, SessionEvent, SignUpEvent } from '../../../contexts/SessionTrackerContext';
+import { ClickEvent, EventType, ScrollEvent, Session, SessionEvent } from '../../../contexts/SessionTrackerContext';
 import { Icon, IconEnum, Paper, ThemeContext } from '../../../Jet';
 import { getTimestamp, toDuration } from '../../../utils';
 
@@ -44,33 +43,6 @@ const getScrollEvent = (event: ScrollEvent, screenHeight: number) => {
   );
 }
 
-const getSignUpEvent = (event: SignUpEvent) => {
-  return (
-    <>
-      <p>Email: {event.email}</p>
-      <p>Password Length: {event.passwordLength}</p>
-    </>
-  );
-}
-
-const getPurchaseEvent = (event: PurchaseEvent) => {
-  return (
-    <>
-      <p>User: {event.user && (event.user as User).email}</p>
-      <p>Name: {event.name}</p>
-      <p>Email: {event.email}</p>
-      <p>Address: {event.address}</p>
-      <p>City: {event.city}</p>
-      <p>State: {event.state}</p>
-      <p>Zip: {event.zip}</p>
-      <p>Country: {event.country}</p>
-      <p>Username: {event.username}</p>
-      <p>Affiliate Code: {event.affiliateCode}</p>
-      <p>Payment ID: {event.paymentId}</p>
-    </>
-  );
-}
-
 const getContent = (event: SessionEvent, session: Session) => {
   switch (event.type) {
     case EventType.PAGE_VIEW:
@@ -79,10 +51,6 @@ const getContent = (event: SessionEvent, session: Session) => {
       return getClickEvent(event.data as ClickEvent);
     case EventType.SCROLL:
       return getScrollEvent(event.data as ScrollEvent, session.device.screenHeight);
-    case EventType.SIGNUP:
-      return getSignUpEvent(event.data as SignUpEvent);
-    case EventType.PURCHASE:
-      return getPurchaseEvent(event.data as PurchaseEvent);
     default:
       return null;
   }

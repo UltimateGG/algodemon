@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'frontend/build/')));
 
 // Routes
 app.use('/api/payment', require('./routes/payment'));
-app.use('/api/affiliates', require('./routes/affiliates'));
+app.use('/api/auth', require('./routes/auth'));
 app.use('/api/admin', auth, adminAuth, require('./routes/admin'));
 
 

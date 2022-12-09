@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { DISCORD_URL, NAME } from '../globals';
-import { Box, Button, ThemeContext } from '../Jet';
+import { Box, ThemeContext } from '../Jet';
 
 
 const HeaderStyle = styled(Box)`
@@ -56,10 +56,6 @@ export const SuccessPage = () => {
           <h1>Thank You!</h1>
           <h4>Your order has been confirmed. You should see the indicator under "Invite Only Scripts" shortly.</h4>
           <p><strong>You should now see the indicator under "invite only scripts"</strong> If you do not, <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">join our Discord</a> and message a staff member with your order ID and TradingView username.</p>
-          
-          <h4 style={{ marginTop: '4rem' }}>Want to become an affiliate?</h4>
-          <p>Earn money everytime someone uses your referrral code</p>
-          <Button style={{ maxWidth: '50%' }} block variant='outlined' onClick={() => window.location.href = '#/affiliates'}>Learn More</Button>
         </Box>
       </HeaderStyle>
     </div>

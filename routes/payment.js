@@ -18,12 +18,6 @@ paypal.configure({
 
 
 router.get('/intent', asyncHandler(async (req, res) => {
-  const ref = req.query.ref;
-  const affiliate = await User.findOne({ affiliateCode: ref });
-
-  let price = CONFIG.price;
-  if (affiliate) price = +((price * 0.2).toFixed(2)); // 80% off
-
   const payment = {
     'intent': 'SALE',
     'payer': {
@@ -38,14 +32,14 @@ router.get('/intent', asyncHandler(async (req, res) => {
         'items': [{
           'name': 'AlgoDemon Trading Indicator',
           'sku': '001',
-          'price': price,
+          'price': CONFIG.price,
           'currency': 'USD',
           'quantity': 1
         }]
       },
       'amount': {
         'currency': 'USD',
-        'total': price
+        'total': CONFIG.price
       },
       'description': 'AlgoDemon Trading Indicator'
     }]
@@ -65,18 +59,14 @@ router.get('/intent', asyncHandler(async (req, res) => {
 }));
 
 router.post('/verify', asyncHandler(async (req, res) => {
-  const { paymentId, payerId, username, ref } = req.body;
-  const affiliate = await User.findOne({ affiliateCode: ref });
-  
-  let price = CONFIG.price;
-  if (affiliate) price = +((price * 0.2).toFixed(2)); // 80% off
+  const { paymentId, payerId, username } = req.body;
 
   const execute_payment_json = {
     'payer_id': payerId,
     'transactions': [{
       'amount': {
         'currency': 'USD',
-        'total': price
+        'total': CONFIG.price
       }
     }]
   };
@@ -95,18 +85,6 @@ router.post('/verify', asyncHandler(async (req, res) => {
         throw new Error('Error adding user to TradingView, please contact us on Discord. Order ID: ' + paymentId);
       }
 
-      // Add to affiliates referrals
-      const affiliateCommission = ((CONFIG.price * 0.2) * (CONFIG.affiliatePercentage / 100.0));
-
-      if (affiliate) {
-        affiliate.referrals.push({
-          username: username,
-          amount: +(affiliateCommission.toFixed(2))
-        });
-        
-        await affiliate.save();
-      }
-
       const amt = Number(payment.transactions[0].amount.total);
       getChannel().send({ content: '@everyone - **New Sale**', embeds: [
         new Discord.EmbedBuilder()
@@ -116,9 +94,7 @@ router.post('/verify', asyncHandler(async (req, res) => {
             { name: 'Customer Name', value: payment.payer.payer_info.first_name + ' ' + payment.payer.payer_info.last_name, },
             { name: 'Customer Email', value: payment.payer.payer_info.email, },
             { name: 'Amount', value: `$${amt} ${payment.transactions[0].amount.currency}`, },
-            { name: 'TradingView Username', value: username, },
-            { name: 'Affiliate', value: affiliate ? `${affiliate.email} (${affiliate.referrals.length}) - ${affiliate.affiliateCode}\nEarned: **$${affiliateCommission.toFixed(2)}**` : 'None', },
-            { name: 'Profit', value: `$${(amt - affiliateCommission).toFixed(2)}`, }
+            { name: 'TradingView Username', value: username, }
           )
       ] });
 

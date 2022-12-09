@@ -12,7 +12,7 @@ router.get('/users', asyncHandler(async (req, res) => {
 }));
 
 router.post('/edit', asyncHandler(async (req, res) => {
-  const { id, email, password, affiliateCode, admin } = req.body;
+  const { id, email, password, admin } = req.body;
   const user = await User.findById(id);
 
  if (!user) throw new Error('User not found');
@@ -21,7 +21,6 @@ router.post('/edit', asyncHandler(async (req, res) => {
 
   user.email = email;
   if (password) user.password = password; // Only update if password is provided
-  user.affiliateCode = affiliateCode;
   user.admin = admin;
 
   await user.save();
@@ -38,21 +37,6 @@ router.post('/delete', asyncHandler(async (req, res) => {
   
   logger.logWarn(`User ${user.email} deleted by admin ${req.user.email}`, user);
   res.status(200).json({ message: 'User deleted' });
-}));
-
-router.post('/pay', asyncHandler(async (req, res) => {
-  const { id, username } = req.body;
-
-  const user = await User.findById(id);
-  if (!user) throw new Error('User not found');
-
-  const referral = user.referrals.find(r => r.username === username);
-  if (!referral) throw new Error('Referral not found');
-
-  referral.paidOut = true;
-  await user.save();
-
-  res.status(200).json({ message: 'Referral paid out' });
 }));
 
 const getDeviceType = (session) => {

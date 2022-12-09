@@ -56,9 +56,6 @@ export const SessionView = ({ session, onDelete, onClose }: SessionViewProps) =>
       <h4 className="text-wrapping" style={{ margin: 0 }}>Duration:</h4>
       <h6>{toDuration(duration)}</h6>
 
-      <h4 className="text-wrapping" style={{ margin: 0 }}>User:</h4>
-      <h6>{session.user ? session.user.email : 'Unknown'}</h6>
-
       <h4 className="text-wrapping" style={{ margin: 0 }}>Events:</h4>
       <h6>{session.events.length}</h6>
 

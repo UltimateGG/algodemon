@@ -1,13 +1,9 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import CheckoutForm from '../components/CheckoutForm';
 import FAQ from '../components/FAQ';
-import { useNotifications } from '../contexts/NotificationContext';
 import { DISCORD_URL, FREE_TRIALS_ACTIVE, NAME, PRICE } from '../globals';
-import { Box, Button, Divider, Icon, IconEnum, Modal, TextField, ThemeContext } from '../Jet';
-import { apiGet } from '../api/apiExecutor';
-import { EventType, useSessionTracker } from '../contexts/SessionTrackerContext';
-import { useAuth } from '../contexts/AuthContext';
+import { Box, Button, Divider, Modal, ThemeContext } from '../Jet';
 import FreeTrialForm from '../components/FreeTrialForm';
 import { ReviewsCarousel } from '../components/ReviewsCarousel';
 
@@ -90,37 +86,11 @@ export const PricingPage = () => {
   const { theme } = useContext(ThemeContext);
   const [showCheckoutModal, setShowCheckoutModal] = React.useState(false);
   const [showTrialModal, setShowTrialModal] = React.useState(false);
-  const [textField, setTextField] = React.useState('');
-  const [affiliateCode, setAffiliateCode] = React.useState<string | null>(null);
-  const [currentPrice, setCurrentPrice] = React.useState(PRICE + '');
-  const { addNotification } = useNotifications();
-  const { addToQueue } = useSessionTracker();
-  const { user } = useAuth();
 
-  const handleSetCode = useCallback((code: string) => {
-    apiGet('affiliates?code=' + code).then(res => {
-      if (res.error) {
-        setCurrentPrice(PRICE + '');
-        localStorage.removeItem('ref');
-        return addNotification({ text: 'Invalid referral code', variant: 'danger', position: 'top' });
-      }
-
-      localStorage.setItem('ref', code);
-      setAffiliateCode(code);
-      setCurrentPrice((PRICE * 0.2).toFixed(2));
-    });
-  }, [addNotification]);
-
-  useEffect(() => {
-    if (!localStorage.getItem('ref')) localStorage.setItem('ref', 'dmn'); // TODO - temp till affiliate program is ready
-  }, []);
 
   useEffect(() => {
     document.title = `${NAME} - Pricing`;
-
-    const ref = localStorage.getItem('ref'); 
-    if (ref) handleSetCode(ref);
-  }, [handleSetCode]);
+  });
 
   return (
     <PageStyle theme={theme}>
@@ -135,7 +105,7 @@ export const PricingPage = () => {
         <Box className="purchase-box" flexDirection="column" justifyContent="center" alignItems="center">
             <div className="package-section">
               <h1>$0.00
-                {affiliateCode && <span style={{ display: 'inline', marginLeft: '1rem', fontSize: '1.4rem' }}><s style={{ color: theme.colors.text[8] }}>${PRICE}</s></span>}
+                <span style={{ display: 'inline', marginLeft: '1rem', fontSize: '1.4rem' }}><s style={{ color: theme.colors.text[8] }}>${PRICE}</s></span>
               </h1>
               <p style={{ textAlign: 'center' }}>7 Day Free Trial</p>
             </div>
@@ -160,35 +130,16 @@ export const PricingPage = () => {
 
         <Box className="purchase-box" flexDirection="column" justifyContent="center" alignItems="center">
           <div className="package-section">
-            <h1>${currentPrice}
-              {affiliateCode && <span style={{ display: 'inline', marginLeft: '1rem', fontSize: '1.4rem' }}><s style={{ color: theme.colors.text[8] }}>${PRICE}</s></span>}
+            <h1>${PRICE}
+              <span style={{ display: 'inline', marginLeft: '1rem', fontSize: '1.4rem' }}><s style={{ color: theme.colors.text[8] }}>${PRICE}</s></span>
             </h1>
             <p style={{ textAlign: 'center' }}>One Time Payment</p>
           </div>
 
           <Box style={{ width: '100%' }} justifyContent="center" alignItems="center">
             <Divider style={{ borderColor: theme.colors.background[2] }} fullWidth />
-            <h5 style={{ margin: '0 1rem', textAlign: 'center', whiteSpace: 'nowrap' }}>{affiliateCode ? '80% OFF!' : `OR $${(PRICE * 0.2).toFixed(2)}`}</h5>
             <Divider style={{ borderColor: theme.colors.background[2] }} fullWidth />
           </Box>
-
-          {affiliateCode ? (
-            <p className="code-p">
-              Code "{affiliateCode}"
-              <Icon style={{ cursor: 'pointer', marginLeft: '0.2rem' }} icon={IconEnum.x} size={20} color={theme.colors.text[6]} onClick={() => {
-                localStorage.removeItem('ref');
-                setAffiliateCode(null);
-                setCurrentPrice(PRICE + '');
-              }} />
-            </p>
-          ) : (
-            <Box className="package-section" spacing="0.2rem" style={{ maxHeight: '2.8rem', marginTop: '1rem' }} justifyContent="center" alignItems="center">
-              <TextField placeholder="Enter referral code" value={textField} onChanged={setTextField} />
-              <Button style={{ minHeight: '100%', padding: '0.2rem', margin: 0 }} onClick={() => handleSetCode(textField)}>
-                <Icon icon={IconEnum.checkmark} size={24} />
-              </Button>
-            </Box>
-          )}
           
           <div className="package-section">
             <div>
@@ -234,15 +185,8 @@ export const PricingPage = () => {
   
       <Modal open={showCheckoutModal} onClose={() => setShowCheckoutModal(false)} title={'Purchase ' + NAME}>
         <CheckoutForm
-          price={Number(currentPrice)}
+          price={PRICE}
           onSuccessfulCheckout={(data, username, ref, id) => {
-            addToQueue(EventType.PURCHASE, {
-              ...data,
-              user: user?._id,
-              username,
-              affiliateCode: ref,
-              paymentId: id,
-            });
             window.location.href = '#/success';
           }}
         />
