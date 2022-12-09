@@ -97,9 +97,9 @@ export const PricingPage = () => {
   return (
     <PageStyle theme={theme}>
       <Box className="info-section background-primary" flexDirection="column" alignItems="center" style={{ paddingBottom: '12rem' }}>
-        <h5 className="pretitle" style={{ color: '#000' }}>Pricing</h5>
+        <h5 className="pretitle">Pricing</h5>
         <h1>Get Access</h1>
-        <p style={{ maxWidth: '25rem', marginTop: '1.6rem', color: '#000' }}>Purchase life-time access to the most accurate trading indicator for just a one time payment.</p>
+        <p style={{ maxWidth: '25rem', marginTop: '1.6rem' }}>Purchase life-time access to the most accurate trading indicator for just a one time payment.</p>
       </Box>
 
       <Box justifyContent="center" className="packages-container">

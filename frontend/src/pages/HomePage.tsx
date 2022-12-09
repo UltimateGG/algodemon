@@ -165,7 +165,7 @@ export const HomePage = () => {
           <Box spacing="1rem" className="action-buttons" justifyContent="center">
             <Button onClick={() => window.location.href = '#/pricing'} large glowing>Purchase Now</Button>
             <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">
-              <Button color="secondary" large><div className="text-primaryd">Discord</div></Button>
+              <Button color="secondary" large style={{ backgroundColor: theme.colors.text[0] }}><div className="text-primary">Discord</div></Button>
             </a>
           </Box>
 
@@ -247,8 +247,8 @@ export const HomePage = () => {
 
         <Box flexDirection="column" alignItems="center">
           <img src="https://i.imgur.com/27ZMmQD.jpg" alt="Profile" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: theme.roundedFull }} />
-          <p style={{ color: '#000' }}>Troy Breslin</p>
-          <small style={{ textAlign: 'center', display: 'block', color: '#333' }}>Day Trader</small>
+          <p>Troy Breslin</p>
+          <small style={{ textAlign: 'center', display: 'block' }}>Day Trader</small>
         </Box>
       </Box>
 

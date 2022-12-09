@@ -96,11 +96,11 @@ const Footer = () => {
         <BannerStyle justifyContent="space-around" alignItems="center" theme={theme}>
           <div>
             <h1>Get Access Today</h1>
-            <p style={{ color: '#fff' }}>See the results for yourself{appState.freeTrialsEnabled ? '. Start your free trial today!' : ' with a single payment.'}</p>
+            <p>See the results for yourself{appState.freeTrialsEnabled ? '. Start your free trial today!' : ' with a single payment.'}</p>
           </div>
           
           <Button className="access-btn" glowing color="secondary" onClick={() => navigate('#/pricing')} block>
-            <div className="text-primaryd" style={{ color: theme.colors.primary[4] }}>Purchase Full Access</div>
+            <div className="text-primary">Purchase Full Access</div>
           </Button>
         </BannerStyle>
       )}
