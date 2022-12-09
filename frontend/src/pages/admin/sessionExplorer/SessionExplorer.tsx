@@ -127,7 +127,7 @@ export const SessionExplorer = () => {
       <Box style={{ padding: '0 2rem', marginBottom: '1.2rem' }}>
         <small>{response.totalSessions} sessions | {
           response.sessions && response.sessions.length > 0 && toDuration(response.avgDuration)
-        } avg duration | <span style={response.conversionRate < 2.0 ? { color: theme.colors.warning[0] } : { color: theme.colors.text[4] } }>{response.conversionRate.toFixed(2)}% conversion rate</span></small>
+        } avg duration</small>
       </Box>
 
       <Box className="charts-container" style={{ padding: '0 2rem', marginBottom: '0.4rem' }} spacing="0.2rem">

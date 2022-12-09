@@ -1,4 +1,4 @@
-const { GatewayIntentBits, ActivityType, PermissionFlagsBits, ButtonStyle } = require('discord.js');
+const { GatewayIntentBits, ActivityType, PermissionFlagsBits } = require('discord.js');
 const Discord = require('discord.js');
 const { logInfo } = require('./utils/logging');
 const bot = new Discord.Client({
@@ -78,7 +78,7 @@ bot.on('messageCreate', (message) => {
       .setTimestamp()
       .setFooter({ text: FOOTER, iconURL: LOGO_URL });
     
-    return message.guild.channels.cache.find(c => c.name === 'logs').send({ content: '@everyone', embeds: [embed] });
+    return message.guild.channels.cache.find(c => c.name === 'logs').send({ embeds: [embed] });
   }
 });
 
@@ -86,12 +86,12 @@ bot.on('guildMemberAdd', member => {
   const channel = member.guild.channels.cache.find(c => c.name === 'welcome');
   if (!channel || !joinLeaveMessages) return;
 
-  const rules = member.guild.channels.cache.find(ch => ch.name === 'rules');
+  const rules = member.guild.channels.cache.find(ch => ch.name === '🚧verify-here');
   const embed = new Discord.EmbedBuilder()
     .setTitle('Welcome')
     .setColor(THEME)
     .setThumbnail(member.user.avatarURL())
-    .setDescription(`Welcome to **AlgoDemon**, **${member.user.tag}**!\nTo get started, please read and accept the rules in ${rules ? rules : '#rules'}. From there you will be guided on how to get started on your trading journey.\n**${WEBSITE}**`)
+    .setDescription(`Welcome to **AlgoDemon**, **${member.user.tag}**!\nTo get started, please read and accept the rules in ${rules ? rules : '#🚧verify-here'}. From there you will be guided on how to get started on your trading journey.\n**${WEBSITE}**`)
     .setFooter({ text: `${FOOTER} | Member #${member.guild.memberCount}` })
     .setTimestamp();
 
@@ -135,7 +135,7 @@ bot.on('raw', async (event) => {
   const member = message.guild.members.cache.get(user.id);
   if (!member || member.user.bot) return;
 
-  if (channel.name === 'rules') {
+  if (channel.name === '🚧verify-here') {
     member.roles.add(member.guild.roles.cache.find(role => role.name === 'Member').id);
 
     // DM User

@@ -110,8 +110,6 @@ router.get('/sessions', asyncHandler(async (req, res) => {
   devices.sort((a, b) => b.sessions - a.sessions);
 
   const avgDuration = sessions.reduce((a, b) => a + (new Date(b.updatedAt || 0).getTime() - b.start), 0) / sessions.length;
-  const purchases = sessions.filter(s => s.events.find(e => e.type === 'purchase')).length;
-  const conversionRate = purchases / sessions.length * 100;
   
   sessions.splice(0, skip);
   sessions.splice(maxItemsPerPage);
@@ -123,7 +121,6 @@ router.get('/sessions', asyncHandler(async (req, res) => {
     pageViews,
     devices,
     avgDuration,
-    conversionRate,
     sessions,
   });
 }));

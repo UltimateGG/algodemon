@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import ReasonBlock from '../components/ReasonBlock';
 import { DISCORD_URL, FREE_TRIALS_ACTIVE, NAME } from '../globals';
-import { Box, Button, Icon, IconEnum, ThemeContext } from '../Jet';
+import { Box, Button, Icon, IconEnum, Modal, ThemeContext } from '../Jet';
 import { ReviewsCarousel } from '../components/ReviewsCarousel';
 
 
@@ -146,6 +146,7 @@ const PageStyle = styled.div.attrs((props: any) => props)`
 
 export const HomePage = () => {
   const { theme } = useContext(ThemeContext);
+  const [helpModalShowing, setHelpModalShowing] = React.useState(false);
 
   useEffect(() => {
     document.title = NAME + ' - Accurate Buy & Sell Signals';
@@ -161,17 +162,18 @@ export const HomePage = () => {
     <PageStyle theme={theme}>
       <Box className="container" id="header" style={{ padding: '1rem 6rem', marginTop: '4.6rem', paddingBottom: '1rem' }} flexDirection="column" justifyContent="center" alignItems="center">
         <h1 className="welcome-text">Become A Profitable Trader with <span className="text-primary">{NAME}</span></h1>
-        <p>The most accurate trading indicator. No repainting. No lag. No subscription.</p>
+        <p>The most profitable trading indicator.</p>
+        <a onClick={() => setHelpModalShowing(true)}>What is this?</a> {/* eslint-disable-line */}
 
         <div>
           <Box spacing="1rem" className="action-buttons" justifyContent="center">
             <Button onClick={() => window.location.href = '#/pricing'} large glowing>Purchase Now</Button>
             <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">
-              <Button color="secondary" large>Discord</Button>
+              <Button color="secondary" large style={{ backgroundColor: theme.colors.text[0] }}><div className="text-primary">Discord</div></Button>
             </a>
           </Box>
 
-          <video id="video-header" src="/img/home.mp4" autoPlay playsInline loop muted style={{ borderRadius: theme.rounded, marginTop: '0.4rem' }} />
+          <img src="/img/phone.png" alt="AlgoDemon on Mobile" style={{ borderRadius: theme.rounded, marginTop: '0.4rem' }} />
         </div>
       </Box>
 
@@ -304,6 +306,15 @@ export const HomePage = () => {
           <p style={{ maxWidth: '25rem' }}>Stop missing out on potential gains in the markets. {NAME} catches significant moves to the upside and downside for any market/timeframe.</p>
         </Box>
       </Box>
+
+      <Modal open={helpModalShowing} title="What is this?" closeOnOutsideClick onClose={() => setHelpModalShowing(false)}>
+        <p>{NAME} is a tool that tells you <u>when</u> to <u>buy and sell stocks</u>.</p>
+        <p>Signals will visually show up on a price chart, marking and alerting where you need to buy and sell for <u>large profits</u>.</p>
+        <br />
+        <p>Whether you are a beginner or a professional trader, you need {NAME} to make consistent profits.</p>
+
+        <Button style={{ float: 'right' }} onClick={() => setHelpModalShowing(false)} variant="outlined">Read More</Button>
+      </Modal>
     </PageStyle>
   );
 }
