@@ -187,6 +187,12 @@ export const PricingPage = () => {
           price={appState.price}
           onSuccessfulCheckout={(data, username, id) => {
             window.location.href = '#/success';
+
+            window.gtag('event', 'purchase', {
+              'event_category': 'purchase',
+              'event_label': 'purchase',
+              'value': appState.price
+            });
           }}
         />
       </Modal>
