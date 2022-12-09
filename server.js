@@ -9,6 +9,7 @@ const { auth, adminAuth, authWs } = require('./middleware/authMiddleware');
 const { errorHandler } = require('./middleware/errorMiddleware');
 const wss = require('./routes/analytics');
 const logger = require('./utils/logging');
+const CONFIG = require('./config.json');
 
 const PORT = 80;
 const server = http.createServer(app);
@@ -27,6 +28,13 @@ app.use((req, res, next) => {
 
 // Serve static react app assets
 app.use(express.static(path.join(__dirname, 'frontend/build/')));
+
+app.get('/api/state', (req, res) => {
+  res.json({
+    ...CONFIG,
+    scriptId: undefined
+  });
+});
 
 // Routes
 app.use('/api/payment', require('./routes/payment'));

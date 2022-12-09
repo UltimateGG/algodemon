@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { Box, Button, Icon, IconEnum, Progress, TextField, ThemeContext } from '../Jet';
 import { apiPost } from '../api/apiExecutor';
 import { DISCORD_URL } from '../globals';
+import { useAuth } from '../contexts/AuthContext';
 
 
 const FreeTrialForm = ({ onClose }: { onClose: () => any }) => {
@@ -10,6 +11,7 @@ const FreeTrialForm = ({ onClose }: { onClose: () => any }) => {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+  const { appState } = useAuth();
 
   const startTrial = () => {
     setSubmitting(true);
@@ -25,7 +27,7 @@ const FreeTrialForm = ({ onClose }: { onClose: () => any }) => {
       <>
         <h2>Free Trial Started</h2>
         <p>The indicator should now show up under "invite only scripts"</p>
-        <p>From there you will have 7 days before your access expires.</p>
+        <p>From there you will have {appState.freeTrialDays} days before your access expires.</p>
         <p><a href={DISCORD_URL} rel="noopener noreferrer" target="_blank">Join our Discord</a> for help or any questions!</p>
 
         <Button color="secondary" style={{ float: 'right', marginTop: '1rem' }} onClick={onClose}>Ok</Button>

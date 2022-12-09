@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { DISCORD_URL, FREE_TRIALS_ACTIVE, NAME } from '../globals';
+import { useAuth } from '../contexts/AuthContext';
+import { DISCORD_URL, NAME } from '../globals';
 import { Box, Button, Divider, ThemeContext } from '../Jet';
 
 
@@ -82,6 +83,7 @@ const CopyrightStyle = styled(Box)`
 const Footer = () => {
   const { theme } = useContext(ThemeContext);
   const location = useLocation();
+  const { appState } = useAuth();
 
   const navigate = (path: string) => {
     window.scrollTo(0, 0);
@@ -94,7 +96,7 @@ const Footer = () => {
         <BannerStyle justifyContent="space-around" alignItems="center" theme={theme}>
           <div>
             <h1>Get Access Today</h1>
-            <p>See the results for yourself{FREE_TRIALS_ACTIVE ? '. Start your free trial today!' : ' with a single payment.'}</p>
+            <p>See the results for yourself{appState.freeTrialsEnabled ? '. Start your free trial today!' : ' with a single payment.'}</p>
           </div>
           
           <Button className="access-btn" glowing color="secondary" onClick={() => navigate('#/pricing')} block>

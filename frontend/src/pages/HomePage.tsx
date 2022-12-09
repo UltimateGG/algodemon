@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import ReasonBlock from '../components/ReasonBlock';
-import { DISCORD_URL, FREE_TRIALS_ACTIVE, NAME } from '../globals';
+import { DISCORD_URL, NAME } from '../globals';
 import { Box, Button, Icon, IconEnum, Modal, ThemeContext } from '../Jet';
 import { ReviewsCarousel } from '../components/ReviewsCarousel';
+import { useAuth } from '../contexts/AuthContext';
 
 
 const PageStyle = styled.div.attrs((props: any) => props)`
@@ -146,6 +147,7 @@ const PageStyle = styled.div.attrs((props: any) => props)`
 
 export const HomePage = () => {
   const { theme } = useContext(ThemeContext);
+  const { appState } = useAuth();
   const [helpModalShowing, setHelpModalShowing] = React.useState(false);
 
   useEffect(() => {
@@ -203,7 +205,7 @@ export const HomePage = () => {
                 icon={IconEnum.phone}
               />
 
-              {FREE_TRIALS_ACTIVE && <Button color="secondary" style={{ marginTop: '1rem', marginRight: '1rem' }} onClick={() => window.location.href = '#/pricing'}>Get Free Trial</Button>}
+              {appState.freeTrialsEnabled && <Button color="secondary" style={{ marginTop: '1rem', marginRight: '1rem' }} onClick={() => window.location.href = '#/pricing'}>Get Free Trial</Button>}
               <Button style={{ marginTop: '1rem' }} onClick={() => window.location.href = '#/pricing'}>Purchase Now</Button>
             </div>
           </Box>

@@ -2,10 +2,11 @@ import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import CheckoutForm from '../components/CheckoutForm';
 import FAQ from '../components/FAQ';
-import { DISCORD_URL, FREE_TRIALS_ACTIVE, NAME, PRICE } from '../globals';
+import { DISCORD_URL, NAME } from '../globals';
 import { Box, Button, Divider, Modal, ThemeContext } from '../Jet';
 import FreeTrialForm from '../components/FreeTrialForm';
 import { ReviewsCarousel } from '../components/ReviewsCarousel';
+import { useAuth } from '../contexts/AuthContext';
 
 
 const PageStyle = styled.div.attrs((props: any) => props)`
@@ -86,6 +87,7 @@ export const PricingPage = () => {
   const { theme } = useContext(ThemeContext);
   const [showCheckoutModal, setShowCheckoutModal] = React.useState(false);
   const [showTrialModal, setShowTrialModal] = React.useState(false);
+  const { appState } = useAuth();
 
 
   useEffect(() => {
@@ -101,26 +103,24 @@ export const PricingPage = () => {
       </Box>
 
       <Box justifyContent="center" className="packages-container">
-        {FREE_TRIALS_ACTIVE && (
+        {appState.freeTrialsEnabled && (
         <Box className="purchase-box" flexDirection="column" justifyContent="center" alignItems="center">
             <div className="package-section">
               <h1>$0.00
-                <span style={{ display: 'inline', marginLeft: '1rem', fontSize: '1.4rem' }}><s style={{ color: theme.colors.text[8] }}>${PRICE}</s></span>
+                <span style={{ display: 'inline', marginLeft: '1rem', fontSize: '1.4rem' }}><s style={{ color: theme.colors.text[8] }}>${appState.priceDisplay}</s></span>
               </h1>
-              <p style={{ textAlign: 'center' }}>7 Day Free Trial</p>
+              <p style={{ textAlign: 'center' }}>{appState.freeTrialDays} Day Free Trial</p>
             </div>
 
-            <Box style={{ width: '100%', marginBottom: '3.7rem' }} justifyContent="center" alignItems="center">
+            <Box style={{ width: '100%' }} justifyContent="center" alignItems="center">
               <Divider style={{ borderColor: theme.colors.background[2] }} fullWidth />
             </Box>
 
             <div className="package-section">
               <div>
-                <p>🟣 7 Days Access</p>
+                <p>🟣 {appState.freeTrialDays} Days Access</p>
                 <p>🟣 Buy &amp; Sell Signals</p>
                 <p>🟣 3 Take Profit Signals</p>
-                <p>🟣 Free Updates</p>
-                <p>🟣 24/7 Support</p>
               </div>
 
               <Button block large glowing style={{ fontSize: '1.4rem', marginTop: '2rem', marginBottom: 0 }} onClick={() => setShowTrialModal(true)}>Start Trial</Button>
@@ -130,14 +130,13 @@ export const PricingPage = () => {
 
         <Box className="purchase-box" flexDirection="column" justifyContent="center" alignItems="center">
           <div className="package-section">
-            <h1>${PRICE}
-              <span style={{ display: 'inline', marginLeft: '1rem', fontSize: '1.4rem' }}><s style={{ color: theme.colors.text[8] }}>${PRICE}</s></span>
+            <h1>${appState.price}
+              <span style={{ display: 'inline', marginLeft: '1rem', fontSize: '1.4rem' }}><s style={{ color: theme.colors.text[8] }}>${appState.priceDisplay}</s></span>
             </h1>
             <p style={{ textAlign: 'center' }}>One Time Payment</p>
           </div>
 
           <Box style={{ width: '100%' }} justifyContent="center" alignItems="center">
-            <Divider style={{ borderColor: theme.colors.background[2] }} fullWidth />
             <Divider style={{ borderColor: theme.colors.background[2] }} fullWidth />
           </Box>
           
@@ -150,7 +149,7 @@ export const PricingPage = () => {
               <p>🟣 24/7 Support</p>
             </div>
 
-            <Button color="success" block large glowing style={{ fontSize: '1.4rem', marginTop: '2rem', marginBottom: 0 }} onClick={() => setShowCheckoutModal(true)}>Purchase Now</Button>
+            <Button block large glowing style={{ fontSize: '1.4rem', marginTop: '2rem', marginBottom: 0 }} onClick={() => setShowCheckoutModal(true)}>Purchase Now</Button>
           </div>
         </Box>
       </Box>
@@ -185,8 +184,8 @@ export const PricingPage = () => {
   
       <Modal open={showCheckoutModal} onClose={() => setShowCheckoutModal(false)} title={'Purchase ' + NAME}>
         <CheckoutForm
-          price={PRICE}
-          onSuccessfulCheckout={(data, username, ref, id) => {
+          price={appState.price}
+          onSuccessfulCheckout={(data, username, id) => {
             window.location.href = '#/success';
           }}
         />

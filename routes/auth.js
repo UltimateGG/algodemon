@@ -2,6 +2,8 @@ const express = require('express');
 const { auth } = require('../middleware/authMiddleware');
 const User = require('../models/User');
 const router = express.Router();
+const asyncHandler = require('express-async-handler');
+const jwt = require('jsonwebtoken');
 
 
 router.get('/user', auth, async (req, res) => res.status(200).json(req.user));

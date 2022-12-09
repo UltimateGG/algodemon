@@ -52,7 +52,7 @@ router.get('/sessions', asyncHandler(async (req, res) => {
   const count = await Session.countDocuments();
   const sort = (req.query.sort || 'time').toLowerCase();
 
-  const sessions = await Session.find({}).sort({ createdAt: -1 }).populate('user');
+  const sessions = await Session.find({}).sort({ createdAt: -1 });
 
   if (sort === 'event count') {
     sessions.sort((a, b) => b.events.length - a.events.length);

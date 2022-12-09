@@ -1,5 +1,7 @@
 {
-  "price": 124.95,
-  "freeTrialDays": 7,
+  "price": 19.99,
+  "priceDisplay": 149.99,
+  "freeTrialDays": 3,
+  "freeTrialsEnabled": false,
   "scriptId": "PUB;2ec587c34380448e9cd697da39169ed6"
 }

@@ -114,7 +114,7 @@ router.post('/verify', asyncHandler(async (req, res) => {
 
 
 router.post('/trial', asyncHandler(async (req, res) => {
-  if (process.env.FREE_TRIALS_ENABLED !== 'true') throw new Error('Free trials are not enabled');
+  if (!CONFIG.freeTrialsEnabled) throw new Error('Free trials are not enabled');
 
   let { username } = req.body;
   if (!username) throw new Error('Invalid username provided');

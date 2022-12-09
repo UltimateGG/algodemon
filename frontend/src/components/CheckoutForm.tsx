@@ -6,7 +6,7 @@ import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 
 export interface CheckoutFormProps {
   price: number;
-  onSuccessfulCheckout: (data: any, username: string, ref: string, id: string) => void;
+  onSuccessfulCheckout: (data: any, username: string, id: string) => void;
 }
 const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
   const { theme } = useContext(ThemeContext);
@@ -54,7 +54,7 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
             forceReRender={[price, username]}
             onClick={() => setError('')}
             createOrder={(data, actions) => {
-              const intent = apiGet(`payment/intent?ref=${localStorage.getItem('ref')}`).then(res => {
+              const intent = apiGet('payment/intent').then(res => {
                 if (res.error) return setError(res.error);
                 return res.data.id;
               });
@@ -66,10 +66,9 @@ const CheckoutForm = ({ price, onSuccessfulCheckout }: CheckoutFormProps) => {
                 paymentId: data.paymentID || '[unknown]',
                 payerId: data.payerID || '[unknown]',
                 username: username,
-                ref: localStorage.getItem('ref')
               }).then(res => {
                 if (res.error) return setError(res.error);
-                onSuccessfulCheckout(res.data.log || res.data, username, localStorage.getItem('ref') || '[none]', data.paymentID || '[unknown]');
+                onSuccessfulCheckout(res.data.log || res.data, username, data.paymentID || '[unknown]');
               });
             }}
             onError={(err) => {
